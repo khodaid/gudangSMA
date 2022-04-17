@@ -1,5 +1,9 @@
 @extends('components.admin-master')
 
+@section('css')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-12">
@@ -36,6 +40,15 @@
                                 <label for="inputNama">Nama Barang</label>
                                 <input name="nama" type="text" class="form-control" id="inputNama" aria-describedby="emailHelp">
                             </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Satuan</label>
+                                <select class="my-select form-control" id="exampleFormControlSelect1" name="satuan">
+                                    {{-- <option value="">Mustard</option> --}}
+                                    @foreach ($satuans as $satuan)
+                                        <option value="{{$satuan->id}}">{{$satuan->nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -57,15 +70,15 @@
             <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>No</th>
+                        {{-- <th>No</th> --}}
                         <th>Nama</th>
                         <th>Jumlah</th>
                         <th>Aksi</th>
                 </thead>
                 <tbody>
-                    @foreach ()
+                    {{-- @foreach () --}}
                         <tr>
-                            <th scope="row">{{ $loop->iteration }}</th>
+                            {{-- <th scope="row">{{ $loop->iteration }}</th> --}}
                             <td></td>
                             <td></td>
                             <td>
@@ -76,7 +89,7 @@
                                     <a href="#" class='fas fa-eye' style='color:black' id="mediumButton" data-toggle="modal" data-target="#mediumModal" data-attr = {{route('satuan.show', $satuan->id)}}></a> --}}
                             </td>
                         </tr>
-                    @endforeach
+                    {{-- @endforeach --}}
                 </tbody>
             </table>
         </div>
@@ -87,7 +100,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Data Satuan</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -131,4 +144,9 @@
 });
     </script>
 {{-- akhir coba model --}}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+<script>
+    $('.my-select').selectpicker();
+</script>
 @endsection

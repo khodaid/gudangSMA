@@ -8,7 +8,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Barang</h6>
             <a class="collapse-item" href="{{route('satuan.index')}}">Satuan Barang</a>
-            <a class="collapse-item" href="#">Barang</a>
+            <a class="collapse-item" href="{{route('barang.index')}}">Barang</a>
         </div>
     </div>
 </li>
