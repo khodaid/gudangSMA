@@ -14,7 +14,11 @@ class DanaController extends Controller
      */
     public function index()
     {
-        //
+        $dana = Dana::all();
+
+        return view('admin.dana.index',[
+            'danas' => $dana
+        ]);
     }
 
     /**
@@ -35,7 +39,11 @@ class DanaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'nama' => 'required'
+        ]);
+
+        return redirect()->route('')->with('success','Data Tesimpan');
     }
 
     /**

@@ -17,6 +17,10 @@
                 <input name="nama" type="text" class="form-control" id="inputNama" aria-describedby="emailHelp" value="">
             </div>
             <div class="form-group">
+                <label for="inputNama">Jumlah</label>
+                <input name="nama" type="text" class="form-control" id="inputNama" aria-describedby="emailHelp" value="">
+            </div>
+            <div class="form-group">
                 <label for="exampleFormControlSelect1">Satuan</label>
                 <select name="kelamin" class="form-control" id="exampleFormControlSelect1">
                 <option value="L">Laki-laki</option>

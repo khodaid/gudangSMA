@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\DanaController;
 use App\Http\Controllers\KeluarController;
 use App\Http\Controllers\MasukController;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +57,13 @@ Route::get('/keluar/{keluar}/edit',[KeluarController::class, 'edit'])->name('kel
 Route::put('/keluar/{keluar}/update',[KeluarController::class, 'update'])->name('keluar.update');
 Route::get('/keluar/{keluar}/show',[KeluarController::class, 'show'])->name('keluar.show');
 Route::get('/keluar/{keluar}/destroy',[KeluarController::class, 'destroy'])->name('keluar.destroy');
+
+Route::get('/dana',[DanaController::class, 'index'])->name('dana.index');
+Route::post('/dana',[DanaController::class, 'store'])->name('dana.store');
+Route::get('/dana/{dana}/edit',[DanaController::class, 'edit'])->name('keludanaar.edit');
+Route::put('/keluar/{keluar}/update',[DanaController::class, 'update'])->name('dana.update');
+Route::get('/dana/{dana}/show',[DanaController::class, 'show'])->name('dana.show');
+Route::get('/dana/{dana}/destroy',[DanaController::class, 'destroy'])->name('dana.destroy');
 
 Route::get('/user',[UserController::class,'index'])->name('user.index');
 Route::post('/user',[UserController::class,'store'])->name('user.store');
