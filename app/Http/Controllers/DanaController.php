@@ -43,7 +43,7 @@ class DanaController extends Controller
             'nama' => 'required'
         ]);
 
-        return redirect()->route('')->with('success','Data Tesimpan');
+        return redirect()->route('dana.index')->with('success','Data Tesimpan');
     }
 
     /**
@@ -54,7 +54,9 @@ class DanaController extends Controller
      */
     public function show(Dana $dana)
     {
-        //
+        return view('admin.dana.show',[
+            'dana' => $dana
+        ]);
     }
 
     /**
@@ -65,7 +67,9 @@ class DanaController extends Controller
      */
     public function edit(Dana $dana)
     {
-        //
+        return view('admin.dana.edit',[
+            'dana' => $dana
+        ]);
     }
 
     /**
@@ -77,7 +81,13 @@ class DanaController extends Controller
      */
     public function update(Request $request, Dana $dana)
     {
-        //
+        $this->validate($request,[
+            'nama' => 'required'
+        ]);
+
+        $dana->nama = $request->input('nama');
+
+        return redirect()->route('dana.index')->with('success','Data Terupdate');
     }
 
     /**
@@ -88,6 +98,8 @@ class DanaController extends Controller
      */
     public function destroy(Dana $dana)
     {
-        //
+        $dana->delete();
+
+        return redirect()->route('dana.index')->with('warning','Data Terhapus');
     }
 }
