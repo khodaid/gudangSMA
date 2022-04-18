@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('danas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('nama',20);
             $table->unsignedInteger('id_user')
                 ->foreign('id_user')->refrences('id')->on('users')->onDelete('cascade');
+            $table->string('keterangan',100);
             $table->timestamps();
         });
     }

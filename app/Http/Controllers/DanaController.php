@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dana;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DanaController extends Controller
 {
@@ -14,7 +16,11 @@ class DanaController extends Controller
      */
     public function index()
     {
-        $dana = Dana::all();
+        $akun = User::where('id_super',Auth::id())->get();
+
+        $dana = Dana::where('id_user',Auth::id())
+            ->orWhere('id_user',Auth::user()->id_super)
+            ->orWhereIn('id_user',$akun->modelKeys())->get();
 
         return view('admin.dana.index',[
             'danas' => $dana
@@ -40,8 +46,16 @@ class DanaController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'nama' => 'required'
+            'nama' => 'required',
+            'keterangan' => 'required'
         ]);
+
+        $dana = new Dana();
+        $dana->nama = $request->input('nama');
+        $dana->keterangan = $request->input('keterangan');
+        $dana->id_user = Auth::id();
+
+        $dana->save();
 
         return redirect()->route('dana.index')->with('success','Data Tesimpan');
     }
@@ -82,10 +96,14 @@ class DanaController extends Controller
     public function update(Request $request, Dana $dana)
     {
         $this->validate($request,[
-            'nama' => 'required'
+            'nama' => 'required',
+            'keterangan' => 'required'
         ]);
 
         $dana->nama = $request->input('nama');
+        $dana->keterangan = $request->input('keterangan');
+
+        $dana->save();
 
         return redirect()->route('dana.index')->with('success','Data Terupdate');
     }
