@@ -16,11 +16,8 @@ class SatuanController extends Controller
      */
     public function index()
     {
-        $akun = User::where('id_super',Auth::id())->get();
-
         $satua = Satuan::where('id_user',Auth::id())
-            ->orWhere('id_user',Auth::user()->id_super)
-            ->orWhereIn('id_user',$akun->modelKeys())->get();
+            ->orWhere('id_user',Auth::user()->id_super)->get();
 
         return view('admin.satuan.index',[
             'satuans' => $satua
