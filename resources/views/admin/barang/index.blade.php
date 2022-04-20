@@ -13,9 +13,11 @@
 
     <div class="col-6 mb-3">
     <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary float-left" data-toggle="modal" data-target="#exampleModal">
-            Tambah Data
-        </button>
+        @if (isset(Auth::user()->id_super))
+            <button type="button" class="btn btn-primary float-left" data-toggle="modal" data-target="#exampleModal">
+                Tambah Data
+            </button>
+        @endif
     </div>
 
     <div class="col-6 d-flex justify-content-end mb-3">

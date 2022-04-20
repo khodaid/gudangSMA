@@ -12,6 +12,7 @@
         <button type="button" class="btn btn-primary float-left" data-toggle="modal" data-target="#exampleModal">
             Tambah Data
         </button>
+
     </div>
 
     <div class="col-6 d-flex justify-content-end mb-3">

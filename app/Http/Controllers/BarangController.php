@@ -17,13 +17,13 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $barang = Barang::where('id_user', Auth::id());
-
         $akun = User::where('id_super',Auth::id())->get();
 
         $satua = Satuan::where('id_user',Auth::id())
-            ->orWhere('id_user',Auth::user()->id_super)
-            ->orWhereIn('id_user',$akun->modelKeys())->get();
+            ->orWhere('id_user',Auth::user()->id_super)->get();
+
+        $barang = Barang::where('id_user', Auth::id()) //mengambil data dari id user untuk akun user
+            ->orWhereIn('id_user',$akun->modelKeys())->get(); // mengambil data dari dari id user turunan SU untuk SU
 
         return view('admin.barang.index',[
             'barangs' => $barang,

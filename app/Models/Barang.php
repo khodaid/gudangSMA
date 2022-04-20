@@ -12,4 +12,14 @@ class Barang extends Model
     protected $fillable = ['id','nama'];
     protected $guard = [];
     protected $table = 'barangs';
+
+    /**
+     * The satuan that belong to the Barang
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function satuan()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 }

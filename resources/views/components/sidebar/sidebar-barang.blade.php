@@ -7,8 +7,11 @@
     <div id="collapseBarang" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Barang</h6>
+            @if (!isset(Auth::user()->id_super))
             <a class="collapse-item" href="{{route('satuan.index')}}">Satuan Barang</a>
+            @endif
             <a class="collapse-item" href="{{route('barang.index')}}">Barang</a>
+            <a class="collapse-item" href="#">Asal Dana</a>
         </div>
     </div>
 </li>

@@ -16,8 +16,7 @@ class SatuanController extends Controller
      */
     public function index()
     {
-        $satua = Satuan::where('id_user',Auth::id())
-            ->orWhere('id_user',Auth::user()->id_super)->get();
+        $satua = Satuan::where('id_user',Auth::id())->get();
 
         return view('admin.satuan.index',[
             'satuans' => $satua
@@ -111,7 +110,7 @@ class SatuanController extends Controller
      */
     public function destroy(Satuan $satuan)
     {
-        dd($satuan);
+        // dd($satuan);
         $satuan->delete();
 
         return redirect()->route('satuan.index')->with('warning','Data Terhapus');

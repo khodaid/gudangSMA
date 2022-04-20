@@ -23,4 +23,13 @@ class Satuan extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Get all of the barangs for the Satuan
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function barang()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
