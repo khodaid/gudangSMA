@@ -47,12 +47,12 @@ class DanaController extends Controller
     {
         $this->validate($request,[
             'nama' => 'required',
-            'keterangan' => 'required'
+            'deskripsi' => 'required'
         ]);
 
         $dana = new Dana();
         $dana->nama = $request->input('nama');
-        $dana->keterangan = $request->input('keterangan');
+        $dana->keterangan = $request->input('deskripsi');
         $dana->id_user = Auth::id();
 
         $dana->save();
@@ -97,15 +97,15 @@ class DanaController extends Controller
     {
         $this->validate($request,[
             'nama' => 'required',
-            'keterangan' => 'required'
+            'deskripsi' => 'required'
         ]);
 
         $dana->nama = $request->input('nama');
-        $dana->keterangan = $request->input('keterangan');
+        $dana->keterangan = $request->input('deskripsi');
 
         $dana->save();
 
-        return redirect()->route('dana.index')->with('success','Data Terupdate');
+        return redirect()->route('dana.index')->with(['success'=>'Data Terupdate']);
     }
 
     /**

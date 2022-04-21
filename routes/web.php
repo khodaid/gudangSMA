@@ -60,8 +60,8 @@ Route::get('/keluar/{keluar}/destroy',[KeluarController::class, 'destroy'])->nam
 
 Route::get('/dana',[DanaController::class, 'index'])->name('dana.index');
 Route::post('/dana',[DanaController::class, 'store'])->name('dana.store');
-Route::get('/dana/{dana}/edit',[DanaController::class, 'edit'])->name('keludanaar.edit');
-Route::put('/keluar/{keluar}/update',[DanaController::class, 'update'])->name('dana.update');
+Route::get('/dana/{dana}/edit',[DanaController::class, 'edit'])->name('dana.edit');
+Route::put('/dana/{dana}/update',[DanaController::class, 'update'])->name('dana.update');
 Route::get('/dana/{dana}/show',[DanaController::class, 'show'])->name('dana.show');
 Route::get('/dana/{dana}/destroy',[DanaController::class, 'destroy'])->name('dana.destroy');
 

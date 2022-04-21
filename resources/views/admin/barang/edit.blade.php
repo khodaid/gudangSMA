@@ -9,7 +9,7 @@
     @endif
     <div class="row">
         <div class="col-lg-12">
-        <form action="# method="POST">
+        <form action="#" method="POST">
             @csrf
             @method('PUT')
             <div class="form-group">

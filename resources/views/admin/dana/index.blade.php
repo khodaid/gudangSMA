@@ -5,9 +5,9 @@
 @endsection
 
 @section('content')
-<div class="row">
-    <div class="col-12">
-        <h1>Data Asal Dana</h1>
+{{-- <div class="row"> --}}
+    {{-- <div class="col-12">
+        <h3>Data Asal Dana</h3>
         <br>
     </div>
 
@@ -20,8 +20,12 @@
 
     <div class="col-6 d-flex justify-content-end mb-3">
         <button type="submit" class="btn btn-success float-left" >Export Excel</button>
+    </div> --}}
+    @if ($message = Session::get('success'))
+    <div class="alert alert-success" role="alert">
+        {{$message}}
     </div>
-
+    @endif
 
     <!-- Modal -->
         <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -34,11 +38,15 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="#" method="POST">
+                        <form action="{{route('dana.store')}}" method="POST">
                            @csrf
                             <div class="form-group">
-                                <label for="inputNama">Asal Dana</label>
-                                <input name="dana" type="text" class="form-control" id="inputNama" aria-describedby="emailHelp">
+                                <label for="inputNama">Nama Asal Dana</label>
+                                <input name="nama" type="text" class="form-control" id="inputNama" aria-describedby="emailHelp">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputDskripsi">Deskripsi</label>
+                                <textarea class="form-control" id="inputDeskripsi" rows="3" name="deskripsi"></textarea>
                             </div>
                     </div>
                     <div class="modal-footer">
@@ -50,37 +58,49 @@
                     </div>
                 </div>
             </div>
-</div>
+{{-- </div> --}}
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        <h3 class="my-1 font-weight-bold text-primary">Asal Dana</h3>
+        <div class="row">
+            <div class="col-6 my-1">
+                <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary float-left" data-toggle="modal" data-target="#exampleModal">
+                        Tambah Data
+                    </button>
+                </div>
+
+                <div class="col-6 d-flex justify-content-end my-1">
+                    <button type="submit" class="btn btn-success float-left" >Export Excel</button>
+                </div>
+        </div>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        {{-- <th>No</th> --}}
+                        <th>No</th>
                         <th>Nama</th>
-                        <th>Jumlah</th>
+                        <th>Deskripsi</th>
                         <th>Aksi</th>
                 </thead>
                 <tbody>
-                    {{-- @foreach () --}}
+                    @foreach ($danas as $dana)
                         <tr>
-                            {{-- <th scope="row">{{ $loop->iteration }}</th> --}}
-                            <td></td>
-                            <td></td>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{$dana->nama}}</td>
+                            <td>{{Str::limit($dana->keterangan, 20)}}</td>
                             <td>
-                                {{-- @if (!isset(Auth::user()->roles) || $satuan->id_user == Auth::id())
-                                    <a href="{{route('satuan.edit', $satuan->id)}}" class='fas fa-edit' style='color:black'></a>
-                                    <a href="{{route('satuan.destroy', $satuan->id)}}" class='fas fa-trash' style='color:black'></a>
+                                @if (!isset(Auth::user()->roles) || $dana->id_user == Auth::id())
+                                    <a href="{{route('dana.edit', $dana->id)}}" class='fas fa-edit' style='color:black'></a>
+                                    <a href="{{route('dana.destroy', $dana->id)}}" class='fas fa-trash' style='color:black'></a>
                                 @endif
-                                    <a href="#" class='fas fa-eye' style='color:black' id="mediumButton" data-toggle="modal" data-target="#mediumModal" data-attr = {{route('satuan.show', $satuan->id)}}></a> --}}
+                                    <a href="#" class='fas fa-eye' style='color:black' id="mediumButton" data-toggle="modal" data-target="#mediumModal" data-attr = {{route('dana.show', $dana->id)}}></a>
                             </td>
                         </tr>
-                    {{-- @endforeach --}}
+                    @endforeach
                 </tbody>
             </table>
         </div>

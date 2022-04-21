@@ -1,36 +1,31 @@
 @extends('components.admin-master')
 
 @section('content')
-    <h1> Edit Dosen</h1>
-    @if (session('success'))
+    <h3> Edit Dosen</h3>
+    @if (Session::get('success'))
         <div class="alert alert-success" role="alert">
-            {{session('success')}}
+            {{$message}}
         </div>
     @endif
-    <div class="row">
-        <div class="col-lg-12">
-        <form action="# method="POST">
-            @csrf
-            @method('PUT')
-            <div class="form-group">
-                <label for="inputNama">Nama Satuan</label>
-                <input name="nama" type="text" class="form-control" id="inputNama" aria-describedby="emailHelp" value="">
+    <form action="{{route('dana.update',$dana)}}" method="POST">
+        <div class="row">
+            <div class="col-lg-6">
+                @csrf
+                @method('PUT')
+                <div class="form-group">
+                    <label for="inputNama">Nama Asal Dana</label>
+                    <input name="nama" type="text" class="form-control" id="inputNama" aria-describedby="emailHelp" value="{{old('nama') ?? $dana->nama}}">
+                </div>
+                <div class="form-group">
+                    <label for="inputDskripsi">Deskripsi</label>
+                    <textarea class="form-control" id="inputDeskripsi" rows="3" name="deskripsi">{{old('deskripsi') ?? $dana->keterangan}}</textarea>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="inputNama">Jumlah</label>
-                <input name="nama" type="text" class="form-control" id="inputNama" aria-describedby="emailHelp" value="">
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Satuan</label>
-                <select name="kelamin" class="form-control" id="exampleFormControlSelect1">
-                <option value="L">Laki-laki</option>
-                <option value="P">Perempuan</option>
-                </select>
-            </div
         </div>
-            <div class="modal-footer">
+        <div class="row">
+            <div class="col">
                 <button type="submit" class="btn btn-warning">Update</button>
-        </form>
             </div>
-    </div>
+        </div>
+    </form>
 @endsection

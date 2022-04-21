@@ -27,7 +27,7 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    @include('components.sidebar.sidebar-barang')
+    @include('components.sidebar.sidebar-kategori')
 
     <!-- Divider -->
     <hr class="sidebar-divider">
