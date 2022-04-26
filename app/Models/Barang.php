@@ -20,6 +20,17 @@ class Barang extends Model
      */
     public function satuan()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsTo(Satuan::class,'id_satuan','id');
     }
+
+    /**
+     * Get all of the comments for the Barang
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function masuk()
+    {
+        return $this->hasMany(Masuk::class);
+    }
+
 }

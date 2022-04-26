@@ -30,6 +30,16 @@ class Satuan extends Model
      */
     public function barang()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Barang::class);
+    }
+
+    /**
+     * Get all of the masuk for the Satuan
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function masuk()
+    {
+        return $this->hasMany(Masuk::class);
     }
 }

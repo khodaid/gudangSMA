@@ -86,8 +86,12 @@ class BarangController extends Controller
      */
     public function edit(Barang $barang)
     {
+        $satuans = Satuan::where('id_user',Auth::id())
+        ->orWhere('id_user',Auth::user()->id_super)->get();
+
         return view('admin.barang.edit',[
-            'barang' => $barang
+            'barang' => $barang,
+            'satuans' => $satuans
         ]);
     }
 

@@ -72,17 +72,19 @@
             <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        {{-- <th>No</th> --}}
+                        <th>No</th>
                         <th>Nama</th>
                         <th>Jumlah</th>
+                        <th>Satuan</th>
                         <th>Aksi</th>
                 </thead>
                 <tbody>
-                    {{-- @foreach () --}}
+                    @foreach ($barangs as $barang)
                         <tr>
-                            {{-- <th scope="row">{{ $loop->iteration }}</th> --}}
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{$barang->nama}}</td>
                             <td></td>
-                            <td></td>
+                            <td>{{$barang->satuan->nama}}</td>
                             <td>
                                 {{-- @if (!isset(Auth::user()->roles) || $satuan->id_user == Auth::id())
                                     <a href="{{route('satuan.edit', $satuan->id)}}" class='fas fa-edit' style='color:black'></a>
@@ -91,7 +93,7 @@
                                     <a href="#" class='fas fa-eye' style='color:black' id="mediumButton" data-toggle="modal" data-target="#mediumModal" data-attr = {{route('satuan.show', $satuan->id)}}></a> --}}
                             </td>
                         </tr>
-                    {{-- @endforeach --}}
+                    @endforeach
                 </tbody>
             </table>
         </div>

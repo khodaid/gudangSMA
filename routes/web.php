@@ -67,3 +67,14 @@ Route::get('/dana/{dana}/destroy',[DanaController::class, 'destroy'])->name('dan
 
 Route::get('/user',[UserController::class,'index'])->name('user.index');
 Route::post('/user',[UserController::class,'store'])->name('user.store');
+Route::get('/user/{user}/edit',[UserController::class, 'edit'])->name('user.edit');
+Route::put('/user/{user}/update',[UserController::class, 'update'])->name('user.update');
+Route::get('/user/{user}/show',[UserController::class, 'show'])->name('user.show');
+Route::get('/user/{user}/destroy',[UserController::class, 'destroy'])->name('user.destroy');
+
+Route::get('/masuk',[MasukController::class,'index'])->name('masuk.index');
+Route::post('/masuk',[MasukController::class,'store'])->name('masuk.store');
+Route::get('/masuk/{masuk}/edit',[MasukController::class, 'edit'])->name('masuk.edit');
+Route::put('/masuk/{masuk}/update',[MasukController::class, 'update'])->name('masuk.update');
+Route::get('/masuk/{masuk}/show',[MasukController::class, 'show'])->name('masuk.show');
+Route::get('/masuk/{masuk}/destroy',[MasukController::class, 'destroy'])->name('masuk.destroy');

@@ -57,7 +57,7 @@ class DanaController extends Controller
 
         $dana->save();
 
-        return redirect()->route('dana.index')->with('success','Data Tesimpan');
+        return redirect()->route('dana.index')->with(['success' => 'Data Tesimpan']);
     }
 
     /**
@@ -118,6 +118,6 @@ class DanaController extends Controller
     {
         $dana->delete();
 
-        return redirect()->route('dana.index')->with('warning','Data Terhapus');
+        return redirect()->route('dana.index')->with(['warning' => 'Data Terhapus']);
     }
 }

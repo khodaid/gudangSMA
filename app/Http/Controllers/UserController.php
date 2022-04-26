@@ -66,6 +66,39 @@ class UserController extends Controller
         // dd($user);
 
         $user->save();
-        return redirect()->route('user.index')->with('success','data tersimpan');
+        return redirect()->route('user.index')->with(['success' => 'Data Tersimpan']);
+    }
+
+    public function edit(User $user)
+    {
+        return view('admin.user.edit',[
+            'user' => $user
+        ]);
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $this->validate($request,[
+            'nama' => 'required',
+            'deskripsi' => 'required'
+        ]);
+
+
+
+        return redirect()->route('user.index')->with(['success'=>'Data Terupdate']);
+    }
+
+    public function show(User $user)
+    {
+        return view('admin.user.show',[
+            'user' => $user
+        ]);
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return redirect()->route('user.index')->with(['warning' => 'Data Terhapus']);
     }
 }

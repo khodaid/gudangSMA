@@ -1,32 +1,37 @@
 @extends('components.admin-master')
 
 @section('content')
-    <h1> Edit Dosen</h1>
+    <h3> Edit Dosen</h3>
     @if (session('success'))
         <div class="alert alert-success" role="alert">
             {{session('success')}}
         </div>
     @endif
-    <div class="row">
-        <div class="col-lg-12">
-        <form action="#" method="POST">
-            @csrf
-            @method('PUT')
-            <div class="form-group">
-                <label for="inputNama">Nama Satuan</label>
-                <input name="nama" type="text" class="form-control" id="inputNama" aria-describedby="emailHelp" value="">
+
+    <form action="{{route('barang.update',$barang)}}" method="POST">
+        <div class="row">
+            <div class="col-lg-6">
+                @csrf
+                @method('PUT')
+                <div class="form-group">
+                    <label for="inputNama">Nama Barang</label>
+                    <input name="nama" type="text" class="form-control" id="inputNama" aria-describedby="emailHelp" value="{{old('nama') ?? $satuan->nama}}">
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Satuan</label>
+                    <select class="my-select form-control" id="exampleFormControlSelect1" name="satuan">
+                        {{-- <option value="">Mustard</option> --}}
+                        @foreach ($satuans as $satuan)
+                            <option value="{{$satuan->id}}">{{$satuan->nama}}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Satuan</label>
-                <select name="kelamin" class="form-control" id="exampleFormControlSelect1">
-                <option value="L">Laki-laki</option>
-                <option value="P">Perempuan</option>
-                </select>
-            </div
         </div>
-            <div class="modal-footer">
+        <div class="row">
+            <div class="col">
                 <button type="submit" class="btn btn-warning">Update</button>
-        </form>
             </div>
-    </div>
+        </div>
+    </form>
 @endsection

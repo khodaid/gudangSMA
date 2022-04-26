@@ -53,4 +53,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Satuan::class);
     }
+
+    /**
+     * Get all of the masuk for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function masuk()
+    {
+        return $this->hasMany(Masuk::class);
+    }
 }
