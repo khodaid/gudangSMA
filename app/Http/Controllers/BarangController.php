@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Masuk;
 use App\Models\Satuan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class BarangController extends Controller
 {
+    protected $transaksi=[];
     /**
      * Display a listing of the resource.
      *
@@ -25,8 +28,29 @@ class BarangController extends Controller
         $barang = Barang::where('id_user', Auth::id()) //mengambil data dari id user untuk akun user
             ->orWhereIn('id_user',$akun->modelKeys())->get(); // mengambil data dari dari id user turunan SU untuk SU
 
+            // $masuk = Masuk::where('id_user', Auth::id())
+            // ->orWhereIn('id_user',$akun->modelKeys())->sum('jumlah')->get();
+
+            // dd($masuk);
+        // $transaksi=[];
+        // $i = 0;
+        foreach ($barang as $b) {
+            // $masuk = Masuk::where('id_barang', $b->id)->sum('jumlah');
+            // $transaksi[] = $b->masuk->sum('jumlah') - $b->keluar->sum('jumlah');
+            // $transaksi = Collection::make($b->masuk->sum('jumlah') - $b->keluar->sum('jumlah'));
+            $transaksi[$b->id] = $b->masuk->sum('jumlah') - $b->keluar->sum('jumlah');
+
+        }
+        // dd($i);
+        // $transaksi = collect((object)$transaksi);
+        // dd($transaksi);
+        $tr = [
+            'b' => $barang,
+            't' => $transaksi];
+        // dd($tr);
         return view('admin.barang.index',[
-            'barangs' => $barang,
+            // 'barangs' => $barang,
+            'barangs' => $tr,
             'satuans' => $satua
         ]);
     }

@@ -5,23 +5,15 @@
 @endsection
 
 @section('content')
-    {{-- <div class="row"> --}}
-    {{-- <div class="col-12">
-        <h3>Data Asal Dana</h3>
-        <br>
-    </div>
-
-    <div class="col-6 mb-3">
-    <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary float-left" data-toggle="modal" data-target="#exampleModal">
-            Tambah Data
-        </button>
-    </div>
-
-    <div class="col-6 d-flex justify-content-end mb-3">
-        <button type="submit" class="btn btn-success float-left" >Export Excel</button>
-    </div> --}}
-    @if ($message = Session::get('success'))
+    @if ($message = Session::get('update'))
+        <div class="alert alert-warning" role="alert">
+            {{ $message }}
+        </div>
+    @elseif($message = Session::get('hapus'))
+        <div class="alert alert-danger" role="alert">
+            {{ $message }}
+        </div>
+    @elseif($message = Session::get('store'))
         <div class="alert alert-success" role="alert">
             {{ $message }}
         </div>
@@ -109,8 +101,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -167,8 +157,8 @@
                                 <td>{{ $masuk->barang->nama }}</td>
                                 <td>{{ $masuk->jumlah }}</td>
                                 <td>{{ $masuk->satuan->nama }}</td>
-                                <td>{{ $masuk->tgl_pemesanan }}</td>
-                                <td>{{ $masuk->tgl_penerimaan }}</td>
+                                <td>{{ date('d-m-Y', strtotime($masuk->tgl_pemesanan)) }}</td>
+                                <td>{{ date('d-m-Y', strtotime($masuk->tgl_penerimaan)) }}</td>
                                 @if (isset($masuk->nama_toko))
                                     <td>{{ $masuk->nama_toko }}</td>
                                 @else
@@ -178,7 +168,7 @@
                                 <td>{{ $masuk->harga_satuan }}</td>
                                 <td>{{ $masuk->jumlah_harga }}</td>
                                 @if (!isset(Auth::user()->id_super))
-                                    <td>{{$masuk->user->name}}</td>
+                                    <td>{{ $masuk->user->name }}</td>
                                 @endif
                                 <td>
                                     @if ($masuk->id_user == Auth::id())
@@ -202,7 +192,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Data Asal Dana</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Barang Masuk</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

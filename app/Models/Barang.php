@@ -30,7 +30,16 @@ class Barang extends Model
      */
     public function masuk()
     {
-        return $this->hasMany(Masuk::class);
+        return $this->hasMany(Masuk::class,'id_barang','id');
     }
 
+    /**
+     * Get all of the keluar for the Barang
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function keluar()
+    {
+        return $this->hasMany(Keluar::class, 'id_barang', 'id');
+    }
 }

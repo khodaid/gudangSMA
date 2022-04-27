@@ -79,7 +79,7 @@ class MasukController extends Controller
 
         $masuk->save();
 
-        return redirect()->route('masuk.index')->with(['success' => 'Data Tersimpan']);
+        return redirect()->route('masuk.index')->with(['store' => 'Data Tersimpan']);
     }
 
     /**
@@ -103,8 +103,13 @@ class MasukController extends Controller
      */
     public function edit(Masuk $masuk)
     {
+        $barangs = Barang::where('id_user', Auth::id())->get();
+        $satuans = Satuan::where('id_user',Auth::user()->id_super)->get();
+
         return view('admin.masuk.edit',[
-            'masuk' => $masuk
+            'masuk' => $masuk,
+            'barangs' => $barangs,
+            'satuans' => $satuans
         ]);
     }
 
@@ -118,8 +123,29 @@ class MasukController extends Controller
     public function update(Request $request, Masuk $masuk)
     {
         $this->validate($request,[
-
+            'barang' => 'required',
+            'deskripsi' => 'required',
+            'quantity' => 'required',
+            'satuan' => 'required',
+            'pembelian' => 'required',
+            'penyerahan' => 'required',
+            'hrgSatuan' => 'required',
+            'hrgTotal' => 'required'
         ]);
+
+        $masuk->id_barang = $request->input('barang');
+        $masuk->deskripsi = $request->input('deskripsi');
+        $masuk->jumlah = $request->input('quantity');
+        $masuk->id_satuan = $request->input('satuan');
+        $masuk->nama_toko = $request->input('toko');
+        $masuk->tgl_pemesanan = $request->input('pembelian');
+        $masuk->tgl_penerimaan = $request->input('penyerahan');
+        $masuk->harga_satuan = $request->input('hrgSatuan');
+        $masuk->jumlah_harga = $request->input('hrgTotal');
+
+        $masuk->save();
+
+        return redirect()->route('masuk.index')->with(['update' => 'Data Terupdate']);
     }
 
     /**
@@ -130,6 +156,8 @@ class MasukController extends Controller
      */
     public function destroy(Masuk $masuk)
     {
-        //
+        $masuk->delete();
+
+        return redirect()->route('masuk.index')->with(['hapus' => 'Data Terhapus']);
     }
 }
