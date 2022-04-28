@@ -1,7 +1,15 @@
 @extends('components.admin-master')
 
 @section('content')
-    @if ($message = Session::get('success'))
+    @if ($message = Session::get('update'))
+        <div class="alert alert-warning" role="alert">
+            {{ $message }}
+        </div>
+    @elseif($message = Session::get('hapus'))
+        <div class="alert alert-danger" role="alert">
+            {{ $message }}
+        </div>
+    @elseif($message = Session::get('store'))
         <div class="alert alert-success" role="alert">
             {{ $message }}
         </div>

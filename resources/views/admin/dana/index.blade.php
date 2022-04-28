@@ -5,23 +5,15 @@
 @endsection
 
 @section('content')
-    {{-- <div class="row"> --}}
-    {{-- <div class="col-12">
-        <h3>Data Asal Dana</h3>
-        <br>
-    </div>
-
-    <div class="col-6 mb-3">
-    <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary float-left" data-toggle="modal" data-target="#exampleModal">
-            Tambah Data
-        </button>
-    </div>
-
-    <div class="col-6 d-flex justify-content-end mb-3">
-        <button type="submit" class="btn btn-success float-left" >Export Excel</button>
-    </div> --}}
-    @if ($message = Session::get('success'))
+    @if ($message = Session::get('update'))
+        <div class="alert alert-warning" role="alert">
+            {{ $message }}
+        </div>
+    @elseif($message = Session::get('hapus'))
+        <div class="alert alert-danger" role="alert">
+            {{ $message }}
+        </div>
+    @elseif($message = Session::get('store'))
         <div class="alert alert-success" role="alert">
             {{ $message }}
         </div>

@@ -20,7 +20,7 @@ class Satuan extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'id_user','id');
     }
 
     /**
@@ -30,7 +30,7 @@ class Satuan extends Model
      */
     public function barang()
     {
-        return $this->hasMany(Barang::class);
+        return $this->hasMany(Barang::class,'id_barang','id');
     }
 
     /**
@@ -40,6 +40,6 @@ class Satuan extends Model
      */
     public function masuk()
     {
-        return $this->hasMany(Masuk::class);
+        return $this->hasMany(Masuk::class,'id_satuan','id');
     }
 }

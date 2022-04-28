@@ -86,7 +86,7 @@ class BarangController extends Controller
 
         $barang->save();
 
-        return redirect()->route('barang.index')->with('success','Data Tersimpan');
+        return redirect()->route('barang.index')->with(['store' => 'Data Tersimpan']);
     }
 
     /**
@@ -138,7 +138,7 @@ class BarangController extends Controller
 
         $barang->save();
 
-        return redirect()->route('barang.index')->with('success', 'Data Berhasil Diubah');
+        return redirect()->route('barang.index')->with(['update' => 'Data Terupdate']);
     }
 
     /**
@@ -150,6 +150,6 @@ class BarangController extends Controller
     public function destroy(Barang $barang)
     {
         $barang->delete();
-        return redirect()->route('barang.index')->with('danger','Data Terhapus');
+        return redirect()->route('barang.index')->with(['hapus' => 'Data Terhapus']);
     }
 }

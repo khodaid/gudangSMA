@@ -51,7 +51,7 @@ class SatuanController extends Controller
 
         $satuan->save();
 
-        return redirect()->route('satuan.index')->with('success', 'Data Berhasil Tersimpan');
+        return redirect()->route('satuan.index')->with(['store' => 'Data Tesimpan']);
     }
 
     /**
@@ -99,7 +99,7 @@ class SatuanController extends Controller
 
         $satuan->save();
 
-        return redirect()->route('satuan.index')->with('success', 'Data Terupdate');
+        return redirect()->route('satuan.index')->with(['update' => 'Data Terupdate']);
     }
 
     /**
@@ -113,6 +113,6 @@ class SatuanController extends Controller
         // dd($satuan);
         $satuan->delete();
 
-        return redirect()->route('satuan.index')->with('warning','Data Terhapus');
+        return redirect()->route('satuan.index')->with(['hapus' => 'Data Terhapus']);
     }
 }
