@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('jumlah');
             $table->unsignedInteger('id_barang')
                 ->foreign('id_barang')->refrences('id')->on('barangs')->onDelete('cascade');
-            $table->unsignedInteger('id_userg')
+            $table->unsignedInteger('id_user')
                 ->foreign('id_user')->refrences('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('id_satuan')
                 ->foreign('id_satuan')->refrences('id')->on('satuans')->onDelete('cascade');

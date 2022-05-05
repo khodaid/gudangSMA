@@ -63,10 +63,12 @@
             <div class="row">
                 <div class="col-6 my-1">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary float-left" data-toggle="modal"
-                        data-target="#exampleModal">
-                        Tambah Data
-                    </button>
+                    @if (isset(Auth::user()->id_super))
+                        <button type="button" class="btn btn-primary float-left" data-toggle="modal"
+                            data-target="#exampleModal">
+                            Tambah Data
+                        </button>
+                    @endif
                 </div>
 
                 <div class="col-6 d-flex justify-content-end my-1">
@@ -86,12 +88,12 @@
                             <th>Aksi</th>
                     </thead>
                     <tbody>
-                        @foreach ($barangs['b'] as $barang)
+                        @foreach ($barangs as $barang)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 {{-- @dd($barang) --}}
                                 <td>{{ $barang->nama }}</td>
-                                <td>{{ $barangs['t'][$barang->id] }}</td>
+                                <td>{{ $transaksis[$barang->id] }}</td>
                                 <td>{{ $barang->satuan->nama }}</td>
                                 <td>
                                     @if (isset(Auth::user()->id_super))

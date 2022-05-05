@@ -119,10 +119,12 @@
             <div class="row">
                 <div class="col-6 my-1">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary float-left" data-toggle="modal"
-                        data-target="#exampleModal">
-                        Tambah Data
-                    </button>
+                    @if (isset(Auth::user()->id_super))
+                        <button type="button" class="btn btn-primary float-left" data-toggle="modal"
+                            data-target="#exampleModal">
+                            Tambah Data
+                        </button>
+                    @endif
                 </div>
 
                 <div class="col-6 d-flex justify-content-end my-1">
@@ -142,7 +144,7 @@
                             <th>Tanggal Pembelian</th>
                             <th>Tanggal Penerimaan</th>
                             <th>Nama Toko</th>
-                            <th>Deskripsi</th>
+                            {{-- <th>Deskripsi</th> --}}
                             <th>Harga Satuan</th>
                             <th>Harga Total</th>
                             @if (!isset(Auth::user()->id_super))
@@ -164,7 +166,7 @@
                                 @else
                                     <td>-</td>
                                 @endif
-                                <td>{{ Str::limit($masuk->deskripsi, 20) }}</td>
+                                {{-- <td>{{ Str::limit($masuk->deskripsi, 20) }}</td> --}}
                                 <td>{{ $masuk->harga_satuan }}</td>
                                 <td>{{ $masuk->jumlah_harga }}</td>
                                 @if (!isset(Auth::user()->id_super))

@@ -1,4 +1,4 @@
-<li class="nav-item">
+<li class="nav-item {{request()->is('satuan') ? 'active' : '' }} {{request()->is('barang') ? 'active' : '' }} {{request()->is('dana') ? 'active' : '' }}">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBarang"
         aria-expanded="true" aria-controls="collapseTwo">
         <i class="fas fa-fw fa-cog"></i>

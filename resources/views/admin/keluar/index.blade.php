@@ -1,27 +1,19 @@
 @extends('components.admin-master')
 
 @section('css')
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"> --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 @endsection
 
 @section('content')
-    {{-- <div class="row"> --}}
-    {{-- <div class="col-12">
-        <h3>Data Asal Dana</h3>
-        <br>
-    </div>
-
-    <div class="col-6 mb-3">
-    <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary float-left" data-toggle="modal" data-target="#exampleModal">
-            Tambah Data
-        </button>
-    </div>
-
-    <div class="col-6 d-flex justify-content-end mb-3">
-        <button type="submit" class="btn btn-success float-left" >Export Excel</button>
-    </div> --}}
-    @if ($message = Session::get('success'))
+    @if ($message = Session::get('update'))
+        <div class="alert alert-warning" role="alert">
+            {{ $message }}
+        </div>
+    @elseif($message = Session::get('hapus'))
+        <div class="alert alert-danger" role="alert">
+            {{ $message }}
+        </div>
+    @elseif($message = Session::get('store'))
         <div class="alert alert-success" role="alert">
             {{ $message }}
         </div>
@@ -32,19 +24,46 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Data Asal Dana</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Barang Keluar</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
-                <form action="{{ route('dana.store') }}" method="POST">
+                <form action="{{ route('keluar.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="inputNama">Nama Asal Dana</label>
-                            <input name="nama" type="text" class="form-control" id="inputNama"
-                                aria-describedby="emailHelp">
+                            <label for="exampleFormControlSelect1">Barang</label>
+                            <select class="my-select form-control" id="exampleFormControlSelect1" name="barang">
+                                @foreach ($barangs as $barang)
+                                    <option value="{{ $barang->id }}">{{ $barang->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputQuantity">Jumlah</label>
+                                    <input name="quantity" type="number" class="form-control" id="inputNama"
+                                        aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Satuan</label>
+                                    <select class="my-select form-control" id="exampleFormControlSelect1" name="satuan">
+                                        @foreach ($satuans as $satuan)
+                                            <option value="{{ $satuan->id }}">{{ $satuan->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputTglKeluar">Pengambilan</label>
+                            <input type="date" class="form-control" id="inputTglKeluar" aria-describedby="emailHelp"
+                                name="tglPengambilan">
                         </div>
                         <div class="form-group">
                             <label for="inputDskripsi">Deskripsi</label>
@@ -64,14 +83,16 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h3 class="my-1 font-weight-bold text-primary">Asal Dana</h3>
+            <h3 class="my-1 font-weight-bold text-primary">Barang Keluar</h3>
             <div class="row">
                 <div class="col-6 my-1">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary float-left" data-toggle="modal"
-                        data-target="#exampleModal">
-                        Tambah Data
-                    </button>
+                    @if (isset(Auth::user()->id_super))
+                        <button type="button" class="btn btn-primary float-left" data-toggle="modal"
+                            data-target="#exampleModal">
+                            Tambah Data
+                        </button>
+                    @endif
                 </div>
 
                 <div class="col-6 d-flex justify-content-end my-1">
@@ -85,25 +106,30 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama</th>
-                            <th>Deskripsi</th>
+                            <th>Barang</th>
+                            <th>Jumlah</th>
+                            <th>Satuan</th>
+                            <th>Tanggal</th>
                             <th>Aksi</th>
                     </thead>
                     <tbody>
-                        @foreach ($danas as $dana)
+                        @foreach ($keluars as $keluar)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $dana->nama }}</td>
-                                <td>{{ Str::limit($dana->keterangan, 20) }}</td>
+                                <td>{{ $keluar->barang->nama }}</td>
+                                <td>{{ $keluar->jumlah }}</td>
+                                <td>{{ $keluar->satuan->nama }}</td>
+                                <td>{{ date('d-m-Y', strtotime($keluar->tgl_keluar)) }}</td>
+                                {{-- <td>{{ Str::limit($dana->keterangan, 20) }}</td> --}}
                                 <td>
-                                    @if (!isset(Auth::user()->roles) || $dana->id_user == Auth::id())
-                                        <a href="{{ route('dana.edit', $dana->id) }}" class='fas fa-edit'
+                                    @if (!isset(Auth::user()->roles) || $keluar->id_user == Auth::id())
+                                        <a href="{{ route('keluar.edit', $keluar->id) }}" class='fas fa-edit'
                                             style='color:black'></a>
-                                        <a href="{{ route('dana.destroy', $dana->id) }}" class='fas fa-trash'
+                                        <a href="{{ route('keluar.destroy', $keluar->id) }}" class='fas fa-trash'
                                             style='color:black'></a>
                                     @endif
                                     <a href="#" class='fas fa-eye' style='color:black' id="mediumButton" data-toggle="modal"
-                                        data-target="#mediumModal" data-attr={{ route('dana.show', $dana->id) }}></a>
+                                        data-target="#mediumModal" data-attr={{ route('keluar.show', $keluar->id) }}></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -117,7 +143,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Data Asal Dana</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Data Barang Keluar</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -161,8 +187,8 @@
     </script>
     {{-- akhir coba model --}}
 
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-<script>
-    $('.my-select').selectpicker();
-</script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script>
+        $('.my-select').selectpicker();
+    </script>
 @endsection

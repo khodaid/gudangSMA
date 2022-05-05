@@ -1,4 +1,4 @@
-<li class="nav-item">
+<li class="nav-item {{request()->is('user') ? 'active' : '' }}">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser"
         aria-expanded="true" aria-controls="collapseTwo">
         <i class="fas fa-fw fa-cog"></i>

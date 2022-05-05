@@ -22,7 +22,7 @@ class BarangController extends Controller
     {
         $akun = User::where('id_super',Auth::id())->get();
 
-        $satua = Satuan::where('id_user',Auth::id())
+        $satuan = Satuan::where('id_user',Auth::id())
             ->orWhere('id_user',Auth::user()->id_super)->get();
 
         $barang = Barang::where('id_user', Auth::id()) //mengambil data dari id user untuk akun user
@@ -38,20 +38,21 @@ class BarangController extends Controller
             // $masuk = Masuk::where('id_barang', $b->id)->sum('jumlah');
             // $transaksi[] = $b->masuk->sum('jumlah') - $b->keluar->sum('jumlah');
             // $transaksi = Collection::make($b->masuk->sum('jumlah') - $b->keluar->sum('jumlah'));
-            $transaksi[$b->id] = $b->masuk->sum('jumlah') - $b->keluar->sum('jumlah');
+            $this->transaksi[$b->id] = $b->masuk->sum('jumlah') - $b->keluar->sum('jumlah');
 
         }
         // dd($i);
         // $transaksi = collect((object)$transaksi);
         // dd($transaksi);
-        $tr = [
-            'b' => $barang,
-            't' => $transaksi];
-        // dd($tr);
+        // $tr = [
+        //     'b' => $barang,
+        //     't' => $transaksi];
+        // dd($this->transaksi);
         return view('admin.barang.index',[
             // 'barangs' => $barang,
-            'barangs' => $tr,
-            'satuans' => $satua
+            'barangs' => $barang,
+            'satuans' => $satuan,
+            'transaksis' => $this->transaksi
         ]);
     }
 

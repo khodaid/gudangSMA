@@ -12,7 +12,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item {{request()->is('/dashboard') ? 'active' : ''}}">
+    <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
         <a class="nav-link" href="#">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -41,14 +41,17 @@
     @include('components.sidebar.sidebar-transaksi')
 
     <!-- Divider -->
-    <hr class="sidebar-divider">
+    @if (Auth::user()->roles == 1)
+        <hr class="sidebar-divider">
 
-    <div class="sidebar-heading">
-        User
-    </div>
+        <div class="sidebar-heading">
+            User
+        </div>
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    @include('components.sidebar.sidebar-user')
+        <!-- Nav Item - Pages Collapse Menu -->
+
+        @include('components.sidebar.sidebar-user')
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

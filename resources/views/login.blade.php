@@ -36,7 +36,7 @@
                         <!-- Nested Row within Card Body -->
                         <div class="row">
                             {{-- <div class="col-lg-6 d-none d-lg-block bg-login-image "></div> --}}
-                            <div class="col-lg-6 d-none d-flex align-items-center justify-content-center">
+                            <div class="col-lg-6 d-none d-flex align-items-center justify-content-center p-5">
                                 <img src="{{asset('image/SMAN11.jpg')}}" alt="" srcset="">
                             </div>
                             <div class="col-lg-6">

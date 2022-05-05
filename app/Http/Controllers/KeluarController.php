@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\Keluar;
+use App\Models\Satuan;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KeluarController extends Controller
 {
@@ -14,7 +18,17 @@ class KeluarController extends Controller
      */
     public function index()
     {
-        //
+        $satuan = Satuan::where('id_user', Auth::user()->id_super)->get();
+        $barang = Barang::where('id_user', Auth::id())->get();
+        $user = User::where('id_super', Auth::id())->get();
+        $keluar = Keluar::where('id_user', Auth::id())
+            ->orWhere('id_user', $user->modelKeys())->get();
+        // dd([$barang,$satuan,$user,$keluar]);
+        return view('admin.keluar.index', [
+            'satuans' => $satuan,
+            'barangs' => $barang,
+            'keluars' => $keluar
+        ]);
     }
 
     /**
@@ -35,7 +49,26 @@ class KeluarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'barang' => 'required',
+            'quantity' => 'required',
+            'satuan' => 'required',
+            'tglPengambilan' => 'required',
+            'deskripsi' => 'required'
+        ]);
+
+        $keluar = new Keluar();
+
+        $keluar->tgl_keluar = $request->input('tglPengambilan');
+        $keluar->deskripsi = $request->input('deskripsi');
+        $keluar->jumlah = $request->input('quantity');
+        $keluar->id_barang = $request->input('barang');
+        $keluar->id_user = Auth::id();
+        $keluar->id_satuan = $request->input('satuan');
+
+        $keluar->save();
+
+        return redirect()->route('keluar.index')->with(['store'=>'Data Berhasil Ditambah']);
     }
 
     /**
@@ -46,7 +79,9 @@ class KeluarController extends Controller
      */
     public function show(Keluar $keluar)
     {
-        //
+        return view('admin.keluar.show',[
+            'keluar' => $keluar
+        ]);
     }
 
     /**
@@ -57,7 +92,14 @@ class KeluarController extends Controller
      */
     public function edit(Keluar $keluar)
     {
-        //
+        $barangs = Barang::where('id_user', Auth::id())->get();
+        $satuans = Satuan::where('id_user',Auth::user()->id_super)->get();
+
+        return view('admin.keluar.edit',[
+            'keluar' => $keluar,
+            'barangs' => $barangs,
+            'satuans' => $satuans
+        ]);
     }
 
     /**
@@ -69,7 +111,24 @@ class KeluarController extends Controller
      */
     public function update(Request $request, Keluar $keluar)
     {
-        //
+        $this->validate($request,[
+            'barang' => 'required',
+            'quantity' => 'required',
+            'satuan' => 'required',
+            'tglPengambilan' => 'required',
+            'deskripsi' => 'required'
+        ]);
+
+        $keluar->tgl_keluar = $request->input('tglPengambilan');
+        $keluar->deskripsi = $request->input('deskripsi');
+        $keluar->jumlah = $request->input('quantity');
+        $keluar->id_barang = $request->input('barang');
+        $keluar->id_user = Auth::id();
+        $keluar->id_satuan = $request->input('satuan');
+
+        $keluar->save();
+
+        return redirect()->route('keluar.index')->with(['update'=>'Data Berhasil Diubah']);
     }
 
     /**
@@ -80,6 +139,7 @@ class KeluarController extends Controller
      */
     public function destroy(Keluar $keluar)
     {
-        //
+        $keluar->delete();
+        return redirect()->route('keluar.index')->with(['hapus'=>'Data Berhasil Dihapus']);
     }
 }
