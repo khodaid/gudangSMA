@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DanaController;
+use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\KeluarController;
 use App\Http\Controllers\MasukController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SatuanController;
+use App\Models\Inventaris;
 use App\Models\Masuk;
 
 /*
@@ -72,16 +74,9 @@ Route::put('/user/{user}/update',[UserController::class, 'update'])->name('user.
 Route::get('/user/{user}/show',[UserController::class, 'show'])->name('user.show');
 Route::get('/user/{user}/destroy',[UserController::class, 'destroy'])->name('user.destroy');
 
-Route::get('/masuk',[MasukController::class,'index'])->name('masuk.index');
-Route::post('/masuk',[MasukController::class,'store'])->name('masuk.store');
-Route::get('/masuk/{masuk}/edit',[MasukController::class, 'edit'])->name('masuk.edit');
-Route::put('/masuk/{masuk}/update',[MasukController::class, 'update'])->name('masuk.update');
-Route::get('/masuk/{masuk}/show',[MasukController::class, 'show'])->name('masuk.show');
-Route::get('/masuk/{masuk}/destroy',[MasukController::class, 'destroy'])->name('masuk.destroy');
-
-Route::get('/keluar',[KeluarController::class,'index'])->name('keluar.index');
-Route::post('/keluar',[KeluarController::class,'store'])->name('keluar.store');
-Route::get('/keluar/{keluar}/edit',[KeluarController::class, 'edit'])->name('keluar.edit');
-Route::put('/keluar/{keluar}/update',[KeluarController::class, 'update'])->name('keluar.update');
-Route::get('/keluar/{keluar}/show',[KeluarController::class, 'show'])->name('keluar.show');
-Route::get('/keluar/{keluar}/destroy',[KeluarController::class, 'destroy'])->name('keluar.destroy');
+Route::get('/inventaris',[InventarisController::class,'index'])->name('inventaris.index');
+Route::post('/inventaris',[InventarisController::class,'store'])->name('inventaris.store');
+Route::get('/inventaris/{inventaris}/edit',[InventarisController::class, 'edit'])->name('inventaris.edit');
+Route::put('/inventaris/{inventaris}/update',[InventarisController::class, 'update'])->name('inventaris.update');
+Route::get('/inventaris/{inventaris}/show',[InventarisController::class, 'show'])->name('inventaris.show');
+Route::get('/inventaris/{inventaris}/destroy',[InventarisController::class, 'destroy'])->name('inventaris.destroy');

@@ -20,6 +20,7 @@ return new class extends Migration
                 ->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('id_satuan')
                 ->foreign('id_satuan')->references('id')->on('satuans')->onDelete('cascade');
+            $table->boolean('kategori')->default(false);
             $table->timestamps();
         });
     }
