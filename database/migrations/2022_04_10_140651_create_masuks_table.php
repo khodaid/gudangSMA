@@ -28,6 +28,8 @@ return new class extends Migration
                 ->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('id_barang')
                 ->foreign('id_barang')->references('id')->on('barangs')->onDelete('cascade');
+
+            $table->string('file',50);
             $table->timestamps();
         });
     }
