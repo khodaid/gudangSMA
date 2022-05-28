@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DanaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\KeluarController;
 use App\Http\Controllers\MasukController;
@@ -25,12 +26,14 @@ use App\Models\Masuk;
 Route::get('/', function () {
     return view('login');
 })->name('index');
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-})->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('admin.dashboard');
+// })->name('dashboard');
 
 Route::post('/login',[UserController::class, 'Login'])->name('login');
 Route::post('/logout',[UserController::class, 'logout'])->name('logout');
+
+Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard.index');
 
 Route::get('/satuan',[SatuanController::class, 'index'])->name('satuan.index');
 Route::post('/satuan',[SatuanController::class, 'store'])->name('satuan.store');
@@ -45,6 +48,8 @@ Route::get('/barang/{barang}/edit',[BarangController::class, 'edit'])->name('bar
 Route::put('/barang/{barang}/update',[BarangController::class, 'update'])->name('barang.update');
 Route::get('/barang/{barang}/show',[BarangController::class, 'show'])->name('barang.show');
 Route::get('/barang/{barang}/destroy',[BarangController::class, 'destroy'])->name('barang.destroy');
+Route::post('/barang/export',[BarangController::class, 'export'])->name('barang.export');
+
 
 Route::get('/masuk',[MasukController::class, 'index'])->name('masuk.index');
 Route::post('/masuk',[MasukController::class, 'store'])->name('masuk.store');
@@ -52,6 +57,7 @@ Route::get('/masuk/{masuk}/edit',[MasukController::class, 'edit'])->name('masuk.
 Route::put('/masuk/{masuk}/update',[MasukController::class, 'update'])->name('masuk.update');
 Route::get('/masuk/{masuk}/show',[MasukController::class, 'show'])->name('masuk.show');
 Route::get('/masuk/{masuk}/destroy',[MasukController::class, 'destroy'])->name('masuk.destroy');
+Route::get('/masuk/export',[MasukController::class, 'export_excel'])->name('masuk.export');
 
 Route::get('/keluar',[KeluarController::class, 'index'])->name('keluar.index');
 Route::post('/keluar',[KeluarController::class, 'store'])->name('keluar.store');
@@ -79,4 +85,5 @@ Route::post('/inventaris',[InventarisController::class,'store'])->name('inventar
 Route::get('/inventaris/{inventaris}/edit',[InventarisController::class, 'edit'])->name('inventaris.edit');
 Route::put('/inventaris/{inventaris}/update',[InventarisController::class, 'update'])->name('inventaris.update');
 Route::get('/inventaris/{inventaris}/show',[InventarisController::class, 'show'])->name('inventaris.show');
-Route::get('/inventaris/{inventaris}/destroy',[InventarisController::class, 'destroy'])->name('inventaris.destroy');
+Route::put('/inventaris/{inventaris}/rusak',[InventarisController::class, 'rusak'])->name('inventaris.rusak');
+Route::get('/inventaris/jumlah',[InventarisController::class, 'barang'])->name('inventaris.jumlah');

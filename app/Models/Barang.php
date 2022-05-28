@@ -42,4 +42,24 @@ class Barang extends Model
     {
         return $this->hasMany(Keluar::class, 'id_barang', 'id');
     }
+
+    /**
+     * Get all of the inventaris for the Barang
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function inventaris()
+    {
+        return $this->hasMany(Inventaris::class, 'id_barang', 'id');
+    }
+
+    /**
+     * Get the user that owns the Barang
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id');
+    }
 }

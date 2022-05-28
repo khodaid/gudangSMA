@@ -89,12 +89,13 @@
                                 <td>{{ Str::limit($dana->keterangan, 20) }}</td>
                                 <td>
                                     @if (!isset(Auth::user()->roles) || $dana->id_user == Auth::id())
-                                        <a href="{{ route('dana.edit', $dana->id) }}" class='fas fa-edit'
-                                            style='color:black'></a>
-                                        <a href="{{ route('dana.destroy', $dana->id) }}" class='fas fa-trash'
-                                            style='color:black'></a>
+                                        <a href="{{ route('dana.edit', $dana->id) }}"
+                                            class='fas fa-edit text-warning'></a>
+                                        <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
+                                            data-target="#modalDelete"
+                                            onclick="$('#modalDelete #formDelete').attr('action','{{ route('dana.destroy', $dana->id) }}')"></a>
                                     @endif
-                                    <a href="#" class='fas fa-eye' style='color:black' id="mediumButton" data-toggle="modal"
+                                    <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal" data-attr={{ route('dana.show', $dana->id) }}></a>
                                 </td>
                             </tr>
@@ -118,6 +119,25 @@
                     {{-- isi view lihat data --}}
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="modalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Yakin Hapus Data ini?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <form action="" method="get" id="formDelete">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

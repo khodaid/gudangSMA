@@ -30,9 +30,10 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form action="#" method="POST">
-                        @csrf
+                <form action="{{ route('barang.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+
                         <div class="form-group">
                             <label for="inputNama">Nama Barang</label>
                             <input name="nama" type="text" class="form-control" id="inputNama"
@@ -46,12 +47,12 @@
                                 @endforeach
                             </select>
                         </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
 
             </div>
         </div>
@@ -71,8 +72,13 @@
                     @endif
                 </div>
 
+                {{-- <div class="col-6 d-flex justify-content-end my-1">
+                    <a href="{{route('barang.export')}}" class="btn btn-success float-left">Export Excel</a>
+                </div> --}}
                 <div class="col-6 d-flex justify-content-end my-1">
-                    <button type="submit" class="btn btn-success float-left">Export Excel</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exportModal">
+                        Export Excel
+                    </button>
                 </div>
             </div>
         </div>
@@ -85,6 +91,7 @@
                             <th>Nama</th>
                             <th>Jumlah</th>
                             <th>Satuan</th>
+                            <th>Kategori</th>
                             <th>Aksi</th>
                     </thead>
                     <tbody>
@@ -95,12 +102,20 @@
                                 <td>{{ $barang->nama }}</td>
                                 <td>{{ $transaksis[$barang->id] }}</td>
                                 <td>{{ $barang->satuan->nama }}</td>
+                                @if ($barang->kategori)
+                                    <td><span class="badge badge-secondary">Inventaris</span></td>
+                                @else
+                                    <td><span class="badge badge-primary">Umum</span></td>
+                                @endif
                                 <td>
                                     @if (isset(Auth::user()->id_super))
-                                        <a href="{{ route('barang.edit', $barang->id) }}" class='fas fa-edit'
-                                            style='color:black'></a>
-                                        <a href="{{ route('barang.destroy', $barang->id) }}" class='fas fa-trash'
-                                            style='color:black'></a>
+                                        <a href="{{ route('barang.edit', $barang->id) }}"
+                                            class='fas fa-edit text-warning'></a>
+                                        @if (!$barang->kategori)
+                                            <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
+                                                data-target="#modalDelete"
+                                                onclick="$('#modalDelete #formDelete').attr('action','{{ route('barang.destroy', $barang->id) }}')"></a>
+                                        @endif
                                     @endif
                                     <a href="#" class='fas fa-eye' style='color:black' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal" data-attr={{ route('barang.show', $barang->id) }}></a>
@@ -126,6 +141,55 @@
                     {{-- isi view lihat data --}}
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="exportModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{route('barang.export')}}" method="post" id="formExport">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Kategori</label>
+                            <select class="my-select form-control" id="exampleFormControlSelect1" name="kategori">
+                                <option value="1">Semua</option>
+                                <option value="2">Inventaris</option>
+                                <option value="3">Umum</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Export</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="modalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Yakin Hapus Data ini?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <form action="" method="get" id="formDelete">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

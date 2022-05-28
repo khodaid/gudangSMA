@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MasukExport;
 use App\Models\Barang;
 use App\Models\Masuk;
 use App\Models\Satuan;
@@ -9,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Console\Input\Input;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MasukController extends Controller
 {
@@ -26,7 +28,8 @@ class MasukController extends Controller
         $masuks = Masuk::where('id_user',Auth::id())
             ->orWhere('id_user',$users->modelKeys())->get();
 
-        $barangs = Barang::where('id_user', Auth::id())->get();
+        $barangs = Barang::where('id_user', Auth::id())
+            ->where('kategori',false)->get();
 
         return view('admin.masuk.index',[
             'satuans' => $satuans,
@@ -103,7 +106,8 @@ class MasukController extends Controller
      */
     public function edit(Masuk $masuk)
     {
-        $barangs = Barang::where('id_user', Auth::id())->get();
+        $barangs = Barang::where('id_user', Auth::id())
+            ->where('kategori',false)->get();
         $satuans = Satuan::where('id_user',Auth::user()->id_super)->get();
 
         return view('admin.masuk.edit',[
@@ -159,5 +163,10 @@ class MasukController extends Controller
         $masuk->delete();
 
         return redirect()->route('masuk.index')->with(['hapus' => 'Data Terhapus']);
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new MasukExport, 'masuk.xlsx');
     }
 }

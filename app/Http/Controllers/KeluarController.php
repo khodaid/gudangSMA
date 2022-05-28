@@ -19,7 +19,8 @@ class KeluarController extends Controller
     public function index()
     {
         $satuan = Satuan::where('id_user', Auth::user()->id_super)->get();
-        $barang = Barang::where('id_user', Auth::id())->get();
+        $barang = Barang::where('id_user', Auth::id())
+            ->where('kategori',false)->get();
         $user = User::where('id_super', Auth::id())->get();
         $keluar = Keluar::where('id_user', Auth::id())
             ->orWhere('id_user', $user->modelKeys())->get();
@@ -92,7 +93,8 @@ class KeluarController extends Controller
      */
     public function edit(Keluar $keluar)
     {
-        $barangs = Barang::where('id_user', Auth::id())->get();
+        $barangs = Barang::where('id_user', Auth::id())
+            ->where('kategori',false)->get();
         $satuans = Satuan::where('id_user',Auth::user()->id_super)->get();
 
         return view('admin.keluar.edit',[

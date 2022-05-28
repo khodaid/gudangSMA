@@ -6,52 +6,68 @@
 
 @section('content')
     <div class="container bg-white border py-3 rounded">
-        <h3> Edit Dosen</h3>
+        <h3>Inventaris</h3>
         @if (Session::get('success'))
             <div class="alert alert-success" role="alert">
                 {{ $message }}
             </div>
         @endif
-        <form action="{{ route('masuk.update', $masuk) }}" method="POST">
+        <form action="{{ route('inventaris.update', $inventaris) }}" method="POST">
             <div class="row">
                 <div class="col-lg-6">
                     @csrf
                     @method('PUT')
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Barang</label>
+                                <select class="my-select form-control" id="exampleFormControlSelect1" name="id_barang">
+                                    <option value="{{ old('id_barang') ?? $inventaris->barang->id }}">
+                                        {{ old('id_barang') ?? $inventaris->barang->nama }}
+                                    </option>
+                                    @foreach ($barangs as $barang)
+                                        @if ($inventaris->barang->id != $barang->id)
+                                            <option value="{{ $barang->id }}">{{ $barang->nama }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="inputKode">Kode</label>
+                                <input name="kode" type="text" class="form-control" id="inputKode"
+                                    aria-describedby="emailHelp" value="{{ old('kode') ?? $inventaris->kode }} ">
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
-                        <label for="exampleFormControlSelect1">Barang</label>
-                        <select class="my-select form-control" id="exampleFormControlSelect1" name="barang">
-                            <option value="{{ old('barang') ?? $masuk->barang->id }}">
-                                {{ old('barang') ?? $masuk->barang->nama }}
-                            </option>
-                            @foreach ($barangs as $barang)
-                                @if ($masuk->barang->id != $barang->id)
-                                    <option value="{{ $barang->id }}">{{ $barang->nama }}</option>
-                                @endif
-                            @endforeach
-                        </select>
+                        <label for="inputPembukuan">Pembukuan</label>
+                        <input type="date" class="form-control" id="inputPembukuan" aria-describedby="emailHelp"
+                            name="pembukuan" value="{{ old('pembukuan') ?? $inventaris->tgl_pembukuan }} ">
                     </div>
                     <div class="form-group">
                         <label for="inputDskripsi">Deskripsi</label>
                         <textarea class="form-control" id="inputDeskripsi" rows="3"
-                            name="deskripsi">{{ old('deskripsi') ?? $masuk->deskripsi }}</textarea>
+                            name="deskripsi">{{ old('deskripsi') ?? $inventaris->deskripsi }}</textarea>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
                                 <label for="inputQuantity">Jumlah</label>
-                                <input name="quantity" type="number" class="form-control" id="inputNama"
-                                    aria-describedby="emailHelp" value="{{ old('quantity') ?? $masuk->jumlah }}">
+                                <input name="jumlah" type="number" class="form-control" id="inputNama"
+                                    aria-describedby="emailHelp" value="{{ old('quantity') ?? $inventaris->jumlah }}">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Satuan</label>
-                                <select class="my-select form-control" id="exampleFormControlSelect1" name="satuan">
-                                    <option value="{{ old('satuan') ?? $masuk->satuan->id }}">
-                                        {{ old('satuan') ?? $masuk->satuan->nama }}
+                                <select class="my-select form-control" id="exampleFormControlSelect1" name="id_satuan">
+                                    <option value="{{ old('id_satuan') ?? $inventaris->satuan->id }}">
+                                        {{ old('id_satuan') ?? $inventaris->satuan->nama }}
                                     </option>
                                     @foreach ($satuans as $satuan)
-                                        @if ($masuk->satuan->id != $satuan->id)
+                                        @if ($inventaris->satuan->id != $satuan->id)
                                             <option value="{{ $satuan->id }}">{{ $satuan->nama }}</option>
                                         @endif
                                     @endforeach
@@ -61,24 +77,36 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="form-group">
-                        <label for="inputToko">Nama Toko</label>
-                        <input name="toko" type="text" class="form-control" id="inputToko" aria-describedby="emailHelp"
-                            value="{{ old('toko') ?? $masuk->nama_toko }}">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="inputPembuatan">Pembuatan</label>
+                                <input type="text" class="form-control" id="inputPembuatan" aria-describedby="emailHelp"
+                                    name="pembuatan" value="{{ old('pembuatan') ?? $inventaris->thn_pembuatan }}">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="inputPenyerahan">Penyerahan</label>
+                                <input type="date" class="form-control" id="inputPenyerhan" aria-describedby="emailHelp"
+                                    name="penyerahan" value="{{ old('penyerahan') ?? $inventaris->tgl_penyerahan }}">
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="inputPembelian">Pembelian</label>
-                                <input type="date" class="form-control" id="inputPembelian" aria-describedby="emailHelp"
-                                    name="pembelian" value="{{ old('pembelian') ?? $masuk->tgl_pemesanan }}">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="inputPenyerahan">Penyerahan</label>
-                                <input type="date" class="form-control" id="inputPenyerhan" aria-describedby="emailHelp"
-                                    name="penyerahan" value="{{ old('pembelian') ?? $masuk->tgl_penerimaan }}">
+                                <label for="exampleFormControlSelect1">Asal Dana</label>
+                                <select class="my-select form-control" id="exampleFormControlSelect1" name="id_dana">
+                                    <option value="{{ old('id_dana') ?? $inventaris->satuan->id }}">
+                                        {{ old('id_dana') ?? $inventaris->satuan->nama }}
+                                    </option>
+                                    @foreach ($danas as $dana)
+                                        @if ($inventaris->dana->id != $dana->id)
+                                            <option value="{{ $dana->id }}">{{ $dana->nama }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -87,14 +115,15 @@
                             <div class="form-group">
                                 <label for="inputHargaSatuan">Harga Satuan</label>
                                 <input name="hrgSatuan" type="number" class="form-control" id="inputHargaSatuan"
-                                    aria-describedby="emailHelp" value="{{ old('pembelian') ?? $masuk->harga_satuan }}">
+                                    aria-describedby="emailHelp" value="{{ old('pembelian') ?? $inventaris->harga }}">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="inputTotal">Harga Total</label>
                                 <input name="hrgTotal" type="number" class="form-control" id="inputTotal"
-                                    aria-describedby="emailHelp" value="{{ old('pembelian') ?? $masuk->jumlah_harga }}">
+                                    aria-describedby="emailHelp"
+                                    value="{{ old('pembelian') ?? $inventaris->hrg_total }}">
                             </div>
                         </div>
                     </div>

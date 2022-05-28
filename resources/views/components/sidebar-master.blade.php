@@ -13,7 +13,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href=" {{route('dashboard.index')}} ">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -39,6 +39,17 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     @include('components.sidebar.sidebar-transaksi')
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Inventaris
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    @include('components.sidebar.sidebar-inventaris')
 
     <!-- Divider -->
     @if (Auth::user()->roles == 1)

@@ -15,12 +15,42 @@ class Inventaris extends Model
     protected $guard = [];
 
     /**
-     * The dana that belong to the Inventaris
+     * Get the satuan that owns the Masuk
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function satuan()
+    {
+        return $this->belongsTo(Satuan::class, 'id_satuan', 'id');
+    }
+
+    /**
+     * Get the barang that owns the Inventaris
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function barang()
+    {
+        return $this->belongsTo(Barang::class, 'id_barang', 'id');
+    }
+
+    /**
+     * Get the dana that owns the Masuk
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function dana()
     {
-        return $this->belongsToMany(Dana::class, 'inventaris_dana', 'id_inventaris', 'id_dana');
+        return $this->belongsTo(Dana::class, 'id_dana', 'id');
+    }
+
+    /**
+     * Get the user that owns the Masuk
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id');
     }
 }

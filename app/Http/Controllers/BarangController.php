@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BarangExport;
 use App\Models\Barang;
 use App\Models\Masuk;
 use App\Models\Satuan;
@@ -9,10 +10,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BarangController extends Controller
 {
     protected $transaksi=[];
+    protected $option;
     /**
      * Display a listing of the resource.
      *
@@ -152,5 +155,17 @@ class BarangController extends Controller
     {
         $barang->delete();
         return redirect()->route('barang.index')->with(['hapus' => 'Data Terhapus']);
+    }
+
+    public function export(Request $request)
+    {
+        $this->option = $request->kategori;
+        $export = $this->export_excel();
+        return $export;
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new BarangExport($this->option), 'barang.xlsx');
     }
 }

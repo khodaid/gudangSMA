@@ -19,6 +19,15 @@
         </div>
     @endif
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <!-- Modal -->
     <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -30,7 +39,7 @@
                     </button>
                 </div>
 
-                <form action="{{ route('masuk.store') }}" method="POST">
+                <form action="{{ route('inventaris.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -107,36 +116,26 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Kondisi</label>
-                                    <select class="my-select form-control" id="exampleFormControlSelect1" name="kondisi">
-                                        <option value="1">Baik</option>
-                                        <option value="2">Rusak Ringan</option>
-                                        <option value="3">Rusak Berat</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="inputHargaSatuan">Harga Satuan</label>
-                                    <input name="hrgSatuan" type="number" class="form-control" id="inputHargaSatuan"
+                                    <input name="harga" type="number" class="form-control" id="inputHargaSatuan"
                                         aria-describedby="emailHelp">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="inputTotal">Harga Total</label>
-                                    <input name="hrgTotal" type="number" class="form-control" id="inputTotal"
+                                    <input name="hrg_total" type="number" class="form-control" id="inputTotal"
                                         aria-describedby="emailHelp">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Bukti Scan Nota</label>
-                            <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                            <input type="file" class="form-control-file" id="exampleFormControlFile1" name="file">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -157,10 +156,10 @@
                 <div class="col-6 my-1">
                     <!-- Button trigger modal -->
                     {{-- @if (isset(Auth::user()->id_super)) --}}
-                        <button type="button" class="btn btn-primary float-left" data-toggle="modal"
-                            data-target="#exampleModal">
-                            Tambah Data
-                        </button>
+                    <button type="button" class="btn btn-primary float-left" data-toggle="modal"
+                        data-target="#exampleModal">
+                        Tambah Data
+                    </button>
                     {{-- @endif --}}
                 </div>
 
@@ -175,49 +174,62 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Barang</th>
+                            <th>Tanggal Pembukuan</th>
+                            <th>Kode Barang</th>
+                            <th>Nama Barang</th>
+                            <th>Deskripsi</th>
                             <th>Jumlah</th>
                             <th>Satuan</th>
-                            <th>Tanggal Pembelian</th>
-                            <th>Tanggal Penerimaan</th>
-                            <th>Nama Toko</th>
-                            {{-- <th>Deskripsi</th> --}}
-                            <th>Harga Satuan</th>
-                            <th>Harga Total</th>
+                            <th>Tahun Pembuatan</th>
+                            <th>Asal Dana</th>
+                            <th>Tanggal Penyerahan</th>
+                            <th>Kondisi</th>
+                            <th>Harga</th>
+                            <th>Jumlah Harga</th>
                             @if (!isset(Auth::user()->id_super))
                                 <th>User Pembuat</th>
                             @endif
                             <th>Aksi</th>
                     </thead>
                     <tbody>
-                        @foreach ($inventaris as $masuk)
+                        @foreach ($inventariss as $inventaris)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $masuk->barang->nama }}</td>
-                                <td>{{ $masuk->jumlah }}</td>
-                                <td>{{ $masuk->satuan->nama }}</td>
-                                <td>{{ date('d-m-Y', strtotime($masuk->tgl_pemesanan)) }}</td>
-                                <td>{{ date('d-m-Y', strtotime($masuk->tgl_penerimaan)) }}</td>
-                                @if (isset($masuk->nama_toko))
-                                    <td>{{ $masuk->nama_toko }}</td>
+                                <td>{{ date('d-m-Y', strtotime($inventaris->tgl_pembukuan)) }}</td>
+                                <td>{{ $inventaris->kode }}</td>
+                                <td>{{ $inventaris->barang->nama }}</td>
+                                <td>{{ Str::limit($inventaris->deskripsi, 20) }}</td>
+                                <td>{{ $inventaris->jumlah }}</td>
+                                <td>{{ $inventaris->satuan->nama }}</td>
+                                <td>{{ $inventaris->thn_pembuatan }} </td>
+                                <td>{{ $inventaris->dana->nama }} </td>
+                                <td>{{ date('d-m-Y', strtotime($inventaris->tgl_penyerahan)) }}</td>
+                                @if ($inventaris->kondisi == 1)
+                                    <td><span class="badge badge-success">Baik</span></td>
+                                @elseif ($inventaris->kondisi == 2)
+                                    <td><span class="badge badge-warning">Rusak Ringan</span></td>
                                 @else
-                                    <td>-</td>
+                                    <td><span class="badge badge-danger">Rusak Berat</span></td>
                                 @endif
-                                {{-- <td>{{ Str::limit($masuk->deskripsi, 20) }}</td> --}}
-                                <td>{{ $masuk->harga_satuan }}</td>
-                                <td>{{ $masuk->jumlah_harga }}</td>
+                                <td>{{ $inventaris->harga }}</td>
+                                <td>{{ $inventaris->hrg_total }}</td>
                                 @if (!isset(Auth::user()->id_super))
-                                    <td>{{ $masuk->user->name }}</td>
+                                    <td>{{ $inventaris->user->name }}</td>
                                 @endif
                                 <td>
-                                    @if ($masuk->id_user == Auth::id())
-                                        <a href="{{ route('masuk.edit', $masuk->id) }}" class='fas fa-edit'
-                                            style='color:black'></a>
-                                        <a href="{{ route('masuk.destroy', $masuk->id) }}" class='fas fa-trash'
-                                            style='color:black'></a>
+                                    @if ($inventaris->id_user == Auth::id())
+                                        <a href="{{ route('inventaris.edit', $inventaris->id) }}"
+                                            class='fas fa-edit text-warning'></a>
+                                        <a href="#" class='' id="deleteData" data-toggle="modal" data-target="#modalDelete"
+                                            onclick="$('#modalDelete #formDelete').attr('action','{{ route('inventaris.rusak', $inventaris->id) }}')"><span
+                                                class="badge badge-danger">Rusak</span></a>
+                                        @if ($inventaris->kondisi != 1)
+
+                                        @endif
                                     @endif
-                                    <a href="#" class='fas fa-eye' style='color:black' id="mediumButton" data-toggle="modal"
-                                        data-target="#mediumModal" data-attr={{ route('masuk.show', $masuk->id) }}></a>
+                                    <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
+                                        data-target="#mediumModal"
+                                        data-attr={{ route('inventaris.show', $inventaris->id) }}></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -240,6 +252,46 @@
                     {{-- isi view lihat data --}}
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="modalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Yakin Barang Ini Rusak?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="" method="POST" id="formDelete">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body" id="mediumBody">
+                        <div class="form-group">
+                            <label for="inputPembukuan">Pembukuan</label>
+                            <input type="date" class="form-control" id="inputPembukuan"
+                                aria-describedby="emailHelp" name="pembukuan">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Rusak</label>
+                            <select class="form-control" id="exampleFormControlSelect1" name="kondisi">
+                                <option value="2">Rusak Ringan</option>
+                                <option value="3">Rusak Berat</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputQuantity">Jumlah</label>
+                            <input name="jumlah" type="number" class="form-control" id="inputNama"
+                                aria-describedby="emailHelp">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Rusak</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
