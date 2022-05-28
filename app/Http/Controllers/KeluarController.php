@@ -8,9 +8,12 @@ use App\Models\Satuan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\KeluarExport;
 
 class KeluarController extends Controller
 {
+    protected $dari, $sampai;
     /**
      * Display a listing of the resource.
      *
@@ -143,5 +146,19 @@ class KeluarController extends Controller
     {
         $keluar->delete();
         return redirect()->route('keluar.index')->with(['hapus'=>'Data Berhasil Dihapus']);
+    }
+
+    public function export(Request $request)
+    {
+        $this->dari = $request->dari;
+        $this->sampai = $request->sampai;
+        $export = $this->export_excel();
+
+        return $export;
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new KeluarExport($this->dari, $this->sampai), 'keluar.xlsx');
     }
 }

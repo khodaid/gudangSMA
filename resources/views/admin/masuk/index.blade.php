@@ -209,11 +209,12 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade " id="exportModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Export Transaksi Masuk</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -222,13 +223,13 @@
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="inputPenyerahan">Dari Tangal Penyerahan</label>
+                            <label for="inputPenyerahan">Dari Tanggal Penyerahan</label>
                             <input type="date" class="form-control" id="inputPenyerhan" aria-describedby="emailHelp"
                                 name="dari">
                         </div>
 
                         <div class="form-group">
-                            <label for="inputPenyerahan">Sampai Tangal Penyerahan</label>
+                            <label for="inputPenyerahan">Sampai Tanggal Penyerahan</label>
                             <input type="date" class="form-control" id="inputPenyerhan" aria-describedby="emailHelp"
                                 name="sampai">
                         </div>

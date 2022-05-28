@@ -151,7 +151,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h3 class="my-1 font-weight-bold text-primary">Barang Masuk</h3>
+            <h3 class="my-1 font-weight-bold text-primary">Transaksi Inventaris</h3>
             <div class="row">
                 <div class="col-6 my-1">
                     <!-- Button trigger modal -->
@@ -164,7 +164,9 @@
                 </div>
 
                 <div class="col-6 d-flex justify-content-end my-1">
-                    <button type="submit" class="btn btn-success float-left">Export Excel</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exportModal">
+                        Export Excel
+                    </button>
                 </div>
             </div>
         </div>
@@ -252,6 +254,39 @@
                     {{-- isi view lihat data --}}
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="exportModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Export Transaksi Inventaris</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('inventaris.export') }}" method="post" id="formExport">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="inputPenyerahan">Dari Tanggal</label>
+                            <input type="date" class="form-control" id="inputPenyerhan" aria-describedby="emailHelp"
+                                name="dari">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPenyerahan">Sampai Tanggal</label>
+                            <input type="date" class="form-control" id="inputPenyerhan" aria-describedby="emailHelp"
+                                name="sampai">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Export</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

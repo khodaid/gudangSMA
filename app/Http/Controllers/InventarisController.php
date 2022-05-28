@@ -11,9 +11,12 @@ use App\Models\Satuan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\InventarisExport;
 
 class InventarisController extends Controller
 {
+    protected $dari, $sampai;
     /**
      * Display a listing of the resource.
      *
@@ -262,5 +265,19 @@ class InventarisController extends Controller
         ->where('kondisi',[2,3])->get();
 
         dd($baik, $rusak);
+    }
+
+    public function export(Request $request)
+    {
+        $this->dari = $request->dari;
+        $this->sampai = $request->sampai;
+        $export = $this->export_excel();
+
+        return $export;
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new InventarisExport($this->dari, $this->sampai), 'inventaris.xlsx');
     }
 }

@@ -65,6 +65,7 @@ Route::get('/keluar/{keluar}/edit',[KeluarController::class, 'edit'])->name('kel
 Route::put('/keluar/{keluar}/update',[KeluarController::class, 'update'])->name('keluar.update');
 Route::get('/keluar/{keluar}/show',[KeluarController::class, 'show'])->name('keluar.show');
 Route::get('/keluar/{keluar}/destroy',[KeluarController::class, 'destroy'])->name('keluar.destroy');
+Route::post('/keluar/export',[KeluarController::class, 'export'])->name('keluar.export');
 
 Route::get('/dana',[DanaController::class, 'index'])->name('dana.index');
 Route::post('/dana',[DanaController::class, 'store'])->name('dana.store');
@@ -86,4 +87,4 @@ Route::get('/inventaris/{inventaris}/edit',[InventarisController::class, 'edit']
 Route::put('/inventaris/{inventaris}/update',[InventarisController::class, 'update'])->name('inventaris.update');
 Route::get('/inventaris/{inventaris}/show',[InventarisController::class, 'show'])->name('inventaris.show');
 Route::put('/inventaris/{inventaris}/rusak',[InventarisController::class, 'rusak'])->name('inventaris.rusak');
-Route::get('/inventaris/jumlah',[InventarisController::class, 'barang'])->name('inventaris.jumlah');
+Route::post('/inventaris/export',[InventarisController::class, 'export'])->name('inventaris.export');

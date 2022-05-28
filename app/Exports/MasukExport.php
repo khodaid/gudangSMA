@@ -27,6 +27,7 @@ class MasukExport implements FromArray, withHeadings
             'Satuan',
             'Tanggal Pembelian',
             'Tanggal Penerimaan',
+            'Deskripsi',
             'Nama Toko',
             'Harga Satuan',
             'Harga Total'
@@ -40,7 +41,9 @@ class MasukExport implements FromArray, withHeadings
         $masuks = Masuk::whereBetween('tgl_penerimaan',[$this->dari, $this->sampai])->get();
         foreach ($masuks as $m) {
             $this->masuk[] = [
-                $m->barang->nama, $m->jumlah, $m->satuan->nama, date('d-m-Y', strtotime($m->tgl_pemesanan)), date('d-m-Y', strtotime($m->tgl_penerimaan)), $m->nama_toko, $m->harga_satuan, $m->jumlah_harga
+                $m->barang->nama, $m->jumlah, $m->satuan->nama, date('d-m-Y', strtotime($m->tgl_pemesanan)),
+                date('d-m-Y', strtotime($m->tgl_penerimaan)), $m->deskripsi, $m->nama_toko,
+                $m->harga_satuan, $m->jumlah_harga
             ];
         }
         return [$this->masuk];
