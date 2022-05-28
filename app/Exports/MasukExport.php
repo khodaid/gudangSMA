@@ -3,12 +3,21 @@
 namespace App\Exports;
 
 use App\Models\Masuk;
+use Illuminate\Support\Facades\Date;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\withHeadings;
+use PhpParser\Node\Expr\Cast\String_;
 
 class MasukExport implements FromArray, withHeadings
 {
     protected $masuk = [];
+    protected $dari, $sampai;
+
+    public function __construct(String $dari, String $sampai)
+    {
+        $this->dari = $dari;
+        $this->sampai = $sampai;
+    }
 
     public function headings(): array
     {
@@ -28,10 +37,10 @@ class MasukExport implements FromArray, withHeadings
      */
     public function array(): array
     {
-        $masuks = Masuk::all();
+        $masuks = Masuk::whereBetween('tgl_penerimaan',[$this->dari, $this->sampai])->get();
         foreach ($masuks as $m) {
             $this->masuk[] = [
-                $m->barang->nama, $m->jumlah, $m->satuan->nama, $m->tgl_pemesanan, $m->tgl_penerimaan, $m->nama_toko, $m->harga_satuan, $m->jumlah_harga
+                $m->barang->nama, $m->jumlah, $m->satuan->nama, date('d-m-Y', strtotime($m->tgl_pemesanan)), date('d-m-Y', strtotime($m->tgl_penerimaan)), $m->nama_toko, $m->harga_satuan, $m->jumlah_harga
             ];
         }
         return [$this->masuk];

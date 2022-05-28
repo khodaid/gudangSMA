@@ -14,6 +14,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class MasukController extends Controller
 {
+    protected $dari, $sampai;
     /**
      * Display a listing of the resource.
      *
@@ -165,8 +166,17 @@ class MasukController extends Controller
         return redirect()->route('masuk.index')->with(['hapus' => 'Data Terhapus']);
     }
 
+    public function export(Request $request)
+    {
+        $this->dari = $request->dari;
+        $this->sampai = $request->sampai;
+        $export = $this->export_excel();
+
+        return $export;
+    }
+
     public function export_excel()
     {
-        return Excel::download(new MasukExport, 'masuk.xlsx');
+        return Excel::download(new MasukExport($this->dari, $this->sampai), 'masuk.xlsx');
     }
 }

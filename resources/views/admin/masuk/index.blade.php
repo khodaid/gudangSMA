@@ -128,7 +128,9 @@
                 </div>
 
                 <div class="col-6 d-flex justify-content-end my-1">
-                    <a href="{{route('masuk.export')}}" class="btn btn-success float-left">Export Excel</a>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exportModal">
+                        Export Excel
+                    </button>
                 </div>
             </div>
         </div>
@@ -174,8 +176,9 @@
                                 @endif
                                 <td>
                                     @if ($masuk->id_user == Auth::id())
-                                        <a href="{{ route('masuk.edit', $masuk->id) }}" class='fas fa-edit text-warning'></a>
-                                            <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
+                                        <a href="{{ route('masuk.edit', $masuk->id) }}"
+                                            class='fas fa-edit text-warning'></a>
+                                        <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
                                             data-target="#modalDelete"
                                             onclick="$('#modalDelete #formDelete').attr('action','{{ route('masuk.destroy', $masuk->id) }}')"></a>
                                     @endif
@@ -203,6 +206,38 @@
                     {{-- isi view lihat data --}}
                 </div>
 
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " id="exportModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('masuk.export') }}" method="post" id="formExport">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="inputPenyerahan">Dari Tangal Penyerahan</label>
+                            <input type="date" class="form-control" id="inputPenyerhan" aria-describedby="emailHelp"
+                                name="dari">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPenyerahan">Sampai Tangal Penyerahan</label>
+                            <input type="date" class="form-control" id="inputPenyerhan" aria-describedby="emailHelp"
+                                name="sampai">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Export</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

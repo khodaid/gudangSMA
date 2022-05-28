@@ -57,7 +57,7 @@ Route::get('/masuk/{masuk}/edit',[MasukController::class, 'edit'])->name('masuk.
 Route::put('/masuk/{masuk}/update',[MasukController::class, 'update'])->name('masuk.update');
 Route::get('/masuk/{masuk}/show',[MasukController::class, 'show'])->name('masuk.show');
 Route::get('/masuk/{masuk}/destroy',[MasukController::class, 'destroy'])->name('masuk.destroy');
-Route::get('/masuk/export',[MasukController::class, 'export_excel'])->name('masuk.export');
+Route::post('/masuk/export',[MasukController::class, 'export'])->name('masuk.export');
 
 Route::get('/keluar',[KeluarController::class, 'index'])->name('keluar.index');
 Route::post('/keluar',[KeluarController::class, 'store'])->name('keluar.store');
