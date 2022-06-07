@@ -30,7 +30,7 @@
                     </button>
                 </div>
 
-                <form action="{{ route('masuk.store') }}" method="POST">
+                <form action="{{ route('masuk.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -101,6 +101,10 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlFile1">Bukti Scan Nota</label>
+                            <input type="file" class="form-control-file" id="exampleFormControlFile1" name="file">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -142,9 +146,9 @@
                             <th>No</th>
                             <th>Barang</th>
                             <th>Jumlah</th>
-                            <th>Satuan</th>
-                            <th>Tanggal Pembelian</th>
-                            <th>Tanggal Penerimaan</th>
+                            {{-- <th>Satuan</th> --}}
+                            <th>Pembelian</th>
+                            <th>Penerimaan</th>
                             <th>Nama Toko</th>
                             {{-- <th>Deskripsi</th> --}}
                             <th>Harga Satuan</th>
@@ -159,8 +163,8 @@
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $masuk->barang->nama }}</td>
-                                <td>{{ $masuk->jumlah }}</td>
-                                <td>{{ $masuk->satuan->nama }}</td>
+                                <td>{{ $masuk->jumlah.' '.$masuk->satuan->nama }}</td>
+                                {{-- <td>{{ $masuk->satuan->nama }}</td> --}}
                                 <td>{{ date('d-m-Y', strtotime($masuk->tgl_pemesanan)) }}</td>
                                 <td>{{ date('d-m-Y', strtotime($masuk->tgl_penerimaan)) }}</td>
                                 @if (isset($masuk->nama_toko))
@@ -184,6 +188,8 @@
                                     @endif
                                     <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal" data-attr={{ route('masuk.show', $masuk->id) }}></a>
+                                    <a href="#" class='' id="mediumButton" data-toggle="modal"
+                                        data-target="#mediumModal" data-attr={{ route('masuk.pdf', $masuk->id) }}><span class="badge badge-success">PDF</span></a>
                                 </td>
                             </tr>
                         @endforeach

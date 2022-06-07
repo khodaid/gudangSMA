@@ -1,56 +1,74 @@
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Barang</label>
+            <input name="barang" type="text" class="form-control" id="inputKode" aria-describedby="emailHelp"
+                value="{{ old('barang') ?? $inventaris->barang->nama }} " disabled>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label for="inputKode">Kode</label>
+            <input name="kode" type="text" class="form-control" id="inputKode" aria-describedby="emailHelp"
+                value="{{ old('kode') ?? $inventaris->kode }} " disabled>
+        </div>
+    </div>
+</div>
 <div class="form-group">
-<label for="exampleFormControlSelect1">Barang</label>
-    <input name="barang" type="text" class="form-control" id="inputToko" aria-describedby="emailHelp" value="{{old('barang') ?? $masuk->barang->nama}}" disabled>
+    <label for="inputPembukuan">Pembukuan</label>
+    <input type="date" class="form-control" id="inputPembukuan" aria-describedby="emailHelp" name="pembukuan"
+        value="{{ old('pembukuan') ?? $inventaris->tgl_pembukuan }}" disabled>
 </div>
 <div class="form-group">
     <label for="inputDskripsi">Deskripsi</label>
-    <textarea class="form-control" id="inputDeskripsi" rows="3" name="deskripsi" disabled>{{old('deskripsi') ?? $masuk->deskripsi}}</textarea>
+    <textarea class="form-control" id="inputDeskripsi" rows="3" name="deskripsi"
+        disabled>{{ old('deskripsi') ?? $inventaris->deskripsi }}</textarea>
 </div>
-<div class="row">
-    <div class="col">
+{{-- <div class="row"> --}}
+    {{-- <div class="col">
         <div class="form-group">
             <label for="inputQuantity">Jumlah</label>
-            <input name="quantity" type="number" class="form-control" id="inputNama" aria-describedby="emailHelp" value="{{old('quantity') ?? $masuk->jumlah}}" disabled>
+            <input name="jumlah" type="number" class="form-control" id="inputNama" aria-describedby="emailHelp"
+                value="{{ old('quantity') ?? $inventaris->jumlah }}" disabled>
         </div>
     </div>
-    <div class="col">
+    <div class="col"> --}}
         <div class="form-group">
             <label for="exampleFormControlSelect1">Satuan</label>
-                <input name="satuan" type="text" class="form-control" id="inputToko" aria-describedby="emailHelp" value="{{old('satuan') ?? $masuk->satuan->nama}}" disabled>
-            </div>
-    </div>
-</div>
-<div class="form-group">
-    <label for="inputToko">Nama Toko</label>
-    <input name="toko" type="text" class="form-control" id="inputToko" aria-describedby="emailHelp" value="{{old('toko') ?? $masuk->nama_toko}}" disabled>
-</div>
+            <input name="satuan" type="text" class="form-control" id="inputKode" aria-describedby="emailHelp"
+                value="{{ old('satuan') ?? $inventaris->satuan->nama }} " disabled>
+        </div>
+    {{-- </div> --}}
+{{-- </div> --}}
 <div class="row">
-    <div class="col">
+    <div class="col-6">
         <div class="form-group">
-            <label for="inputPembelian">Pembelian</label>
-            <input type="date" class="form-control" id="inputPembelian" aria-describedby="emailHelp" name="pembelian" value="{{old('pembelian') ?? $masuk->tgl_pemesanan}}" disabled>
+            <label for="inputPembuatan">Pembuatan</label>
+            <input type="text" class="form-control" id="inputPembuatan" aria-describedby="emailHelp" name="pembuatan"
+                value="{{ old('pembuatan') ?? $inventaris->thn_pembuatan }}" disabled>
         </div>
     </div>
-    <div class="col">
+    <div class="col-6">
         <div class="form-group">
             <label for="inputPenyerahan">Penyerahan</label>
-            <input type="date" class="form-control" id="inputPenyerhan" aria-describedby="emailHelp"
-                name="penyerahan" value="{{old('penyerahan') ?? $masuk->tgl_penerimaan}}" disabled>
+            <input type="date" class="form-control" id="inputPenyerhan" aria-describedby="emailHelp" name="penyerahan"
+                value="{{ old('penyerahan') ?? $inventaris->tgl_penyerahan }}" disabled>
         </div>
     </div>
 </div>
 <div class="row">
+    <div class="col">
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Asal Dana</label>
+            <input name="dana" type="text" class="form-control" id="inputKode" aria-describedby="emailHelp"
+                value="{{ old('dana') ?? $inventaris->dana->nama }} " disabled>
+        </div>
+    </div>
     <div class="col-6">
         <div class="form-group">
             <label for="inputHargaSatuan">Harga Satuan</label>
             <input name="hrgSatuan" type="number" class="form-control" id="inputHargaSatuan"
-                aria-describedby="emailHelp" value="{{old('hrgSatuan') ?? $masuk->harga_satuan}}" disabled>
-        </div>
-    </div>
-    <div class="col-6">
-        <div class="form-group">
-            <label for="inputTotal">Harga Total</label>
-            <input name="hrgTotal" type="number" class="form-control" id="inputTotal" aria-describedby="emailHelp" value="{{old('hrgTotal') ?? $masuk->jumlah_harga}}" disabled>
+                aria-describedby="emailHelp" value="{{ old('pembelian') ?? $inventaris->harga }}" disabled>
         </div>
     </div>
 </div>

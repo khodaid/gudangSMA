@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedInteger('id_barang')
                 ->foreign('id_barang')->refrences('id')->on('barangs')->onDelete('cascade');
             $table->string('deskripsi',50);
-            $table->integer('jumlah');
             $table->unsignedInteger('id_satuan')
                 ->foreign('id_satuan')->refrences('id')->on('satuans')->onDelete('cascade');
             $table->string('thn_pembuatan',4);
@@ -31,7 +30,6 @@ return new class extends Migration
             $table->date('tgl_penyerahan');
             $table->integer('kondisi');
             $table->integer('harga');
-            $table->integer('hrg_total');
             $table->string('file',50);
             $table->timestamps();
         });

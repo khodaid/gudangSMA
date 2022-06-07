@@ -7,6 +7,7 @@ use App\Models\Inventaris;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Arr;
 
 class DashboardController extends Controller
 {
@@ -21,22 +22,29 @@ class DashboardController extends Controller
             ->where('kategori',false)
             ->orWhereIn('id_user',$this->akun->modelKeys())->get(); // mengambil data dari dari id user turunan SU untuk SU
 
-        $rusakRingan = Inventaris::where('kondisi',2)->count();
-        $rusakBerat =  Inventaris::where('kondisi',3)->count();
-            foreach ($barangUmum as $b) {
+        $rusakRingan = Inventaris::where('kondisi',2)->get();
+        $rusakBerat =  Inventaris::where('kondisi',3)->get();
+        foreach ($barangUmum as $b) {
             $jumlah = $b->masuk->sum('jumlah') - $b->keluar->sum('jumlah');
             if ($jumlah==0) {
-                $this->idUmumHabis[]=$b->id;
+                $this->idUmumHabis[$b->id]=['id' => $b->id, 'jumlah' => $jumlah];
             }
             elseif($jumlah<11)
             {
-                $this->idUmumMenipis[]=$b->id;
+                $this->idUmumMenipis[$b->id]=['id' => $b->id, 'jumlah' => $jumlah];
             }
         }
+        $tipis = Barang::whereIn('id',Arr::pluck($this->idUmumMenipis,'id'))->get();
+        $habis = Barang::whereIn('id',Arr::pluck($this->idUmumHabis,'id'))->get();
+        // dd([$this->idUmumHabis,$this->idUmumMenipis,$habis,$tipis]);
 
         return view('admin.dashboard',[
-            'menipis' => $this->idUmumMenipis,
-            'habis' => $this->idUmumHabis
+            'jumlahMenipis' => $this->idUmumMenipis,
+            'jumlahHabis' => $this->idUmumHabis,
+            'menipis' => $tipis,
+            'habis' => $habis,
+            'ringan' => $rusakRingan,
+            'berat' => $rusakBerat
         ]);
     }
 

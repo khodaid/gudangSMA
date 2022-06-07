@@ -80,10 +80,15 @@ class UserController extends Controller
     {
         $this->validate($request,[
             'nama' => 'required',
-            'deskripsi' => 'required'
+            'email' => 'required'
         ]);
-
-
+        $user->name = $request->nama;
+        $user->email = $request->email;
+        if($request->password !== NULL){
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+        // dd($request->all());
 
         return redirect()->route('user.index')->with(['success'=>'Data Terupdate']);
     }

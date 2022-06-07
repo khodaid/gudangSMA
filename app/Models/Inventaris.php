@@ -9,9 +9,8 @@ class Inventaris extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['tgl_pembukuan','kode', 'id_barang','deskrisi',
-    'jumlah','id_satuan','thn_pembuatan','id_dana', 'id_user','tgl_penyerahan',
-    'kondisi','harga','hrg_total','file'];
+    protected $fillable = ['tgl_pembukuan','kode', 'id_barang','deskripsi','id_satuan','thn_pembuatan','id_dana', 'id_user','tgl_penyerahan',
+    'kondisi','harga','file'];
     protected $guard = [];
 
     /**

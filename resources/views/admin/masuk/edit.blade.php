@@ -6,17 +6,18 @@
 
 @section('content')
     <div class="container bg-white border py-3 rounded">
-        <h3> Edit Dosen</h3>
+        <h3> Edit Transaksi Masuk</h3>
         @if (Session::get('success'))
             <div class="alert alert-success" role="alert">
                 {{ $message }}
             </div>
         @endif
-        <form action="{{ route('masuk.update', $masuk) }}" method="POST">
+        <form action="{{ route('masuk.update', $masuk) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
             <div class="row">
                 <div class="col-lg-6">
-                    @csrf
-                    @method('PUT')
+
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Barang</label>
                         <select class="my-select form-control" id="exampleFormControlSelect1" name="barang">
@@ -59,13 +60,18 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6">
                     <div class="form-group">
                         <label for="inputToko">Nama Toko</label>
                         <input name="toko" type="text" class="form-control" id="inputToko" aria-describedby="emailHelp"
                             value="{{ old('toko') ?? $masuk->nama_toko }}">
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-warning">Update</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
@@ -97,14 +103,19 @@
                                     aria-describedby="emailHelp" value="{{ old('pembelian') ?? $masuk->jumlah_harga }}">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlFile1">Bukti Scan Nota</label>
+                            <h6 class="text-danger">*masukan file jika ingin merubah nota</h6>
+                            <input type="file" class="form-control-file mb-2" id="exampleFormControlFile1" name="file"
+                                value="{{ old('file') ?? $masuk->file }}">
+                            <embed src="{{asset('/storage/files/'.$masuk->file) }} " type="application/pdf" width="400px" height="500px" />
+                        </div>
                     </div>
                 </div>
+
             </div>
-            <div class="row">
-                <div class="col">
-                    <button type="submit" class="btn btn-warning">Update</button>
-                </div>
-            </div>
+
+
         </form>
     </div>
 @endsection

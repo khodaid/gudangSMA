@@ -5,14 +5,14 @@
 @endsection
 
 @section('content')
-    <div class="container bg-white border py-3 rounded">
+    <div class="container bg-white border py-3  mb-3 rounded">
         <h3>Inventaris</h3>
         @if (Session::get('success'))
             <div class="alert alert-success" role="alert">
                 {{ $message }}
             </div>
         @endif
-        <form action="{{ route('inventaris.update', $inventaris) }}" method="POST">
+        <form action="{{route('inventaris.update', $inventaris)}}" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-lg-6">
                     @csrf
@@ -44,22 +44,22 @@
                     <div class="form-group">
                         <label for="inputPembukuan">Pembukuan</label>
                         <input type="date" class="form-control" id="inputPembukuan" aria-describedby="emailHelp"
-                            name="pembukuan" value="{{ old('pembukuan') ?? $inventaris->tgl_pembukuan }} ">
+                            name="pembukuan" value="{{ old('pembukuan') ?? $inventaris->tgl_pembukuan }}">
                     </div>
                     <div class="form-group">
                         <label for="inputDskripsi">Deskripsi</label>
                         <textarea class="form-control" id="inputDeskripsi" rows="3"
                             name="deskripsi">{{ old('deskripsi') ?? $inventaris->deskripsi }}</textarea>
                     </div>
-                    <div class="row">
-                        <div class="col">
+                    {{-- <div class="row"> --}}
+                        {{-- <div class="col">
                             <div class="form-group">
                                 <label for="inputQuantity">Jumlah</label>
                                 <input name="jumlah" type="number" class="form-control" id="inputNama"
                                     aria-describedby="emailHelp" value="{{ old('quantity') ?? $inventaris->jumlah }}">
                             </div>
-                        </div>
-                        <div class="col">
+                        </div> --}}
+                        {{-- <div class="col"> --}}
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Satuan</label>
                                 <select class="my-select form-control" id="exampleFormControlSelect1" name="id_satuan">
@@ -73,8 +73,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                    </div>
+                        {{-- </div> --}}
+                    {{-- </div> --}}
                 </div>
                 <div class="col-lg-6">
                     <div class="row">
@@ -98,8 +98,8 @@
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Asal Dana</label>
                                 <select class="my-select form-control" id="exampleFormControlSelect1" name="id_dana">
-                                    <option value="{{ old('id_dana') ?? $inventaris->satuan->id }}">
-                                        {{ old('id_dana') ?? $inventaris->satuan->nama }}
+                                    <option value="{{ old('id_dana') ?? $inventaris->dana->id }}">
+                                        {{ old('id_dana') ?? $inventaris->dana->nama }}
                                     </option>
                                     @foreach ($danas as $dana)
                                         @if ($inventaris->dana->id != $dana->id)
@@ -110,23 +110,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-6">
+                    {{-- <div class="row">
+                        <div class="col-6"> --}}
                             <div class="form-group">
                                 <label for="inputHargaSatuan">Harga Satuan</label>
                                 <input name="hrgSatuan" type="number" class="form-control" id="inputHargaSatuan"
                                     aria-describedby="emailHelp" value="{{ old('pembelian') ?? $inventaris->harga }}">
                             </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="inputTotal">Harga Total</label>
-                                <input name="hrgTotal" type="number" class="form-control" id="inputTotal"
-                                    aria-describedby="emailHelp"
-                                    value="{{ old('pembelian') ?? $inventaris->hrg_total }}">
-                            </div>
-                        </div>
-                    </div>
+                        {{-- </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="row">

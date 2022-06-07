@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label for="inputPassword">Password</label>
                             <input name="password" type="text" class="form-control" id="inputPassword"
-                                aria-describedby="emailHelp">
+                                aria-describedby="emailHelp" placeholder="minimal 6 karakter">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -65,9 +65,9 @@
                     </button>
                 </div>
 
-                <div class="col-6 d-flex justify-content-end my-1">
+                {{-- <div class="col-6 d-flex justify-content-end my-1">
                     <button type="submit" class="btn btn-success float-left">Export Excel</button>
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="card-body">
@@ -89,12 +89,10 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->roles }}</td>
                                 <td>
-                                    <a href="{{ route('user.edit', $user->id) }}" class='fas fa-edit'
-                                        style='color:black'></a>
-                                    <a href="{{ route('user.destroy', $user->id) }}" class='fas fa-trash'
-                                        style='color:black'></a>
-                                    <a href="#" class='fas fa-eye' style='color:black' id="mediumButton" data-toggle="modal"
-                                        data-target="#mediumModal" data-attr={{ route('user.show', $user->id) }}></a>
+                                    <a href="{{ route('user.edit', $user->id) }}" class='fas fa-edit text-warning'></a>
+                                    <a href="{{ route('user.destroy', $user->id) }}" class='fas fa-trash text-danger'></a>
+                                    {{-- <a href="#" class='fas fa-eye text-success'  id="mediumButton" data-toggle="modal"
+                                        data-target="#mediumModal" data-attr={{ route('user.show', $user->id) }}></a> --}}
                                 </td>
                             </tr>
                         @endforeach

@@ -20,10 +20,11 @@
                     <label for="inputEmail">Email</label>
                     <input name="email" type="text" class="form-control" id="inputEmail" aria-describedby="emailHelp" value="{{old('email') ?? $user->email}}">
                 </div>
-                {{-- <div class="form-group">
+                <div class="form-group">
                     <label for="inputPassword">Password</label>
-                    <input name="password" type="text" class="form-control" id="inputPassword" aria-describedby="emailHelp" value="{{old('password') ?? decrypt($user->email)}}">
-                </div> --}}
+                    <h6 class="text-danger">Diisi jika akan merubah password min 6 karakter</h6>
+                    <input name="password" type="text" class="form-control" id="inputPassword" aria-describedby="emailHelp" >
+                </div>
             </div>
         </div>
         <div class="row">

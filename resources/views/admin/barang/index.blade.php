@@ -117,9 +117,9 @@
                                                 onclick="$('#modalDelete #formDelete').attr('action','{{ route('barang.destroy', $barang->id) }}')"></a>
                                         @endif
                                     @endif
-                                    <a href="#" class='fas fa-eye' style='color:black' id="mediumButton" data-toggle="modal"
+                                    {{-- <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal" data-attr={{ route('barang.show', $barang->id) }}></a>
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>

@@ -51,34 +51,39 @@
                             </select>
                         </div>
                         <div class="row">
-                            <div class="col">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="inputKode">Kode</label>
-                                    <input name="kode" type="text" class="form-control" id="inputKode"
+                                    <input name="kode[]" type="text" class="form-control" id="inputKode"
                                         aria-describedby="emailHelp">
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="inputPembukuan">Pembukuan</label>
-                                    <input type="date" class="form-control" id="inputPembukuan"
-                                        aria-describedby="emailHelp" name="pembukuan">
+                            <div class="col-md-4 d-flex align-items-center">
+                                <div class="form-group ">
+                                    <a href="#" class="btn btn-success mt-4 btnKode">Tambah Kode</a>
                                 </div>
                             </div>
+                        </div>
+                        <div class="addKode">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPembukuan">Pembukuan</label>
+                            <input type="date" class="form-control" id="inputPembukuan" aria-describedby="emailHelp"
+                                name="pembukuan">
                         </div>
                         <div class="form-group">
                             <label for="inputDskripsi">Deskripsi</label>
                             <textarea class="form-control" id="inputDeskripsi" rows="3" name="deskripsi"></textarea>
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputQuantity">Jumlah</label>
                                     <input name="jumlah" type="number" class="form-control" id="inputNama"
                                         aria-describedby="emailHelp">
                                 </div>
-                            </div>
-                            <div class="col">
+                            </div> --}}
+                            {{-- <div class="col"> --}}
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Satuan</label>
                                     <select class="my-select form-control" id="exampleFormControlSelect1" name="id_satuan">
@@ -87,8 +92,8 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                        </div>
+                            {{-- </div> --}}
+                        {{-- </div> --}}
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
@@ -116,8 +121,8 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
+                        {{-- </div>
+                        <div class="row"> --}}
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="inputHargaSatuan">Harga Satuan</label>
@@ -126,11 +131,6 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="form-group">
-                                    <label for="inputTotal">Harga Total</label>
-                                    <input name="hrg_total" type="number" class="form-control" id="inputTotal"
-                                        aria-describedby="emailHelp">
-                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -176,18 +176,18 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Tanggal Pembukuan</th>
-                            <th>Kode Barang</th>
-                            <th>Nama Barang</th>
-                            <th>Deskripsi</th>
+                            <th>Pembukuan</th>
+                            <th>Kode</th>
+                            <th>Barang</th>
+                            {{-- <th>Deskripsi</th> --}}
                             <th>Jumlah</th>
-                            <th>Satuan</th>
-                            <th>Tahun Pembuatan</th>
-                            <th>Asal Dana</th>
-                            <th>Tanggal Penyerahan</th>
+                            {{-- <th>Satuan</th> --}}
+                            {{-- <th>Tahun Pembuatan</th> --}}
+                            <th>Dana</th>
+                            <th>Penyerahan</th>
                             <th>Kondisi</th>
                             <th>Harga</th>
-                            <th>Jumlah Harga</th>
+                            {{-- <th>Jumlah Harga</th> --}}
                             @if (!isset(Auth::user()->id_super))
                                 <th>User Pembuat</th>
                             @endif
@@ -200,10 +200,10 @@
                                 <td>{{ date('d-m-Y', strtotime($inventaris->tgl_pembukuan)) }}</td>
                                 <td>{{ $inventaris->kode }}</td>
                                 <td>{{ $inventaris->barang->nama }}</td>
-                                <td>{{ Str::limit($inventaris->deskripsi, 20) }}</td>
-                                <td>{{ $inventaris->jumlah }}</td>
-                                <td>{{ $inventaris->satuan->nama }}</td>
-                                <td>{{ $inventaris->thn_pembuatan }} </td>
+                                {{-- <td>{{ Str::limit($inventaris->deskripsi, 20) }}</td> --}}
+                                <td>{{ $inventaris->jumlah.' '.$inventaris->satuan->nama }}</td>
+                                {{-- <td>{{ $inventaris->satuan->nama }}</td> --}}
+                                {{-- <td>{{ $inventaris->thn_pembuatan }} </td> --}}
                                 <td>{{ $inventaris->dana->nama }} </td>
                                 <td>{{ date('d-m-Y', strtotime($inventaris->tgl_penyerahan)) }}</td>
                                 @if ($inventaris->kondisi == 1)
@@ -214,7 +214,7 @@
                                     <td><span class="badge badge-danger">Rusak Berat</span></td>
                                 @endif
                                 <td>{{ $inventaris->harga }}</td>
-                                <td>{{ $inventaris->hrg_total }}</td>
+                                {{-- <td>{{ $inventaris->hrg_total }}</td> --}}
                                 @if (!isset(Auth::user()->id_super))
                                     <td>{{ $inventaris->user->name }}</td>
                                 @endif
@@ -226,12 +226,13 @@
                                             onclick="$('#modalDelete #formDelete').attr('action','{{ route('inventaris.rusak', $inventaris->id) }}')"><span
                                                 class="badge badge-danger">Rusak</span></a>
                                         @if ($inventaris->kondisi != 1)
-
                                         @endif
                                     @endif
                                     <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal"
                                         data-attr={{ route('inventaris.show', $inventaris->id) }}></a>
+                                        <a href="#" class='' id="mediumButton" data-toggle="modal"
+                                        data-target="#mediumModal" data-attr={{ route('inventaris.pdf', $inventaris->id) }}><span class="badge badge-success">PDF</span></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -245,7 +246,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Barang Masuk</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Inventaris</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -304,23 +305,23 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-body" id="mediumBody">
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="inputPembukuan">Pembukuan</label>
-                            <input type="date" class="form-control" id="inputPembukuan"
-                                aria-describedby="emailHelp" name="pembukuan">
-                        </div>
+                            <input type="date" class="form-control" id="inputPembukuan" aria-describedby="emailHelp"
+                                name="pembukuan">
+                        </div> --}}
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Rusak</label>
                             <select class="form-control" id="exampleFormControlSelect1" name="kondisi">
                                 <option value="2">Rusak Ringan</option>
                                 <option value="3">Rusak Berat</option>
                             </select>
-                        </div>
+                        {{-- </div>
                         <div class="form-group">
                             <label for="inputQuantity">Jumlah</label>
                             <input name="jumlah" type="number" class="form-control" id="inputNama"
                                 aria-describedby="emailHelp">
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -365,5 +366,36 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script>
         $('.my-select').selectpicker();
+    </script>
+
+    <script>
+        $(document).ready(function(e) {
+            $('.btnKode').click(function(e) {
+                e.preventDefault();
+
+                $('.addKode').append(
+                    `<div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="inputKode">Kode</label>
+                                    <input name="kode[]" type="text" class="form-control" id="inputKode"
+                                        aria-describedby="emailHelp">
+                                </div>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-center">
+                                <div class="form-group ">
+                                    <a href="#" class="btn btn-danger mt-4 remove">hapus</a>
+                                </div>
+                            </div>
+                        </div>`
+                    );
+
+            });
+        });
+
+        $(document).on('click', '.remove', function(e) {
+            e.preventDefault();
+            $(this).parents('.row').remove();
+        });
     </script>
 @endsection

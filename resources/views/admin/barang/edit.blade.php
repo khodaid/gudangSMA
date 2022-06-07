@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container bg-white border py-3 rounded">
-        <h3> Edit Dosen</h3>
+        <h3> Edit Barang</h3>
         @if (session('success'))
             <div class="alert alert-success" role="alert">
                 {{ session('success') }}

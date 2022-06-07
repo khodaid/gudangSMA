@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="container bg-white border py-3 rounded">
-        <h3> Edit Dosen</h3>
+        <h3> Edit Transaksi Keluar</h3>
         @if (Session::get('success'))
             <div class="alert alert-success" role="alert">
                 {{ $message }}

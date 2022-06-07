@@ -9,8 +9,8 @@ use App\Models\Satuan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\Console\Input\Input;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 
 class MasukController extends Controller
 {
@@ -57,7 +57,8 @@ class MasukController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        // dd($request);
+        $request->validate([
             'barang' => 'required',
             'deskripsi' => 'required',
             'quantity' => 'required',
@@ -65,8 +66,13 @@ class MasukController extends Controller
             'pembelian' => 'required',
             'penyerahan' => 'required',
             'hrgSatuan' => 'required',
-            'hrgTotal' => 'required'
+            'hrgTotal' => 'required',
+            'file' => 'required|mimes:pdf'
         ]);
+
+        // dd($request);
+        $file = $request->file('file');
+        $file_name = time()."_".$file->getClientOriginalName();
 
         $masuk = new Masuk();
 
@@ -80,8 +86,10 @@ class MasukController extends Controller
         $masuk->harga_satuan = $request->input('hrgSatuan');
         $masuk->jumlah_harga = $request->input('hrgTotal');
         $masuk->id_user = Auth::id();
+        $masuk->file = $file_name;
 
         $masuk->save();
+        $path = $file->storeAs('public/files',$file_name);
 
         return redirect()->route('masuk.index')->with(['store' => 'Data Tersimpan']);
     }
@@ -138,6 +146,18 @@ class MasukController extends Controller
             'hrgTotal' => 'required'
         ]);
 
+        $file = $masuk->file;
+        $file_name = $masuk->file;
+        if ($request->hasFile('file')) {
+            if (Storage::exists('public/files/'.$file)) {
+                Storage::delete('public/files/'.$file);
+            }
+            $file = $request->file('file');
+            $file_name = time()."_".$file->getClientOriginalName();
+            $path = $file->storeAs('public/files', $file_name);
+        }
+
+
         $masuk->id_barang = $request->input('barang');
         $masuk->deskripsi = $request->input('deskripsi');
         $masuk->jumlah = $request->input('quantity');
@@ -147,9 +167,8 @@ class MasukController extends Controller
         $masuk->tgl_penerimaan = $request->input('penyerahan');
         $masuk->harga_satuan = $request->input('hrgSatuan');
         $masuk->jumlah_harga = $request->input('hrgTotal');
-
+        $masuk->file = $file_name;
         $masuk->save();
-
         return redirect()->route('masuk.index')->with(['update' => 'Data Terupdate']);
     }
 
@@ -178,5 +197,12 @@ class MasukController extends Controller
     public function export_excel()
     {
         return Excel::download(new MasukExport($this->dari, $this->sampai), 'masuk.xlsx');
+    }
+
+    public function viewPdf(Masuk $masuk)
+    {
+        return view('admin.masuk.pdf',[
+            'masuk' => $masuk
+        ]);
     }
 }

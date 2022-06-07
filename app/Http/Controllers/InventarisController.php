@@ -70,48 +70,67 @@ class InventarisController extends Controller
             'kode' => 'required',
             'id_barang' => 'required',
             'deskripsi' => 'required',
-            'jumlah' => 'required',
             'id_satuan' => 'required',
             'pembuatan' => 'required',
             'id_dana' => 'required',
             'penyerahan' => 'required',
             'harga' => 'required',
-            'hrg_total' => 'required',
             'file' => 'required|mimes:pdf'
         ]);
 
         $file = $request->file;
-        $file_name = $request->kode.'_'.$file->getClientOriginalName();
+        $file_name = time().'_'.$file->getClientOriginalName();
+
+        if (count($request->kode) > 0) {
+
+            foreach ($request->kode as $key => $value) {
+                // $inventaris = new Inventaris();
+                $file_name = $request->kode[$key].'_'.$file->getClientOriginalName();
+                $inventaris = array(
+                'tgl_pembukuan' => $request->input('pembukuan'),
+                'kode' => $request->input('kode')[$key],
+                'id_barang' => $request->input('id_barang'),
+                'deskripsi' => $request->input('deskripsi'),
+                'id_satuan' => $request->input('id_satuan'),
+                'thn_pembuatan' => $request->input('pembuatan'),
+                'id_dana' => $request->input('id_dana'),
+                'tgl_penyerahan' => $request->input('penyerahan'),
+                'kondisi' => 1,
+                'harga' => $request->input('harga'),
+                'file' => $file_name,
+                'id_user' => Auth::id(),
+                );
+                Inventaris::create($inventaris);
+                $path = $file->storeAs('public/files', $file_name);
+            }
+        } else {
+            $inventaris = new Inventaris();
+
+            $inventaris->tgl_pembukuan = $request->input('pembukuan');
+            $inventaris->kode = $request->input('kode');
+            $inventaris->id_barang = $request->input('id_barang');
+            $inventaris->deskripsi = $request->input('deskripsi');
+            $inventaris->id_satuan = $request->input('id_satuan');
+            $inventaris->thn_pembuatan = $request->input('pembuatan');
+            $inventaris->id_dana = $request->input('id_dana');
+            $inventaris->tgl_penyerahan = $request->input('penyerahan');
+            $inventaris->kondisi = 1;
+            $inventaris->harga = $request->input('harga');
+            $inventaris->file = $file_name;
+            $inventaris->id_user = Auth::id();
+
+            $inventaris->save();
+        }
 
 
 
-        $inventaris = new Inventaris();
-
-        $inventaris->tgl_pembukuan = $request->input('pembukuan');
-        $inventaris->kode = $request->input('kode');
-        $inventaris->id_barang = $request->input('id_barang');
-        $inventaris->deskripsi = $request->input('deskripsi');
-        $inventaris->jumlah = $request->input('jumlah');
-        $inventaris->id_satuan = $request->input('id_satuan');
-        $inventaris->thn_pembuatan = $request->input('pembuatan');
-        $inventaris->id_dana = $request->input('id_dana');
-        $inventaris->tgl_penyerahan = $request->input('penyerahan');
-        $inventaris->kondisi = 1;
-        $inventaris->harga = $request->input('harga');
-        $inventaris->hrg_total = $request->input('hrg_total');
-        $inventaris->file = $file_name;
-        $inventaris->id_user = Auth::id();
-
-        // dd($request->all());
-
-        $inventaris->save();
 
         $barang = Barang::find($request->input('id_barang'));
         $barang->kategori = true;
 
         $barang->save();
 
-        $path = $file->storeAs('public/files', $file_name);
+
         return redirect()->route('inventaris.index')->with(['store' => 'Data Tersimpan']);
     }
 
@@ -160,29 +179,30 @@ class InventarisController extends Controller
      */
     public function update(Request $request, Inventaris $inventaris)
     {
+        // dd($request);
         $request->validate([
             'pembukuan' => 'required',
             'kode' => 'required',
             'id_barang' => 'required',
             'deskripsi' => 'required',
-            'jumlah' => 'required',
             'id_satuan' => 'required',
             'pembuatan' => 'required',
             'id_dana' => 'required',
             'penyerahan' => 'required',
-            'harga' => 'required',
-            'hrg_total' => 'required',
+            'hrgSatuan' => 'required',
         ]);
 
-        $file = $inventaris->file;
+        // $file = $inventaris->file;
+        // $file_name = $inventaris->file;
 
-        if ($request->hasFile('file')) {
-            if (Storage::exists($inventaris->file)) {
-                Storage::delete($inventaris->file);
-            }
-            $file = $request->file;
-        }
-        $file_name = $request->kode.'_'.$file->getClientOriginalName();
+        // if ($request->hasFile('file')) {
+        //     if (Storage::exists($file)) {
+        //         Storage::delete($file);
+        //     }
+        //     $file = $request->file;
+        //     $file_name = $request->kode.'_'.$file->getClientOriginalName();
+        //     $path = $file->storeAs('public/files', $file_name);
+        // }
 
         if($request->id_barang != $inventaris->id_barang)
         {
@@ -199,21 +219,20 @@ class InventarisController extends Controller
         $inventaris->kode = $request->input('kode');
         $inventaris->id_barang = $request->input('id_barang');
         $inventaris->deskripsi = $request->input('deskripsi');
-        $inventaris->jumlah = $request->input('jumlah');
         $inventaris->id_satuan = $request->input('id_satuan');
         $inventaris->thn_pembuatan = $request->input('pembuatan');
         $inventaris->id_dana = $request->input('id_dana');
         $inventaris->tgl_penyerahan = $request->input('penyerahan');
-        $inventaris->harga = $request->input('harga');
-        $inventaris->hrg_total = $request->input('hrg_total');
-        $inventaris->file = $file_name;
+        $inventaris->harga = $request->input('hrgSatuan');
+        // $inventaris->hrg_total = $request->input('hrg_total');
+        // $inventaris->file = $file_name;
         $inventaris->id_user = Auth::id();
 
         $inventaris->save();
 
-        $path = $file->storeAs('public/files', $file_name);
 
-        return redirect()->route('invetaris.index')->with(['update'=>'Data Berhasil Diubah']);
+
+        return redirect()->route('inventaris.index')->with(['update'=>'Data Berhasil Diubah']);
     }
 
     /**
@@ -229,28 +248,29 @@ class InventarisController extends Controller
 
     public function rusak(Request $request, Inventaris $inventaris)
     {
-        $request->validate([
-            'pembukuan' => 'required',
-            'jumlah' => 'required',
-            'kondisi'=> 'required'
-        ]);
-        $rusak = new Inventaris();
-        $rusak->tgl_pembukuan = $request->pembukuan;
-        $rusak->kode = $inventaris->kode;
-        $rusak->id_barang = $inventaris->id_barang;
-        $rusak->deskripsi = $inventaris->deskripsi;
-        $rusak->jumlah = $request->jumlah;
-        $rusak->id_satuan = $inventaris->id_satuan;
-        $rusak->thn_pembuatan = $inventaris->thn_pembuatan;
-        $rusak->id_dana = $inventaris->id_dana;
-        $rusak->tgl_penyerahan = $inventaris->tgl_penyerahan;
-        $rusak->kondisi = $request->kondisi;
-        $rusak->harga = $inventaris->harga;
-        $rusak->hrg_total = $inventaris->hrg_total;
-        $rusak->file = $inventaris->file;
-        $rusak->id_user = $inventaris->id_user;
-        $rusak->save();
-
+        // $request->validate([
+        //     'pembukuan' => 'required',
+        //     'jumlah' => 'required',
+        //     'kondisi'=> 'required'
+        // ]);
+        // $rusak = new Inventaris();
+        // $rusak->tgl_pembukuan = $request->pembukuan;
+        // $rusak->kode = $inventaris->kode;
+        // $rusak->id_barang = $inventaris->id_barang;
+        // $rusak->deskripsi = $inventaris->deskripsi;
+        // $rusak->jumlah = $request->jumlah;
+        // $rusak->id_satuan = $inventaris->id_satuan;
+        // $rusak->thn_pembuatan = $inventaris->thn_pembuatan;
+        // $rusak->id_dana = $inventaris->id_dana;
+        // $rusak->tgl_penyerahan = $inventaris->tgl_penyerahan;
+        // $rusak->kondisi = $request->kondisi;
+        // $rusak->harga = $inventaris->harga;
+        // $rusak->hrg_total = $inventaris->hrg_total;
+        // $rusak->file = $inventaris->file;
+        // $rusak->id_user = $inventaris->id_user;
+        // $rusak->save();
+        $inventaris->kondisi = $request->kondisi;
+        $inventaris->save();
         return redirect()->route('inventaris.index')->with(['update'=>'Data Berhasil Diubah']);
     }
 
@@ -279,5 +299,12 @@ class InventarisController extends Controller
     public function export_excel()
     {
         return Excel::download(new InventarisExport($this->dari, $this->sampai), 'inventaris.xlsx');
+    }
+
+    public function viewPdf(Inventaris $inventaris)
+    {
+        return view('admin.inventaris.pdf',[
+            'inventaris' => $inventaris
+        ]);
     }
 }

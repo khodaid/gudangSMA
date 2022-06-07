@@ -110,7 +110,7 @@
                             <th>No</th>
                             <th>Barang</th>
                             <th>Jumlah</th>
-                            <th>Satuan</th>
+                            {{-- <th>Satuan</th> --}}
                             <th>Tanggal</th>
                             <th>Aksi</th>
                     </thead>
@@ -119,8 +119,8 @@
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $keluar->barang->nama }}</td>
-                                <td>{{ $keluar->jumlah }}</td>
-                                <td>{{ $keluar->satuan->nama }}</td>
+                                <td>{{ $keluar->jumlah.' '.$keluar->satuan->nama }}</td>
+                                {{-- <td>{{ $keluar->satuan->nama }}</td> --}}
                                 <td>{{ date('d-m-Y', strtotime($keluar->tgl_keluar)) }}</td>
                                 {{-- <td>{{ Str::limit($dana->keterangan, 20) }}</td> --}}
                                 <td>
