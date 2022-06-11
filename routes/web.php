@@ -26,12 +26,14 @@ use App\Models\Masuk;
 Route::get('/', function () {
     return view('login');
 })->name('index');
-// Route::get('/dashboard', function () {
-//     return view('admin.dashboard');
-// })->name('dashboard');
 
 Route::post('/login',[UserController::class, 'Login'])->name('login');
 Route::post('/logout',[UserController::class, 'logout'])->name('logout');
+Route::get('/reset', function (){
+    return view('reset-password');
+})->name('reset.view');
+Route::post('/reset',[UserController::class, 'reset'])->name('reset');
+
 
 Route::middleware('auth')->group(function(){
     Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard.index');

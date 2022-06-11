@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\Inventaris;
+use App\Models\Masuk;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -36,6 +38,13 @@ class DashboardController extends Controller
         }
         $tipis = Barang::whereIn('id',Arr::pluck($this->idUmumMenipis,'id'))->get();
         $habis = Barang::whereIn('id',Arr::pluck($this->idUmumHabis,'id'))->get();
+
+        // $tes = DB::table('barangs')
+        //         ->where()
+        // $coba = DB::table('masuks')
+        //         ->select(DB::raw('sum(jumlah) as jumlah, id_barang'))
+        //         ->groupBy('id_barang')->get();
+        // dd($coba);
         // dd([$this->idUmumHabis,$this->idUmumMenipis,$habis,$tipis]);
 
         return view('admin.dashboard',[

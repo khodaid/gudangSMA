@@ -83,16 +83,16 @@
                                         aria-describedby="emailHelp">
                                 </div>
                             </div> --}}
-                            {{-- <div class="col"> --}}
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Satuan</label>
-                                    <select class="my-select form-control" id="exampleFormControlSelect1" name="id_satuan">
-                                        @foreach ($satuans as $satuan)
-                                            <option value="{{ $satuan->id }}">{{ $satuan->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            {{-- </div> --}}
+                        {{-- <div class="col"> --}}
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Satuan</label>
+                            <select class="my-select form-control" id="exampleFormControlSelect1" name="id_satuan">
+                                @foreach ($satuans as $satuan)
+                                    <option value="{{ $satuan->id }}">{{ $satuan->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        {{-- </div> --}}
                         {{-- </div> --}}
                         <div class="row">
                             <div class="col">
@@ -121,7 +121,7 @@
                                     </select>
                                 </div>
                             </div>
-                        {{-- </div>
+                            {{-- </div>
                         <div class="row"> --}}
                             <div class="col-6">
                                 <div class="form-group">
@@ -201,7 +201,7 @@
                                 <td>{{ $inventaris->kode }}</td>
                                 <td>{{ $inventaris->barang->nama }}</td>
                                 {{-- <td>{{ Str::limit($inventaris->deskripsi, 20) }}</td> --}}
-                                <td>{{ $inventaris->jumlah.' '.$inventaris->satuan->nama }}</td>
+                                <td>{{ $inventaris->jumlah . ' ' . $inventaris->satuan->nama }}</td>
                                 {{-- <td>{{ $inventaris->satuan->nama }}</td> --}}
                                 {{-- <td>{{ $inventaris->thn_pembuatan }} </td> --}}
                                 <td>{{ $inventaris->dana->nama }} </td>
@@ -213,7 +213,7 @@
                                 @else
                                     <td><span class="badge badge-danger">Rusak Berat</span></td>
                                 @endif
-                                <td>{{ $inventaris->harga }}</td>
+                                <td>Rp.{{ number_format($inventaris->harga) }}</td>
                                 {{-- <td>{{ $inventaris->hrg_total }}</td> --}}
                                 @if (!isset(Auth::user()->id_super))
                                     <td>{{ $inventaris->user->name }}</td>
@@ -222,17 +222,18 @@
                                     @if ($inventaris->id_user == Auth::id())
                                         <a href="{{ route('inventaris.edit', $inventaris->id) }}"
                                             class='fas fa-edit text-warning'></a>
-                                        <a href="#" class='' id="deleteData" data-toggle="modal" data-target="#modalDelete"
-                                            onclick="$('#modalDelete #formDelete').attr('action','{{ route('inventaris.rusak', $inventaris->id) }}')"><span
-                                                class="badge badge-danger">Rusak</span></a>
+                                        <a href="#" class='fas fa-flag text-danger' id="deleteData" data-toggle="modal" data-target="#modalDelete"
+                                            onclick="$('#modalDelete #formDelete').attr('action','{{ route('inventaris.rusak', $inventaris->id) }}')"></a>
                                         @if ($inventaris->kondisi != 1)
                                         @endif
                                     @endif
                                     <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal"
                                         data-attr={{ route('inventaris.show', $inventaris->id) }}></a>
-                                        <a href="#" class='' id="mediumButton" data-toggle="modal"
-                                        data-target="#mediumModal" data-attr={{ route('inventaris.pdf', $inventaris->id) }}><span class="badge badge-success">PDF</span></a>
+                                    {{-- <a href="#" class='' id="mediumButton" data-toggle="modal"
+                                        data-target="#mediumModal" data-attr={{ route('inventaris.pdf', $inventaris->id) }}><span class="badge badge-success">PDF</span></a> --}}
+                                    <a href="#" class='fas fa-file-pdf' id="mediumButton" data-toggle="modal" data-target="#mediumModal"
+                                        data-attr={{ route('inventaris.pdf', $inventaris->id) }}></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -316,17 +317,17 @@
                                 <option value="2">Rusak Ringan</option>
                                 <option value="3">Rusak Berat</option>
                             </select>
-                        {{-- </div>
+                            {{-- </div>
                         <div class="form-group">
                             <label for="inputQuantity">Jumlah</label>
                             <input name="jumlah" type="number" class="form-control" id="inputNama"
                                 aria-describedby="emailHelp">
                         </div> --}}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger">Rusak</button>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Rusak</button>
+                        </div>
                 </form>
             </div>
         </div>
@@ -388,7 +389,7 @@
                                 </div>
                             </div>
                         </div>`
-                    );
+                );
 
             });
         });

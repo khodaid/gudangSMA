@@ -2,8 +2,8 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-university"></i>
+        <div class="sidebar-brand-icon">
+            <i class="fas fa-people-carry"></i>
         </div>
         <div class="sidebar-brand-text mx-3">Gudangku</div>
     </a>
@@ -14,7 +14,7 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
         <a class="nav-link" href=" {{route('dashboard.index')}} ">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="fa fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
 

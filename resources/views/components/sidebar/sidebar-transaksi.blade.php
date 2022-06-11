@@ -1,7 +1,8 @@
 <li class="nav-item {{request()->is('masuk') ? 'active' : '' }} {{request()->is('keluar') ? 'active' : '' }}">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTransaksi"
         aria-expanded="true" aria-controls="collapseTwo">
-        <i class="fas fa-fw fa-cog"></i>
+        {{-- <i class="fa fa-exchange fa-rotate-90" aria-hidden="true"></i> --}}
+        <i class="fas fa-exchange-alt  rotate-n-15"></i>
         <span>Transaksi</span>
     </a>
     <div id="collapseTransaksi" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">

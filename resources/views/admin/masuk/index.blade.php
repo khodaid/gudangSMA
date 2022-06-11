@@ -173,8 +173,8 @@
                                     <td>-</td>
                                 @endif
                                 {{-- <td>{{ Str::limit($masuk->deskripsi, 20) }}</td> --}}
-                                <td>{{ $masuk->harga_satuan }}</td>
-                                <td>{{ $masuk->jumlah_harga }}</td>
+                                <td>Rp.{{number_format($masuk->harga_satuan)}}</td>
+                                <td>Rp.{{ number_format($masuk->jumlah_harga) }}</td>
                                 @if (!isset(Auth::user()->id_super))
                                     <td>{{ $masuk->user->name }}</td>
                                 @endif
@@ -188,10 +188,9 @@
                                     @endif
                                     <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal" data-attr={{ route('masuk.show', $masuk->id) }}></a>
-                                    <a href="#" class='' id="mediumButton" data-toggle="modal"
-                                        data-target="#mediumModal" data-attr={{ route('masuk.pdf', $masuk->id) }}><span class="badge badge-success">PDF</span></a>
+                                    <a href="#" class='fas fa-file-pdf' id="mediumButton" data-toggle="modal"
+                                        data-target="#mediumModal" data-attr={{ route('masuk.pdf', $masuk->id) }}></a>
                                 </td>
-                            </tr>
                         @endforeach
                     </tbody>
                 </table>

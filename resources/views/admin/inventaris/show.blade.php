@@ -43,14 +43,14 @@
 <div class="row">
     <div class="col-6">
         <div class="form-group">
-            <label for="inputPembuatan">Pembuatan</label>
+            <label for="inputPembuatan">Tahun Pembuatan</label>
             <input type="text" class="form-control" id="inputPembuatan" aria-describedby="emailHelp" name="pembuatan"
                 value="{{ old('pembuatan') ?? $inventaris->thn_pembuatan }}" disabled>
         </div>
     </div>
     <div class="col-6">
         <div class="form-group">
-            <label for="inputPenyerahan">Penyerahan</label>
+            <label for="inputPenyerahan">Tanggal Penyerahan</label>
             <input type="date" class="form-control" id="inputPenyerhan" aria-describedby="emailHelp" name="penyerahan"
                 value="{{ old('penyerahan') ?? $inventaris->tgl_penyerahan }}" disabled>
         </div>
@@ -67,8 +67,8 @@
     <div class="col-6">
         <div class="form-group">
             <label for="inputHargaSatuan">Harga Satuan</label>
-            <input name="hrgSatuan" type="number" class="form-control" id="inputHargaSatuan"
-                aria-describedby="emailHelp" value="{{ old('pembelian') ?? $inventaris->harga }}" disabled>
+            <input name="hrgSatuan" type="text" class="form-control" id="inputHargaSatuan"
+                aria-describedby="emailHelp" value="Rp.{{ old('pembelian') ?? number_format($inventaris->harga) }}" disabled>
         </div>
     </div>
 </div>

@@ -106,4 +106,26 @@ class UserController extends Controller
 
         return redirect()->route('user.index')->with(['warning' => 'Data Terhapus']);
     }
+
+    public function reset(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $akun = User::where('email',$request->email)->first();
+        if ($akun === NULL) {
+            return back()->withErrors([
+                'email' => 'email bukan admin'
+            ])->onlyInput('email');
+        }
+        $akun->password = Hash::make($request->password);
+        $akun->save();
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->route('dashboard.index');
+        }
+    }
 }
