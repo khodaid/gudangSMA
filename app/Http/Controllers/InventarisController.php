@@ -192,17 +192,17 @@ class InventarisController extends Controller
             'hrgSatuan' => 'required',
         ]);
 
-        // $file = $inventaris->file;
-        // $file_name = $inventaris->file;
+        $file = $inventaris->file;
+        $file_name = $inventaris->file;
 
-        // if ($request->hasFile('file')) {
-        //     if (Storage::exists($file)) {
-        //         Storage::delete($file);
-        //     }
-        //     $file = $request->file;
-        //     $file_name = $request->kode.'_'.$file->getClientOriginalName();
-        //     $path = $file->storeAs('public/files', $file_name);
-        // }
+        if ($request->hasFile('file')) {
+            if (Storage::exists('public/files/'.$file)) {
+                Storage::delete('public/files/'.$file);
+            }
+            $file = $request->file('file');
+            $file_name = $request->kode.'_'.$file->getClientOriginalName();
+            $path = $file->storeAs('public/files', $file_name);
+        }
 
         if($request->id_barang != $inventaris->id_barang)
         {
@@ -224,8 +224,7 @@ class InventarisController extends Controller
         $inventaris->id_dana = $request->input('id_dana');
         $inventaris->tgl_penyerahan = $request->input('penyerahan');
         $inventaris->harga = $request->input('hrgSatuan');
-        // $inventaris->hrg_total = $request->input('hrg_total');
-        // $inventaris->file = $file_name;
+        $inventaris->file = $file_name;
         $inventaris->id_user = Auth::id();
 
         $inventaris->save();

@@ -12,7 +12,7 @@
                 {{ $message }}
             </div>
         @endif
-        <form action="{{route('inventaris.update', $inventaris)}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('inventaris.update', $inventaris) }}" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-lg-6">
                     @csrf
@@ -48,32 +48,31 @@
                     </div>
                     <div class="form-group">
                         <label for="inputDskripsi">Deskripsi</label>
-                        <textarea class="form-control" id="inputDeskripsi" rows="3"
-                            name="deskripsi">{{ old('deskripsi') ?? $inventaris->deskripsi }}</textarea>
+                        <textarea class="form-control" id="inputDeskripsi" rows="3" name="deskripsi">{{ old('deskripsi') ?? $inventaris->deskripsi }}</textarea>
                     </div>
                     {{-- <div class="row"> --}}
-                        {{-- <div class="col">
+                    {{-- <div class="col">
                             <div class="form-group">
                                 <label for="inputQuantity">Jumlah</label>
                                 <input name="jumlah" type="number" class="form-control" id="inputNama"
                                     aria-describedby="emailHelp" value="{{ old('quantity') ?? $inventaris->jumlah }}">
                             </div>
                         </div> --}}
-                        {{-- <div class="col"> --}}
-                            <div class="form-group">
-                                <label for="exampleFormControlSelect1">Satuan</label>
-                                <select class="my-select form-control" id="exampleFormControlSelect1" name="id_satuan">
-                                    <option value="{{ old('id_satuan') ?? $inventaris->satuan->id }}">
-                                        {{ old('id_satuan') ?? $inventaris->satuan->nama }}
-                                    </option>
-                                    @foreach ($satuans as $satuan)
-                                        @if ($inventaris->satuan->id != $satuan->id)
-                                            <option value="{{ $satuan->id }}">{{ $satuan->nama }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                        {{-- </div> --}}
+                    {{-- <div class="col"> --}}
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Satuan</label>
+                        <select class="my-select form-control" id="exampleFormControlSelect1" name="id_satuan">
+                            <option value="{{ old('id_satuan') ?? $inventaris->satuan->id }}">
+                                {{ old('id_satuan') ?? $inventaris->satuan->nama }}
+                            </option>
+                            @foreach ($satuans as $satuan)
+                                @if ($inventaris->satuan->id != $satuan->id)
+                                    <option value="{{ $satuan->id }}">{{ $satuan->nama }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    {{-- </div> --}}
                     {{-- </div> --}}
                 </div>
                 <div class="col-lg-6">
@@ -109,16 +108,21 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    {{-- <div class="row">
-                        <div class="col-6"> --}}
+                        <div class="col">
                             <div class="form-group">
                                 <label for="inputHargaSatuan">Harga Satuan</label>
                                 <input name="hrgSatuan" type="number" class="form-control" id="inputHargaSatuan"
                                     aria-describedby="emailHelp" value="{{ old('pembelian') ?? $inventaris->harga }}">
                             </div>
-                        {{-- </div>
-                    </div> --}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlFile1">Bukti Scan Nota</label>
+                        <h6 class="text-danger">*masukan file jika ingin merubah nota</h6>
+                        <input type="file" class="form-control-file mb-2" id="exampleFormControlFile1" name="file"
+                            value="{{ old('file') ?? $inventaris->file }}">
+                        <embed src="{{asset('/storage/files/'.$inventaris->file) }} " type="application/pdf" width="400px" height="500px" />
+                    </div>
                 </div>
             </div>
             <div class="row">

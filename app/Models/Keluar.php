@@ -12,6 +12,9 @@ class Keluar extends Model
     protected $table = 'keluars';
     protected $guard = [];
     protected $fillable = ['id','deskripsi','tgl_keluar','jumlah'];
+    protected $casts = [
+        'jumlah' => 'integer'
+    ];
 
     /**
      * Get the barang that owns the Keluar

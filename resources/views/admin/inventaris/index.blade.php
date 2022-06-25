@@ -155,12 +155,12 @@
             <div class="row">
                 <div class="col-6 my-1">
                     <!-- Button trigger modal -->
-                    {{-- @if (isset(Auth::user()->id_super)) --}}
-                    <button type="button" class="btn btn-primary float-left" data-toggle="modal"
-                        data-target="#exampleModal">
-                        Tambah Data
-                    </button>
-                    {{-- @endif --}}
+                    @if (isset(Auth::user()->id_super))
+                        <button type="button" class="btn btn-primary float-left" data-toggle="modal"
+                            data-target="#exampleModal">
+                            Tambah Data
+                        </button>
+                    @endif
                 </div>
 
                 <div class="col-6 d-flex justify-content-end my-1">
@@ -222,7 +222,8 @@
                                     @if ($inventaris->id_user == Auth::id())
                                         <a href="{{ route('inventaris.edit', $inventaris->id) }}"
                                             class='fas fa-edit text-warning'></a>
-                                        <a href="#" class='fas fa-flag text-danger' id="deleteData" data-toggle="modal" data-target="#modalDelete"
+                                        <a href="#" class='fas fa-flag text-danger' id="deleteData" data-toggle="modal"
+                                            data-target="#modalDelete"
                                             onclick="$('#modalDelete #formDelete').attr('action','{{ route('inventaris.rusak', $inventaris->id) }}')"></a>
                                         @if ($inventaris->kondisi != 1)
                                         @endif
@@ -232,7 +233,8 @@
                                         data-attr={{ route('inventaris.show', $inventaris->id) }}></a>
                                     {{-- <a href="#" class='' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal" data-attr={{ route('inventaris.pdf', $inventaris->id) }}><span class="badge badge-success">PDF</span></a> --}}
-                                    <a href="#" class='fas fa-file-pdf' id="mediumButton" data-toggle="modal" data-target="#mediumModal"
+                                    <a href="#" class='fas fa-file-pdf' id="mediumButton" data-toggle="modal"
+                                        data-target="#mediumModal"
                                         data-attr={{ route('inventaris.pdf', $inventaris->id) }}></a>
                                 </td>
                             </tr>

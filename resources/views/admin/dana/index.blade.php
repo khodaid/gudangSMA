@@ -60,15 +60,17 @@
             <div class="row">
                 <div class="col-6 my-1">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary float-left" data-toggle="modal"
-                        data-target="#exampleModal">
-                        Tambah Data
-                    </button>
+                    @if (isset(Auth::user()->id_super))
+                        <button type="button" class="btn btn-primary float-left" data-toggle="modal"
+                            data-target="#exampleModal">
+                            Tambah Data
+                        </button>
+                    @endif
                 </div>
 
-                <div class="col-6 d-flex justify-content-end my-1">
+                {{-- <div class="col-6 d-flex justify-content-end my-1">
                     <button type="submit" class="btn btn-success float-left">Export Excel</button>
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="card-body">

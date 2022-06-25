@@ -210,7 +210,7 @@
                                 @else
                                     <td><span class="badge badge-danger">Rusak Berat</span></td>
                                 @endif
-                                <td>{{ $inventaris->harga }}</td>
+                                <td>Rp. {{ number_format($inventaris->harga) }}</td>
                                 @if (!isset(Auth::user()->id_super))
                                     <td>{{ $inventaris->user->name }}</td>
                                 @endif
@@ -267,7 +267,7 @@
                                 @else
                                     <td><span class="badge badge-danger">Rusak Berat</span></td>
                                 @endif
-                                <td>{{ $inventaris->harga }}</td>
+                                <td>Rp. {{ number_format($inventaris->harga) }}</td>
                                 @if (!isset(Auth::user()->id_super))
                                     <td>{{ $inventaris->user->name }}</td>
                                 @endif

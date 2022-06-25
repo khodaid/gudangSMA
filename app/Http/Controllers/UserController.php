@@ -12,13 +12,13 @@ class UserController extends Controller
     public function Login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required','email'],
+            'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
         // dd($request);
 
-        if(Auth::attempt($credentials)){
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->route('dashboard.index');
         }
@@ -41,16 +41,16 @@ class UserController extends Controller
 
     public function index()
     {
-        $user = User::where('id_super',Auth::id())->get();
+        $user = User::where('id_super', Auth::id())->get();
         // dd($user);
-        return view('admin.user.index',[
+        return view('admin.user.index', [
             'users' => $user
         ]);
     }
 
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'nama' => 'required',
             'email' => 'required|email',
             'password' => 'required|min:8'
@@ -71,31 +71,31 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('admin.user.edit',[
+        return view('admin.user.edit', [
             'user' => $user
         ]);
     }
 
     public function update(Request $request, User $user)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'nama' => 'required',
             'email' => 'required'
         ]);
         $user->name = $request->nama;
         $user->email = $request->email;
-        if($request->password !== NULL){
+        if ($request->password !== NULL) {
             $user->password = Hash::make($request->password);
         }
         $user->save();
         // dd($request->all());
 
-        return redirect()->route('user.index')->with(['success'=>'Data Terupdate']);
+        return redirect()->route('user.index')->with(['success' => 'Data Terupdate']);
     }
 
     public function show(User $user)
     {
-        return view('admin.user.show',[
+        return view('admin.user.show', [
             'user' => $user
         ]);
     }
@@ -114,9 +114,9 @@ class UserController extends Controller
             'password' => 'required'
         ]);
 
-        $akun = User::where('email',$request->email)->first();
-        if ($akun === NULL) {
-            return back()->withErrors([
+        $akun = User::where('email', $request->email)->first();
+        if ($akun->id_super != NULL) {
+            return redirect()->back()->withErrors([
                 'email' => 'email bukan admin'
             ])->onlyInput('email');
         }

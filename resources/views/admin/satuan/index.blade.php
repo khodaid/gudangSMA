@@ -56,9 +56,9 @@
                     </button>
                 </div>
 
-                <div class="col-6 d-flex justify-content-end my-1">
+                {{-- <div class="col-6 d-flex justify-content-end my-1">
                     <button type="submit" class="btn btn-success float-left">Export Excel</button>
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="card-body">

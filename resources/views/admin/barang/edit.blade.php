@@ -22,9 +22,13 @@
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Satuan</label>
                         <select class="my-select form-control" id="exampleFormControlSelect1" name="satuan">
-                            {{-- <option value="">Mustard</option> --}}
+                            <option value="{{ old('satuan') ?? $barang->satuan->id }}">
+                                {{ old('satuan') ?? $barang->satuan->nama }}
+                            </option>
                             @foreach ($satuans as $satuan)
-                                <option value="{{ $satuan->id }}">{{ $satuan->nama }}</option>
+                                @if ($barang->satuan->id != $satuan->id)
+                                    <option value="{{ $satuan->id }}">{{ $satuan->nama }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -38,3 +42,4 @@
         </form>
     </div>
 @endsection
+

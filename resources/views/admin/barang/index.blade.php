@@ -60,7 +60,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h3 class="my-1 font-weight-bold text-primary">Barang Gudang</h3>
+            <h3 class="my-1 font-weight-bold text-primary">Barang</h3>
             <div class="row">
                 <div class="col-6 my-1">
                     <!-- Button trigger modal -->
@@ -95,12 +95,20 @@
                             <th>Aksi</th>
                     </thead>
                     <tbody>
+                        {{-- @foreach ($coba as $item)
+                            <p>{{$item->nama}}</p>
+                            <p>{{$item->satuan->nama}}</p>
+                        @endforeach --}}
                         @foreach ($barangs as $barang)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 {{-- @dd($barang) --}}
                                 <td>{{ $barang->nama }}</td>
-                                <td>{{ $transaksis[$barang->id] }}</td>
+                                @if ($barang->kategori)
+                                    <td>{{$barang->inventaris->count()}}</td>
+                                @else
+                                    <td>{{ $barang->jumlah }}</td>
+                                @endif
                                 <td>{{ $barang->satuan->nama }}</td>
                                 @if ($barang->kategori)
                                     <td><span class="badge badge-secondary">Inventaris</span></td>
@@ -117,9 +125,10 @@
                                                 onclick="$('#modalDelete #formDelete').attr('action','{{ route('barang.destroy', $barang->id) }}')"></a>
                                         @endif
                                     @endif
-                                    {{-- <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
+                                    <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal" data-attr={{ route('barang.show', $barang->id) }}></a>
-                                </td> --}}
+                                    {{-- <a href="{{ route('barang.show', $barang->id) }}" class='fas fa-eye text-success'></a> --}}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

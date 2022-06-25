@@ -90,7 +90,10 @@
                                 <td>{{ $user->roles }}</td>
                                 <td>
                                     <a href="{{ route('user.edit', $user->id) }}" class='fas fa-edit text-warning'></a>
-                                    <a href="{{ route('user.destroy', $user->id) }}" class='fas fa-trash text-danger'></a>
+                                    {{-- <a href="{{ route('user.destroy', $user->id) }}" class='fas fa-trash text-danger'></a> --}}
+                                    <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
+                                            data-target="#modalDelete"
+                                            onclick="$('#modalDelete #formDelete').attr('action','{{ route('user.destroy', $user->id) }}')"></a>
                                     {{-- <a href="#" class='fas fa-eye text-success'  id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal" data-attr={{ route('user.show', $user->id) }}></a> --}}
                                 </td>
@@ -98,6 +101,25 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade " id="modalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Yakin Hapus Data ini?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <form action="" method="get" id="formDelete">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

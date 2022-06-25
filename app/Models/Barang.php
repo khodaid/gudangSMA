@@ -12,6 +12,7 @@ class Barang extends Model
     protected $fillable = ['id','nama','kategori','id_user','id_satuan'];
     protected $guard = [];
     protected $table = 'barangs';
+    protected $with = ['satuan'];
 
     /**
      * The satuan that belong to the Barang
@@ -22,6 +23,10 @@ class Barang extends Model
     {
         return $this->belongsTo(Satuan::class,'id_satuan','id');
     }
+    // public function satuan()
+    // {
+    //     return $this->belongsTo(Satuan::class,'id_satuan','id');
+    // }
 
     /**
      * Get all of the comments for the Barang

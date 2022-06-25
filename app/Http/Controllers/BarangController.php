@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Sum;
 
 class BarangController extends Controller
 {
@@ -28,22 +30,39 @@ class BarangController extends Controller
         $satuan = Satuan::where('id_user',Auth::id())
             ->orWhere('id_user',Auth::user()->id_super)->get();
 
-        $barang = Barang::where('id_user', Auth::id()) //mengambil data dari id user untuk akun user
-            ->orWhereIn('id_user',$akun->modelKeys())->get(); // mengambil data dari dari id user turunan SU untuk SU
+        // $barang = Barang::where('id_user', Auth::id()) //mengambil data dari id user untuk akun user
+        //     ->orWhereIn('id_user',$akun->modelKeys())->get(); // mengambil data dari dari id user turunan SU untuk SU
 
             // $masuk = Masuk::where('id_user', Auth::id())
             // ->orWhereIn('id_user',$akun->modelKeys())->sum('jumlah')->get();
 
-            // dd($masuk);
-        // $transaksi=[];
-        // $i = 0;
-        foreach ($barang as $b) {
-            // $masuk = Masuk::where('id_barang', $b->id)->sum('jumlah');
-            // $transaksi[] = $b->masuk->sum('jumlah') - $b->keluar->sum('jumlah');
-            // $transaksi = Collection::make($b->masuk->sum('jumlah') - $b->keluar->sum('jumlah'));
-            $this->transaksi[$b->id] = $b->masuk->sum('jumlah') - $b->keluar->sum('jumlah');
+            // $coba = DB::table('barangs as b')
+            //     ->leftjoin('keluars as k','b.id','=','k.id_barang')
+            //     ->leftjoin('masuks as m','b.id','=','m.id_barang')
+            //     ->select('b.nama','b.id_satuan',DB::raw('ifnull(sum(m.jumlah),0) - ifnull(sum(k.jumlah),0) as jumlah'))
+            //     ->groupBy('b.nama','b.id_satuan')
+            //     ->with('satuan')
+            //     ->get();
+            $barang = Barang::leftJoin('keluars','barangs.id','=','keluars.id_barang')
+                    ->leftJoin('masuks','barangs.id','=','masuks.id_barang')
+                    ->select('barangs.nama','barangs.id','barangs.id_satuan','barangs.kategori',DB::raw('ifnull(sum(masuks.jumlah),0) - ifnull(sum(keluars.jumlah),0) as jumlah'))
+                    ->groupBy('barangs.nama','barangs.id','barangs.id_satuan','barangs.kategori')
+                    ->where('barangs.id_user', Auth::id())
+                    ->orWhereIn('barangs.id_user',$akun->modelKeys())
+                    ->get();
+            // dd($coba);
+            // dd($barang);
 
-        }
+        // $transaksi=[];
+        // dd($this->transaksi);
+        // $jumlah =[];
+        // foreach ($barang as $b) {
+        //     // $masuk = Masuk::where('id_barang', $b->id)->sum('jumlah');
+        //     // $transaksi[] = $b->masuk->sum('jumlah') - $b->keluar->sum('jumlah');
+        //     // $transaksi = Collection::make($b->masuk->sum('jumlah') - $b->keluar->sum('jumlah'));
+        //     $this->transaksi[$b->id] = $b->masuk->sum('jumlah') - $b->keluar->sum('jumlah');
+        //     // $jumlah[$b->id] =  $b->masuk->sum('jumlah') - $b->keluar->sum('jumlah');
+        // }
         // dd($i);
         // $transaksi = collect((object)$transaksi);
         // dd($transaksi);
@@ -52,10 +71,8 @@ class BarangController extends Controller
         //     't' => $transaksi];
         // dd($this->transaksi);
         return view('admin.barang.index',[
-            // 'barangs' => $barang,
             'barangs' => $barang,
             'satuans' => $satuan,
-            'transaksis' => $this->transaksi
         ]);
     }
 
@@ -101,8 +118,15 @@ class BarangController extends Controller
      */
     public function show(Barang $barang)
     {
+        if ($barang->kategori) {
+            $jumlah = $barang->inventaris->count();
+        } else {
+            $jumlah = $barang->masuk->sum('jumlah') - $barang->keluar->sum('jumlah');
+        }
+
         return view('admin.barang.show',[
-            'barang' => $barang
+            'barang' => $barang,
+            'jumlah' => $jumlah
         ]);
     }
 
@@ -138,7 +162,7 @@ class BarangController extends Controller
         ]);
 
         $barang->nama = $request->input('nama');
-        $barang->satuan = $request->input('satuan');
+        $barang->id_satuan = $request->input('satuan');
 
         $barang->save();
 

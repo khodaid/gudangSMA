@@ -15,17 +15,39 @@ class SatuanSeeder extends Seeder
      */
     public function run()
     {
-        foreach(range(1,20) as $i)
-        {
-            $resultIds= Satuan::factory()->create();
+        // foreach(range(1,20) as $i)
+        // {
+        //     $resultIds= Satuan::factory()->create();
 
-            $data = [
-                [
-                    'nama' => $resultIds->nama,
-                    'id_user' => $resultIds->id_user
-                ]
-            ];
-        }
+        //     $data = [
+        //         [
+        //             'nama' => $resultIds->nama,
+        //             'id_user' => $resultIds->id_user
+        //         ]
+        //     ];
+        // }
+        $data = [
+            [
+                'nama' => 'Unit',
+                'id_user' => 1
+            ],
+            [
+                'nama' => 'Rim',
+                'id_user' => 1
+            ],
+            [
+                'nama' => 'Box',
+                'id_user' => 1
+            ],
+            [
+                'nama' => 'Lusin',
+                'id_user' => 1
+            ],
+            [
+                'nama' => 'Roll',
+                'id_user' => 1
+            ]
+        ];
         Satuan::insert($data);
     }
 }

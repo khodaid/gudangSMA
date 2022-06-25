@@ -13,6 +13,10 @@ class Masuk extends Model
     protected $fillable = ['id','deskripsi','jumlah',
         'tgl_pemesanan','nama_toko','tgl_penerimaan','harga_satuan','jumlah_harga'];
 
+    protected $casts = [
+        'jumlah' => 'integer'
+    ];
+
     /**
      * Get the barang that owns the Masuk
      *
