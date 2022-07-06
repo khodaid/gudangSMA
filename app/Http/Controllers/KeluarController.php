@@ -26,8 +26,9 @@ class KeluarController extends Controller
             ->where('kategori',false)->get();
         $user = User::where('id_super', Auth::id())->get();
         $keluar = Keluar::where('id_user', Auth::id())
-            ->orWhere('id_user', $user->modelKeys())->get();
-        // dd([$barang,$satuan,$user,$keluar]);
+            ->orWhere('id_user', $user->modelKeys())
+            ->with(['barang','satuan'])
+            ->paginate(100);
         return view('admin.keluar.index', [
             'satuans' => $satuan,
             'barangs' => $barang,

@@ -29,7 +29,7 @@ return new class extends Migration
             $table->unsignedInteger('id_barang')
                 ->foreign('id_barang')->references('id')->on('barangs')->onDelete('cascade');
 
-            $table->string('file',50);
+            $table->string('file',100);
             $table->timestamps();
         });
     }

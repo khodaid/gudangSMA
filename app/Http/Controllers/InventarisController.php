@@ -29,7 +29,9 @@ class InventarisController extends Controller
         $satuans = Satuan::where('id_user',Auth::user()->id_super)->get();
 
         $inventaris = Inventaris::where('id_user',Auth::id())
-            ->orWhere('id_user',$users->modelKeys())->get();
+            ->orWhere('id_user',$users->modelKeys())
+            ->with(['satuan','barang','dana','user'])
+            ->paginate(100);
 
         $barangs = Barang::where('id_user', Auth::id())->get();
 
@@ -206,13 +208,17 @@ class InventarisController extends Controller
 
         if($request->id_barang != $inventaris->id_barang)
         {
+            $inventaris = Inventaris::where('id_barang',$inventaris->id_barang)->count();
+
             $barang = Barang::find($request->input('id_barang'));
             $barang->kategori = true;
-            $brg = Barang::find($inventaris->id_barang);
-            $brg->kategori = false;
-
             $barang->save();
-            $brg->save();
+
+            if ($inventaris == 1) {
+                $brg = Barang::find($inventaris->id_barang);
+                $brg->kategori = false;
+                $brg->save();
+            }
         }
 
         $inventaris->tgl_pembukuan = $request->input('pembukuan');

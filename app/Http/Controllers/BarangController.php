@@ -49,6 +49,7 @@ class BarangController extends Controller
                     ->groupBy('barangs.nama','barangs.id','barangs.id_satuan','barangs.kategori')
                     ->where('barangs.id_user', Auth::id())
                     ->orWhereIn('barangs.id_user',$akun->modelKeys())
+                    ->with(['satuan','user','inventaris'])
                     ->get();
             // dd($coba);
             // dd($barang);

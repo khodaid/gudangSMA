@@ -13,7 +13,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                     Barang Menipis</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ sizeof($menipis) }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count($menipis) }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fa fa-question-circle fa-2x text-warning" aria-hidden="true"></i>
@@ -35,7 +35,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                     Barang Habis</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ sizeof($habis) }}</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ count($habis) }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
@@ -110,7 +110,7 @@
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 {{-- @dd($barang) --}}
                                 <td>{{ $barang->nama }}</td>
-                                <td>{{ $jumlahMenipis[$barang->id]['jumlah'] }}</td>
+                                <td>{{ $barang->jumlah}}</td>
                                 <td>{{ $barang->satuan->nama }}</td>
                                 @if ($barang->kategori)
                                     <td><span class="badge badge-secondary">Inventaris</span></td>
@@ -151,7 +151,7 @@
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 {{-- @dd($barang) --}}
                                 <td>{{ $barang->nama }}</td>
-                                <td>{{ $jumlahHabis[$barang->id]['jumlah'] }}</td>
+                                <td>{{ $barang->jumlah}}</td>
                                 <td>{{ $barang->satuan->nama }}</td>
                                 @if ($barang->kategori)
                                     <td><span class="badge badge-secondary">Inventaris</span></td>

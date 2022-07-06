@@ -30,7 +30,7 @@ return new class extends Migration
             $table->date('tgl_penyerahan');
             $table->integer('kondisi');
             $table->integer('harga');
-            $table->string('file',50);
+            $table->string('file',100);
             $table->timestamps();
         });
     }

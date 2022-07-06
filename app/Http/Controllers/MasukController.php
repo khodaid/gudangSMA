@@ -27,7 +27,10 @@ class MasukController extends Controller
         $satuans = Satuan::where('id_user',Auth::user()->id_super)->get();
 
         $masuks = Masuk::where('id_user',Auth::id())
-            ->orWhere('id_user',$users->modelKeys())->get();
+            ->orWhere('id_user',$users->modelKeys())
+            ->with(['barang','satuan','user'])
+            ->paginate(100);
+            // ->get();
 
         $barangs = Barang::where('id_user', Auth::id())
             ->where('kategori',false)->get();
