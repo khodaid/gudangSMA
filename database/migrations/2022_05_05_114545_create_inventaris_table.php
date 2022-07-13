@@ -27,6 +27,8 @@ return new class extends Migration
                 ->foreign('id_dana')->refrences('id')->on('danas')->onDelete('cascade');
             $table->unsignedInteger('id_user')
                 ->foreign('id_user')->refrences('id')->on('users')->onDelete('cascade');
+            $table->unsignedInteger('id_lokasi')
+                ->foreign('id_lokasi')->refrences('id')->on('lokasis')->onDelete('cascade');
             $table->date('tgl_penyerahan');
             $table->integer('kondisi');
             $table->integer('harga');
