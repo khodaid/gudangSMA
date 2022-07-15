@@ -43,13 +43,14 @@ Route::post('/login-public', [UserController::class, 'loginPin'])->name('public.
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
-    Route::get('/barang/{barang}/show', [BarangController::class, 'show'])->name('barang.show');
+    Route::get('/cek', [BarangController::class, 'CekBarangPublic'])->name('cek-barang.index');
+    Route::get('/cek/{barang}/show', [BarangController::class, 'show'])->name('cek-barang.show');
 
     Route::middleware('private')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-
+        Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
+        Route::get('/barang/{barang}/show', [BarangController::class, 'show'])->name('barang.show');
         Route::post('/barang/export', [BarangController::class, 'export'])->name('barang.export');
 
         Route::get('/masuk', [MasukController::class, 'index'])->name('masuk.index');

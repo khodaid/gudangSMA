@@ -56,6 +56,11 @@
         </div>
     </div>
 </div>
+<div class="form-group">
+    <label for="exampleFormControlSelect1">Lokasi</label>
+    <input name="satuan" type="text" class="form-control" id="inputKode" aria-describedby="emailHelp"
+        value="{{ old('lokasi') ?? $inventaris->lokasi->nama_lokasi }} " disabled>
+</div>
 <div class="row">
     <div class="col">
         <div class="form-group">

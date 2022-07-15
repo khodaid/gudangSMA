@@ -16,7 +16,7 @@
                     <div class="form-group">
                         <label for="inputNama">Nama Lokasi</label>
                         <input name="nama" type="text" class="form-control" id="inputNama" aria-describedby="emailHelp"
-                            value="{{ old('nama') ?? $lokasi->nama }}">
+                            value="{{ old('nama') ?? $lokasi->nama_lokasi }}">
                     </div>
                     <div class="form-group">
                         <label for="inputDskripsi">Deskripsi</label>

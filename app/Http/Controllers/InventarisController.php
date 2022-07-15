@@ -144,7 +144,7 @@ class InventarisController extends Controller
      */
     public function show(Inventaris $inventaris)
     {
-
+        // $inventaris = $inventaris->lokasi()->get();
         return view('admin.inventaris.show', [
             'inventaris' => $inventaris,
         ]);

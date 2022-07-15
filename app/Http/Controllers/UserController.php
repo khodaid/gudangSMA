@@ -38,7 +38,7 @@ class UserController extends Controller
         Auth::login($auth);
         if (Auth::check()) {
             $request->session()->regenerate();
-            return redirect()->route('barang.index');
+            return redirect()->route('cek-barang.index');
         }
 
         return back()->withErrors([

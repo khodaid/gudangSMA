@@ -1,7 +1,7 @@
 <div class="form-group">
     <label for="inputNama">Nama Lokasi</label>
     {{-- <input name="nama" type="text" class="form-control" id="disabledInput" aria-describedby="emailHelp" value="{{old('nama') ?? $satuan->nama}}"> --}}
-    <input class="form-control" id="disabledInput" type="text" placeholder="{{$lokasi->nama}}" disabled>
+    <input class="form-control" id="disabledInput" type="text" placeholder="{{$lokasi->nama_lokasi}}" disabled>
 </div>
 <div class="form-group">
     <label for="inputDskripsi">Deskripsi</label>

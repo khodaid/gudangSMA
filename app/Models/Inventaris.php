@@ -56,10 +56,10 @@ class Inventaris extends Model
     /**
      * The lokasi that belong to the Inventaris
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function lokasi()
     {
-        return $this->belongsToMany(Lokasi::class, 'lokasi_inventaris', 'id_inventaris', 'id_lokasi');
+        return $this->belongsTo(Lokasi::class,'id_lokasi', 'id');
     }
 }

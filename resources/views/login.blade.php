@@ -44,7 +44,7 @@
                                             Login
                                         </button>
                                     </form>
-                                    <a href="{{route('loginPublic')}}" class="mt-2 btn btn-user btn-block btn-outline-dark rounded-pill" role="button">Login Public</a>
+                                    <a href="{{route('loginPublic')}}" class="mt-2 btn btn-user btn-block btn-outline-dark rounded-pill" role="button">Cek Ketersedian Barang</a>
                                     <div class="mt-2 mx-2 d-flex flex-row-reverse">
                                         <a href="{{route('reset.view')}}"><p style="font-size: 12px">Reset Password</p style="font-size: 12px"></a>
                                     </div>

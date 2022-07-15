@@ -176,4 +176,21 @@ class BarangController extends Controller
     {
         return Excel::download(new BarangExport($this->option), 'barang.xlsx');
     }
+
+    public function CekBarangPublic()
+    {
+        $akun = User::where('id_super', Auth::user()->id_super)->get();
+        $barang = Barang::leftJoin('keluars', 'barangs.id', '=', 'keluars.id_barang')
+            ->leftJoin('masuks', 'barangs.id', '=', 'masuks.id_barang')
+            ->select('barangs.nama', 'barangs.id', 'barangs.id_satuan', 'barangs.id_kategori', 'barangs.kode_barang', DB::raw('ifnull(sum(masuks.jumlah),0) - ifnull(sum(keluars.jumlah),0) as jumlah'))
+            ->groupBy('barangs.nama', 'barangs.id', 'barangs.id_satuan', 'barangs.id_kategori', 'barangs.kode_barang')
+            ->whereIn('barangs.id_user', $akun->modelKeys())
+            ->where('barangs.id_kategori','>',1)
+            ->with(['satuan', 'user', 'inventaris','kategori'])
+            ->get();
+
+        return view('cek-barang-public',[
+            'barangs' => $barang
+        ]);
+    }
 }

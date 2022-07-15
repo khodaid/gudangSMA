@@ -87,7 +87,7 @@
                         @foreach ($lokasis as $lokasi)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $lokasi->nama }}</td>
+                                <td>{{ $lokasi->nama_lokasi }}</td>
                                 <td>{{ Str::limit($lokasi->deskripsi, 20) }}</td>
                                 <td>
                                     @if (!isset(Auth::user()->roles) || $lokasi->id_user == Auth::id())
