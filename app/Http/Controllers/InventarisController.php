@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\InventarisExport;
+use App\Models\Lokasi;
 
 class InventarisController extends Controller
 {
@@ -24,27 +25,32 @@ class InventarisController extends Controller
      */
     public function index()
     {
-        $users = User::where('id_super',Auth::id())->get();
+        $users = User::where('id_super', Auth::id())->get();
 
-        $satuans = Satuan::where('id_user',Auth::user()->id_super)->get();
+        $satuans = Satuan::where('id_user', Auth::user()->id_super)->get();
 
-        $inventaris = Inventaris::where('id_user',Auth::id())
-            ->orWhere('id_user',$users->modelKeys())
-            ->with(['satuan','barang','dana','user'])
+        $inventaris = Inventaris::where('id_user', Auth::id())
+            ->orWhere('id_user', $users->modelKeys())
+            ->with(['satuan', 'barang', 'dana', 'user'])
             ->paginate(100);
 
-        $barangs = Barang::where('id_user', Auth::id())->get();
+        $barangs = Barang::where('id_user', Auth::id())
+            ->where('id_kategori', 1)
+            ->get();
 
-        $danas = Dana::where('id_user',Auth::id())
-            ->orWhere('id_user',Auth::user()->id_super)
-            ->orWhereIn('id_user',$users->modelKeys())->get();
+        $danas = Dana::where('id_user', Auth::id())
+            ->orWhere('id_user', Auth::user()->id_super)
+            ->orWhereIn('id_user', $users->modelKeys())->get();
 
-        // dd(time());
-        return view('admin.inventaris.index',[
+        $lokasi = Lokasi::Where('id_user', Auth::user()->id_super)->get();
+
+        // dd($lokasi);
+        return view('admin.inventaris.index', [
             'satuans' => $satuans,
             'inventariss' => $inventaris,
             'barangs' => $barangs,
-            'danas' => $danas
+            'danas' => $danas,
+            'lokasis' => $lokasi
         ]);
     }
 
@@ -77,30 +83,32 @@ class InventarisController extends Controller
             'id_dana' => 'required',
             'penyerahan' => 'required',
             'harga' => 'required',
+            'lokasi' => 'required',
             'file' => 'required|mimes:pdf'
         ]);
 
         $file = $request->file;
-        $file_name = time().'_'.$file->getClientOriginalName();
+        $file_name = time() . '_' . $file->getClientOriginalName();
 
         if (count($request->kode) > 0) {
 
             foreach ($request->kode as $key => $value) {
                 // $inventaris = new Inventaris();
-                $file_name = $request->kode[$key].'_'.$file->getClientOriginalName();
+                $file_name = $request->kode[$key] . '_' . $file->getClientOriginalName();
                 $inventaris = array(
-                'tgl_pembukuan' => $request->input('pembukuan'),
-                'kode' => $request->input('kode')[$key],
-                'id_barang' => $request->input('id_barang'),
-                'deskripsi' => $request->input('deskripsi'),
-                'id_satuan' => $request->input('id_satuan'),
-                'thn_pembuatan' => $request->input('pembuatan'),
-                'id_dana' => $request->input('id_dana'),
-                'tgl_penyerahan' => $request->input('penyerahan'),
-                'kondisi' => 1,
-                'harga' => $request->input('harga'),
-                'file' => $file_name,
-                'id_user' => Auth::id(),
+                    'tgl_pembukuan' => $request->input('pembukuan'),
+                    'kode' => $request->input('kode')[$key],
+                    'id_barang' => $request->input('id_barang'),
+                    'deskripsi' => $request->input('deskripsi'),
+                    'id_satuan' => $request->input('id_satuan'),
+                    'thn_pembuatan' => $request->input('pembuatan'),
+                    'id_dana' => $request->input('id_dana'),
+                    'tgl_penyerahan' => $request->input('penyerahan'),
+                    'kondisi' => 1,
+                    'harga' => $request->input('harga'),
+                    'id_lokasi' => $request->input('lokasi'),
+                    'file' => $file_name,
+                    'id_user' => Auth::id(),
                 );
                 Inventaris::create($inventaris);
                 $path = $file->storeAs('public/files', $file_name);
@@ -118,20 +126,12 @@ class InventarisController extends Controller
             $inventaris->tgl_penyerahan = $request->input('penyerahan');
             $inventaris->kondisi = 1;
             $inventaris->harga = $request->input('harga');
+            $inventaris->id_lokasi =  $request->input('lokasi');
             $inventaris->file = $file_name;
             $inventaris->id_user = Auth::id();
 
             $inventaris->save();
         }
-
-
-
-
-        $barang = Barang::find($request->input('id_barang'));
-        $barang->kategori = true;
-
-        $barang->save();
-
 
         return redirect()->route('inventaris.index')->with(['store' => 'Data Tersimpan']);
     }
@@ -145,7 +145,7 @@ class InventarisController extends Controller
     public function show(Inventaris $inventaris)
     {
 
-        return view('admin.inventaris.show',[
+        return view('admin.inventaris.show', [
             'inventaris' => $inventaris,
         ]);
     }
@@ -158,13 +158,15 @@ class InventarisController extends Controller
      */
     public function edit(Inventaris $inventaris)
     {
-        $users = User::where('id_super',Auth::id())->get();
-        $satuans = Satuan::where('id_user',Auth::user()->id_super)->get();
-        $barangs = Barang::where('id_user', Auth::id())->get();
-        $danas = Dana::where('id_user',Auth::id())
-            ->orWhere('id_user',Auth::user()->id_super)
-            ->orWhereIn('id_user',$users->modelKeys())->get();
-        return view('admin.inventaris.edit',[
+        $users = User::where('id_super', Auth::id())->get();
+        $satuans = Satuan::where('id_user', Auth::user()->id_super)->get();
+        $barangs = Barang::where('id_user', Auth::id())
+            ->where('id_kategori', 1)
+            ->get();
+        $danas = Dana::where('id_user', Auth::id())
+            ->orWhere('id_user', Auth::user()->id_super)
+            ->orWhereIn('id_user', $users->modelKeys())->get();
+        return view('admin.inventaris.edit', [
             'inventaris' => $inventaris,
             'barangs' => $barangs,
             'satuans' => $satuans,
@@ -191,6 +193,7 @@ class InventarisController extends Controller
             'pembuatan' => 'required',
             'id_dana' => 'required',
             'penyerahan' => 'required',
+            'lokasi' => 'required',
             'hrgSatuan' => 'required',
         ]);
 
@@ -198,28 +201,27 @@ class InventarisController extends Controller
         $file_name = $inventaris->file;
 
         if ($request->hasFile('file')) {
-            if (Storage::exists('public/files/'.$file)) {
-                Storage::delete('public/files/'.$file);
+            if (Storage::exists('public/files/' . $file)) {
+                Storage::delete('public/files/' . $file);
             }
             $file = $request->file('file');
-            $file_name = $request->kode.'_'.$file->getClientOriginalName();
+            $file_name = $request->kode . '_' . $file->getClientOriginalName();
             $path = $file->storeAs('public/files', $file_name);
         }
 
-        if($request->id_barang != $inventaris->id_barang)
-        {
-            $inventaris = Inventaris::where('id_barang',$inventaris->id_barang)->count();
+        // if ($request->id_barang != $inventaris->id_barang) {
+        //     $inventaris = Inventaris::where('id_barang', $inventaris->id_barang)->count();
 
-            $barang = Barang::find($request->input('id_barang'));
-            $barang->kategori = true;
-            $barang->save();
+        //     $barang = Barang::find($request->input('id_barang'));
+        //     $barang->id_kategori = 1;
+        //     $barang->save();
 
-            if ($inventaris == 1) {
-                $brg = Barang::find($inventaris->id_barang);
-                $brg->kategori = false;
-                $brg->save();
-            }
-        }
+        //     if ($inventaris == 1) {
+        //         $brg = Barang::find($inventaris->id_barang);
+        //         $brg->kategori = 2;
+        //         $brg->save();
+        //     }
+        // }
 
         $inventaris->tgl_pembukuan = $request->input('pembukuan');
         $inventaris->kode = $request->input('kode');
@@ -228,6 +230,7 @@ class InventarisController extends Controller
         $inventaris->id_satuan = $request->input('id_satuan');
         $inventaris->thn_pembuatan = $request->input('pembuatan');
         $inventaris->id_dana = $request->input('id_dana');
+        $inventaris->id_lokasi = $request->input('lokasi');
         $inventaris->tgl_penyerahan = $request->input('penyerahan');
         $inventaris->harga = $request->input('hrgSatuan');
         $inventaris->file = $file_name;
@@ -237,7 +240,7 @@ class InventarisController extends Controller
 
 
 
-        return redirect()->route('inventaris.index')->with(['update'=>'Data Berhasil Diubah']);
+        return redirect()->route('inventaris.index')->with(['update' => 'Data Berhasil Diubah']);
     }
 
     /**
@@ -253,41 +256,20 @@ class InventarisController extends Controller
 
     public function rusak(Request $request, Inventaris $inventaris)
     {
-        // $request->validate([
-        //     'pembukuan' => 'required',
-        //     'jumlah' => 'required',
-        //     'kondisi'=> 'required'
-        // ]);
-        // $rusak = new Inventaris();
-        // $rusak->tgl_pembukuan = $request->pembukuan;
-        // $rusak->kode = $inventaris->kode;
-        // $rusak->id_barang = $inventaris->id_barang;
-        // $rusak->deskripsi = $inventaris->deskripsi;
-        // $rusak->jumlah = $request->jumlah;
-        // $rusak->id_satuan = $inventaris->id_satuan;
-        // $rusak->thn_pembuatan = $inventaris->thn_pembuatan;
-        // $rusak->id_dana = $inventaris->id_dana;
-        // $rusak->tgl_penyerahan = $inventaris->tgl_penyerahan;
-        // $rusak->kondisi = $request->kondisi;
-        // $rusak->harga = $inventaris->harga;
-        // $rusak->hrg_total = $inventaris->hrg_total;
-        // $rusak->file = $inventaris->file;
-        // $rusak->id_user = $inventaris->id_user;
-        // $rusak->save();
         $inventaris->kondisi = $request->kondisi;
         $inventaris->save();
-        return redirect()->route('inventaris.index')->with(['update'=>'Data Berhasil Diubah']);
+        return redirect()->route('inventaris.index')->with(['update' => 'Data Berhasil Diubah']);
     }
 
     public function barang()
     {
         $baik = DB::table('inventaris')
-                    ->select('kode','id_barang','jumlah','id_satuan','kondisi')
-                    ->where('kondisi',1)->get();
+            ->select('kode', 'id_barang', 'jumlah', 'id_satuan', 'kondisi')
+            ->where('kondisi', 1)->get();
 
         $rusak = DB::table('inventaris')
-        ->select('kode','id_barang','jumlah','id_satuan','kondisi')
-        ->where('kondisi',[2,3])->get();
+            ->select('kode', 'id_barang', 'jumlah', 'id_satuan', 'kondisi')
+            ->where('kondisi', [2, 3])->get();
 
         dd($baik, $rusak);
     }
@@ -308,7 +290,7 @@ class InventarisController extends Controller
 
     public function viewPdf(Inventaris $inventaris)
     {
-        return view('admin.inventaris.pdf',[
+        return view('admin.inventaris.pdf', [
             'inventaris' => $inventaris
         ]);
     }

@@ -9,7 +9,7 @@ class Barang extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id','nama','kategori','id_user','id_satuan'];
+    protected $fillable = ['id','nama','id_kategori','id_user','id_satuan'];
     protected $guard = [];
     protected $table = 'barangs';
 
@@ -60,5 +60,15 @@ class Barang extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user', 'id');
+    }
+
+    /**
+     * Get the kategori that owns the Barang
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'id_kategori', 'id');
     }
 }

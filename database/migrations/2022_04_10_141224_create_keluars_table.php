@@ -24,6 +24,8 @@ return new class extends Migration
                 ->foreign('id_user')->refrences('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('id_satuan')
                 ->foreign('id_satuan')->refrences('id')->on('satuans')->onDelete('cascade');
+            $table->unsignedInteger('id_pengambil')
+                ->foreign('id_pengambil')->refrences('id')->on('pengambils')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -33,7 +33,7 @@ class MasukController extends Controller
             // ->get();
 
         $barangs = Barang::where('id_user', Auth::id())
-            ->where('kategori',false)->get();
+            ->where('id_kategori','!=',1)->get();
 
         return view('admin.masuk.index',[
             'satuans' => $satuans,
@@ -118,8 +118,7 @@ class MasukController extends Controller
      */
     public function edit(Masuk $masuk)
     {
-        $barangs = Barang::where('id_user', Auth::id())
-            ->where('kategori',false)->get();
+        $barangs = Barang::where('id_user', Auth::id())->get();
         $satuans = Satuan::where('id_user',Auth::user()->id_super)->get();
 
         return view('admin.masuk.edit',[

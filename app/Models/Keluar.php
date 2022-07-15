@@ -35,4 +35,14 @@ class Keluar extends Model
     {
         return $this->belongsTo(Satuan::class, 'id_satuan', 'id');
     }
+
+    /**
+     * Get the pengambil that owns the Keluar
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function pengambil()
+    {
+        return $this->belongsTo(Pengambil::class, 'id_pemngambil', 'id');
+    }
 }

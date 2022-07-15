@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lokasis', function (Blueprint $table) {
+        Schema::create('kategoris', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_lokasi',20);
-            $table->string('deskripsi',100);
+            $table->string('nama',20);
+            $table->string('deskripsi',50);
             $table->unsignedInteger('id_user')
                 ->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lokasis');
+        Schema::dropIfExists('kategoris');
     }
 };

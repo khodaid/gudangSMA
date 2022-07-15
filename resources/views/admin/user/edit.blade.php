@@ -25,6 +25,13 @@
                     <h6 class="text-danger">Diisi jika akan merubah password min 6 karakter</h6>
                     <input name="password" type="text" class="form-control" id="inputPassword" aria-describedby="emailHelp" >
                 </div>
+                @if (isset($user->pin))
+                <div class="form-group">
+                    <label for="inputPin">PIN</label>
+                    <input name="pin" type="text" class="form-control" id="inputPin"
+                        aria-describedby="emailHelp" onkeypress="return onlyNumberKey(event)" maxlength="6" value="{{old('pin') ?? $user->pin}}">
+                </div>
+                @endif
             </div>
         </div>
         <div class="row">
@@ -33,4 +40,17 @@
             </div>
         </div>
     </form>
+@endsection
+
+@section('script')
+    <script>
+        function onlyNumberKey(evt) {
+
+            // Only ASCII character in that range allowed
+            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+            if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+                return false;
+            return true;
+        }
+    </script>
 @endsection

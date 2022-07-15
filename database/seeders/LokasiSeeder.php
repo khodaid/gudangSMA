@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Satuan;
+use App\Models\Lokasi;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class SatuanSeeder extends Seeder
+class LokasiSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,26 +17,26 @@ class SatuanSeeder extends Seeder
     {
         $data = [
             [
-                'nama' => 'Unit',
+                'nama_lokasi' => "TU",
+                'deskripsi' => "Ruang Tata Usaha",
                 'id_user' => 1
             ],
             [
-                'nama' => 'Rim',
+                'nama_lokasi' => "Masjid",
+                'deskripsi' => "Masjid",
                 'id_user' => 1
             ],
             [
-                'nama' => 'Box',
+                'nama_lokasi' => "Gudang ATK",
+                'deskripsi' => "Ruang Gudang Alat Tulis Kantor",
                 'id_user' => 1
             ],
             [
-                'nama' => 'Lusin',
+                'nama_lokasi' => "Gudang Inventaris",
+                'deskripsi' => "Ruang Gudang Inventaris",
                 'id_user' => 1
             ],
-            [
-                'nama' => 'Roll',
-                'id_user' => 1
-            ]
         ];
-        Satuan::insert($data);
+        Lokasi::insert($data);
     }
 }

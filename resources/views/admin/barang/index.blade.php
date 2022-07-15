@@ -40,10 +40,23 @@
                                 aria-describedby="emailHelp">
                         </div>
                         <div class="form-group">
+                            <label for="inputKode">Kode Barang</label>
+                            <input name="kode" type="text" class="form-control" id="inputKode"
+                                aria-describedby="emailHelp" maxlength="20">
+                        </div>
+                        <div class="form-group">
                             <label for="exampleFormControlSelect1">Satuan</label>
                             <select class="my-select form-control" id="exampleFormControlSelect1" name="satuan">
                                 @foreach ($satuans as $satuan)
                                     <option value="{{ $satuan->id }}">{{ $satuan->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Kategori Barang</label>
+                            <select class="my-select form-control" id="exampleFormControlSelect1" name="kategori">
+                                @foreach ($kategoris as $kategori)
+                                    <option value="{{ $kategori->id }}">{{ $kategori->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -64,7 +77,7 @@
             <div class="row">
                 <div class="col-6 my-1">
                     <!-- Button trigger modal -->
-                    @if (isset(Auth::user()->id_super))
+                    @if (Auth::user()->roles == 2)
                         <button type="button" class="btn btn-primary float-left" data-toggle="modal"
                             data-target="#exampleModal">
                             Tambah Data
@@ -72,14 +85,13 @@
                     @endif
                 </div>
 
-                {{-- <div class="col-6 d-flex justify-content-end my-1">
-                    <a href="{{route('barang.export')}}" class="btn btn-success float-left">Export Excel</a>
-                </div> --}}
-                <div class="col-6 d-flex justify-content-end my-1">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exportModal">
-                        Export Excel
-                    </button>
-                </div>
+                @if (Auth::user()->roles < 2)
+                    <div class="col-6 d-flex justify-content-end my-1">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exportModal">
+                            Export Excel
+                        </button>
+                    </div>
+                @endif
             </div>
         </div>
         <div class="card-body">
@@ -89,37 +101,34 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>Kode</th>
                             <th>Jumlah</th>
                             <th>Satuan</th>
                             <th>Kategori</th>
                             <th>Aksi</th>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($coba as $item)
-                            <p>{{$item->nama}}</p>
-                            <p>{{$item->satuan->nama}}</p>
-                        @endforeach --}}
                         @foreach ($barangs as $barang)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                {{-- @dd($barang) --}}
                                 <td>{{ $barang->nama }}</td>
-                                @if ($barang->kategori)
-                                    <td>{{$barang->inventaris->count()}}</td>
+                                <td>{{ $barang->kode_barang }}</td>
+                                @if ($barang->id_kategori == 1)
+                                    <td>{{ $barang->inventaris->count() }}</td>
                                 @else
                                     <td>{{ $barang->jumlah }}</td>
                                 @endif
                                 <td>{{ $barang->satuan->nama }}</td>
-                                @if ($barang->kategori)
+                                @if ($barang->id_kategori == 1)
                                     <td><span class="badge badge-secondary">Inventaris</span></td>
                                 @else
-                                    <td><span class="badge badge-primary">Umum</span></td>
+                                    <td><span class="badge badge-primary">{{ $barang->kategori->nama }}</span></td>
                                 @endif
                                 <td>
-                                    @if (isset(Auth::user()->id_super))
+                                    @if (Auth::id() == 2)
                                         <a href="{{ route('barang.edit', $barang->id) }}"
                                             class='fas fa-edit text-warning'></a>
-                                        @if (!$barang->kategori)
+                                        @if ($barang->id_kategori != 1)
                                             <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
                                                 data-target="#modalDelete"
                                                 onclick="$('#modalDelete #formDelete').attr('action','{{ route('barang.destroy', $barang->id) }}')"></a>
@@ -163,15 +172,16 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{route('barang.export')}}" method="post" id="formExport">
+                <form action="{{ route('barang.export') }}" method="post" id="formExport">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Kategori</label>
                             <select class="my-select form-control" id="exampleFormControlSelect1" name="kategori">
-                                <option value="1">Semua</option>
-                                <option value="2">Inventaris</option>
-                                <option value="3">Umum</option>
+                                <option value="0">Semua</option>
+                                @foreach ($kategoris as $kategori)
+                                    <option value={{ $kategori->id }}>{{ $kategori->nama }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

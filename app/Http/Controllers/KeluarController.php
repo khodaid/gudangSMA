@@ -23,7 +23,7 @@ class KeluarController extends Controller
     {
         $satuan = Satuan::where('id_user', Auth::user()->id_super)->get();
         $barang = Barang::where('id_user', Auth::id())
-            ->where('kategori',false)->get();
+            ->where('id_kategori','!=',1)->get();
         $user = User::where('id_super', Auth::id())->get();
         $keluar = Keluar::where('id_user', Auth::id())
             ->orWhere('id_user', $user->modelKeys())

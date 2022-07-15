@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pengambil;
+use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class PengambilController extends Controller
 {
     /**
@@ -14,7 +15,13 @@ class PengambilController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::where('id_super',Auth::id())->get();
+        $pengambil = Pengambil::where('id_user',Auth::id())
+            ->orWhere('id_user',Auth::user()->id_super)
+            ->orWhereIn('id_user',$users->modelKeys())->get();
+        return view('admin.pengambil.index',[
+            'pengambil' => $pengambil
+        ]);
     }
 
     /**
@@ -35,7 +42,19 @@ class PengambilController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'nama' => 'required',
+            'jabatan' => 'required'
+        ]);
+
+        $pengambil = new Pengambil();
+        $pengambil->nama_lokasi = $request->input('nama');
+        $pengambil->jabatan = $request->input('jabatan');
+        $pengambil->id_user = Auth::id();
+
+        $pengambil->save();
+
+        return redirect()->route('pengambil.index')->with(['store' => 'Data Tesimpan']);
     }
 
     /**
@@ -46,7 +65,9 @@ class PengambilController extends Controller
      */
     public function show(Pengambil $pengambil)
     {
-        //
+        return view('admin.lokasi.show',[
+            'pengambil' => $pengambil
+        ]);
     }
 
     /**
@@ -57,7 +78,9 @@ class PengambilController extends Controller
      */
     public function edit(Pengambil $pengambil)
     {
-        //
+        return view('admin.lokasi.edit',[
+            'pengambil' => $pengambil
+        ]);
     }
 
     /**
@@ -69,7 +92,17 @@ class PengambilController extends Controller
      */
     public function update(Request $request, Pengambil $pengambil)
     {
-        //
+        $this->validate($request,[
+            'nama' => 'required',
+            'jabatan' => 'required'
+        ]);
+
+        $pengambil->nama = $request->input('nama');
+        $pengambil->jabatan = $request->input('jabatan');
+
+        $pengambil->save();
+
+        return redirect()->route('pengambil.index')->with(['update' => 'Data Terupdate']);
     }
 
     /**
@@ -80,6 +113,8 @@ class PengambilController extends Controller
      */
     public function destroy(Pengambil $pengambil)
     {
-        //
+        $pengambil->delete();
+
+        return redirect()->route('pengambil.index')->with(['hapus' => 'Data Terhapus']);
     }
 }

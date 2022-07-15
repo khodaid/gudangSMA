@@ -10,7 +10,7 @@ class Inventaris extends Model
     use HasFactory;
 
     protected $fillable = ['tgl_pembukuan','kode', 'id_barang','deskripsi','id_satuan','thn_pembuatan','id_dana', 'id_user','tgl_penyerahan',
-    'kondisi','harga','file'];
+    'kondisi','harga','file','id_lokasi'];
     protected $guard = [];
 
     /**
@@ -51,5 +51,15 @@ class Inventaris extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user', 'id');
+    }
+
+    /**
+     * The lokasi that belong to the Inventaris
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function lokasi()
+    {
+        return $this->belongsToMany(Lokasi::class, 'lokasi_inventaris', 'id_inventaris', 'id_lokasi');
     }
 }

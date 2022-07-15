@@ -9,6 +9,8 @@
             <h6 class="collapse-header">Kategori</h6>
             @if (!isset(Auth::user()->id_super))
             <a class="collapse-item" href="{{route('satuan.index')}}">Satuan Barang</a>
+            <a class="collapse-item" href="{{route('kategori.index')}}">Kategori Barang</a>
+            <a class="collapse-item" href="{{route('lokasi.index')}}">Lokasi</a>
             @endif
             <a class="collapse-item" href="{{route('barang.index')}}">Barang</a>
             <a class="collapse-item" href="{{route('dana.index')}}">Asal Dana</a>

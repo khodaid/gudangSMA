@@ -16,12 +16,13 @@ return new class extends Migration
         Schema::create('barangs', function (Blueprint $table) {
             $table->id();
             $table->string('nama',50);
-            $table->string('kode_barang',10)->unique();
+            $table->string('kode_barang',20)->unique();
             $table->unsignedInteger('id_user')
                 ->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('id_satuan')
                 ->foreign('id_satuan')->references('id')->on('satuans')->onDelete('cascade');
-            $table->boolean('kategori')->default(false);
+            $table->unsignedInteger('id_kategori')
+                ->foreign('id_kategori')->references('id')->on('kategoris')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Admin
+class UserPrivate
 {
     /**
      * Handle an incoming request.
@@ -17,8 +17,8 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->id_super == 2) {
-            return redirect()->route('dashboard.index');
+        if (Auth::user()->roles > 2) {
+            return redirect()->route('barang.index');
         }
         return $next($request);
     }

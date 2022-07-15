@@ -3,14 +3,16 @@
 namespace App\Exports;
 
 use App\Models\Barang;
-// use Maatwebsite\Excel\Concerns\FromCollection;
+use App\Models\Inventaris;
+use App\Models\User;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\withHeadings;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BarangExport implements FromArray, withHeadings
 {
-    protected $brg=[];
+    protected $brg = [];
     protected $option;
 
     public function __construct(int $option)
@@ -22,45 +24,71 @@ class BarangExport implements FromArray, withHeadings
     {
         return [
             'Barang',
+            'Kode',
             'Jumlah',
             'Satuan',
             'Kategori'
         ];
     }
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Array
+     */
     public function array(): array
     {
-        $barang = new Barang();
+        // $barang = new Barang();
+        $akun = User::where('id_super', Auth::id())->get();
 
-        if ($this->option==1) {
-            $barang = Barang::all();
-        } elseif ($this->option==2) {
-            $barang = Barang::where('kategori',1)->get();
-        } else {
-            $barang = Barang::where('kategori',0)->get();
-        }
-
-
-
-        // dd($barang);
-        foreach($barang as $b)
-        {
-            $kategori = "Umum";
-            $jumlah = 0;
-            if ($b->kategori) {
-                $kategori = "Inventaris";
-            }
-            else{
-                $jumlah = $b->masuk->sum('jumlah') - $b->keluar->sum('jumlah');
-            }
-            $this->brg[] = [
-                    $b->nama, number_format((float)$jumlah, 2, '.', ''), $b->satuan->nama, $kategori
+        if ($this->option == 0) {
+            $barang = Barang::where('barangs.id_user', Auth::id())
+                ->orWhereIn('barangs.id_user', $akun->modelKeys())
+                ->leftJoin('keluars', 'barangs.id', '=', 'keluars.id_barang')
+                ->leftJoin('masuks', 'barangs.id', '=', 'masuks.id_barang')
+                ->select('barangs.nama', 'barangs.id', 'barangs.id_satuan', 'barangs.id_kategori', 'barangs.kode_barang', DB::raw('ifnull(sum(masuks.jumlah),0) - ifnull(sum(keluars.jumlah),0) as jumlah'))
+                ->groupBy('barangs.nama', 'barangs.id', 'barangs.id_satuan', 'barangs.id_kategori', 'barangs.kode_barang')
+                ->with(['satuan', 'kategori', 'inventaris'])
+                ->get();
+            foreach ($barang as $b) {
+                if ($b->id_kategori == 1) {
+                    $this->brg[] = [
+                        $b->nama, $b->kode_barang, number_format((float)$b->inventaris->count(), 2, '.', ''), $b->satuan->nama, $b->kategori->nama
+                    ];
+                    continue;
+                }
+                $this->brg[] = [
+                    $b->nama, $b->kode_barang, number_format((float)$b->jumlah, 2, '.', ''), $b->satuan->nama, $b->kategori->nama
                 ];
-        }
+            }
+            return [$this->brg];
+        } else if ($this->option > 1) {
+            $barang = Barang::where('id_kategori', $this->option)
+                ->where('barangs.id_user', Auth::id())
+                ->orWhereIn('barangs.id_user', $akun->modelKeys())
+                ->leftJoin('keluars', 'barangs.id', '=', 'keluars.id_barang')
+                ->leftJoin('masuks', 'barangs.id', '=', 'masuks.id_barang')
+                ->select('barangs.nama', 'barangs.id', 'barangs.id_satuan', 'barangs.id_kategori', 'barangs.kode_barang', DB::raw('ifnull(sum(masuks.jumlah),0) - ifnull(sum(keluars.jumlah),0) as jumlah'))
+                ->groupBy('barangs.nama', 'barangs.id', 'barangs.id_satuan', 'barangs.id_kategori', 'barangs.kode_barang')
+                ->with(['satuan', 'kategori'])
+                ->get();
+            // dd($barang);
 
-        // dd($this->brg);
-        return [$this->brg];
+            foreach ($barang as $b) {
+                $this->brg[] = [
+                    $b->nama, $b->kode_barang, number_format((float)$b->jumlah, 2, '.', ''), $b->satuan->nama, $b->kategori->nama
+                ];
+            }
+            return [$this->brg];
+        } else {
+            $barang = Barang::where('id_kategori', $this->option)
+                ->where('barangs.id_user', Auth::id())
+                ->orWhereIn('barangs.id_user', $akun->modelKeys())
+                ->with(['satuan', 'kategori', 'inventaris'])
+                ->get();
+            foreach ($barang as $b) {
+                $this->brg[] = [
+                    $b->nama, $b->kode_barang, number_format((float)$b->inventaris->count(), 2, '.', ''), $b->satuan->nama, $b->kategori->nama
+                ];
+            }
+            return [$this->brg];
+        }
     }
 }

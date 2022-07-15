@@ -28,6 +28,23 @@ class UserController extends Controller
         ])->onlyInput('email');
     }
 
+    public function loginPin(Request $request)
+    {
+        $credentials = $request->validate([
+            'pin' => 'required'
+        ]);
+
+        $auth = User::where('pin',$request->pin)->first();
+        Auth::login($auth);
+        if (Auth::check()) {
+            $request->session()->regenerate();
+            return redirect()->route('barang.index');
+        }
+
+        return back()->withErrors([
+            'pin' => 'pin tidak cocok',
+        ])->onlyInput('email');
+    }
     public function logout(Request $request)
     {
         Auth::logout();
@@ -127,5 +144,28 @@ class UserController extends Controller
             $request->session()->regenerate();
             return redirect()->route('dashboard.index');
         }
+    }
+
+    public function storePublic(Request $request)
+    {
+        $this->validate($request, [
+            'nama' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+            'pin' => 'required'
+        ]);
+
+
+        $user = new User();
+        $user->name = $request->input('nama');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->roles = 3;
+        $user->pin = $request->input('pin');
+        $user->id_super = Auth::id();
+        // dd($user);
+
+        $user->save();
+        return redirect()->route('user.index')->with(['success' => 'Data Tersimpan']);
     }
 }

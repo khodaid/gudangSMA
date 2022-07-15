@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('id_super')->nullable();
             $table->string('password');
             $table->integer('roles')->default(1);
+            $table->string('pin',6)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

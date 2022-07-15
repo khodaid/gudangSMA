@@ -117,11 +117,25 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="exampleFormControlSelect1">Lokasi</label>
+                        <select class="my-select form-control" id="exampleFormControlSelect1" name="lokasi">
+                            <option value="{{ old('lokasi') ?? $inventaris->lokasi->id }}">
+                                {{ old('lokasi') ?? $inventaris->lokasi->nama }}
+                            </option>
+                            @foreach ($lokasis as $lokasi)
+                                @if ($inventaris->lokasi->id != $lokasi->id)
+                                    <option value="{{ $lokasi->id }}">{{ $lokasi->nama_lokasi }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="exampleFormControlFile1">Bukti Scan Nota</label>
                         <h6 class="text-danger">*masukan file jika ingin merubah nota</h6>
                         <input type="file" class="form-control-file mb-2" id="exampleFormControlFile1" name="file"
                             value="{{ old('file') ?? $inventaris->file }}">
-                        <embed src="{{asset('/storage/files/'.$inventaris->file) }} " type="application/pdf" width="400px" height="500px" />
+                        <embed src="{{ asset('/storage/files/' . $inventaris->file) }} " type="application/pdf"
+                            width="400px" height="500px" />
                     </div>
                 </div>
             </div>

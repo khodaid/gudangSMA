@@ -19,9 +19,13 @@ class DatabaseSeeder extends Seeder
         // $this->call([
         //     SatuanSeeder::class
         // ]);
-        \App\Models\User::factory()->create();
+        // \App\Models\User::factory()->create();
         $this->call([
-            SatuanSeeder::class
+            UserSeeder::class,
+            LokasiSeeder::class,
+            SatuanSeeder::class,
+            KategoriSeeder::class,
+            BarangSeeder::class
         ]);
     }
 }

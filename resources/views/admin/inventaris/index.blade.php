@@ -28,6 +28,7 @@
             </ul>
         </div>
     @endif
+    {{-- {{dd($lokasis)}} --}}
     <!-- Modal -->
     <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -130,8 +131,14 @@
                                         aria-describedby="emailHelp">
                                 </div>
                             </div>
-                            <div class="col-6">
-                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Lokasi</label>
+                            <select class="my-select form-control" id="exampleFormControlSelect1" name="lokasi">
+                                @foreach ($lokasis as $lokasi)
+                                    <option value="{{ $lokasi->id }}">{{ $lokasi->nama_lokasi }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Bukti Scan Nota</label>
@@ -308,23 +315,12 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-body" id="mediumBody">
-                        {{-- <div class="form-group">
-                            <label for="inputPembukuan">Pembukuan</label>
-                            <input type="date" class="form-control" id="inputPembukuan" aria-describedby="emailHelp"
-                                name="pembukuan">
-                        </div> --}}
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Rusak</label>
                             <select class="form-control" id="exampleFormControlSelect1" name="kondisi">
                                 <option value="2">Rusak Ringan</option>
                                 <option value="3">Rusak Berat</option>
                             </select>
-                            {{-- </div>
-                        <div class="form-group">
-                            <label for="inputQuantity">Jumlah</label>
-                            <input name="jumlah" type="number" class="form-control" id="inputNama"
-                                aria-describedby="emailHelp">
-                        </div> --}}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

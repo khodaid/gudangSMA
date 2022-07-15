@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lokasi;
+use App\Models\Kategori;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-class LokasiController extends Controller
+class KategoriController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +16,11 @@ class LokasiController extends Controller
     public function index()
     {
         $users = User::where('id_super',Auth::id())->get();
-        $lokasi = Lokasi::where('id_user',Auth::id())
+        $kategori = Kategori::where('id_user',Auth::id())
             ->orWhere('id_user',Auth::user()->id_super)
             ->orWhereIn('id_user',$users->modelKeys())->get();
-        return view('admin.lokasi.index',[
-            'lokasis' => $lokasi
+        return view('admin.kategori.index',[
+            'kategoris' => $kategori
         ]);
     }
 
@@ -48,39 +47,39 @@ class LokasiController extends Controller
             'deskripsi' => 'required'
         ]);
 
-        $lokasi = new Lokasi();
-        $lokasi->nama_lokasi = $request->input('nama');
-        $lokasi->deskripsi = $request->input('deskripsi');
-        $lokasi->id_user = Auth::id();
+        $kategori = new Kategori();
+        $kategori->nama_lokasi = $request->input('nama');
+        $kategori->deskripsi = $request->input('deskripsi');
+        $kategori->id_user = Auth::id();
 
-        $lokasi->save();
+        $kategori->save();
 
-        return redirect()->route('lokasi.index')->with(['store' => 'Data Tesimpan']);
+        return redirect()->route('kategori.index')->with(['store' => 'Data Tesimpan']);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Lokasi  $lokasi
+     * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function show(Lokasi $lokasi)
+    public function show(Kategori $kategori)
     {
-        return view('admin.lokasi.show',[
-            'lokasi' => $lokasi
+        return view('admin.kategori.show',[
+            'kategori' => $kategori
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Lokasi  $lokasi
+     * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lokasi $lokasi)
+    public function edit(Kategori $kategori)
     {
-        return view('admin.lokasi.edit',[
-            'lokasi' => $lokasi
+        return view('admin.kategori.edit',[
+            'kategori' => $kategori
         ]);
     }
 
@@ -88,34 +87,34 @@ class LokasiController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Lokasi  $lokasi
+     * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lokasi $lokasi)
+    public function update(Request $request, Kategori $kategori)
     {
         $this->validate($request,[
             'nama' => 'required',
             'deskripsi' => 'required'
         ]);
 
-        $lokasi->nama = $request->input('nama');
-        $lokasi->keterangan = $request->input('deskripsi');
+        $kategori->nama = $request->input('nama');
+        $kategori->keterangan = $request->input('deskripsi');
 
-        $lokasi->save();
+        $kategori->save();
 
-        return redirect()->route('lokasi.index')->with(['update' => 'Data Terupdate']);
+        return redirect()->route('kategori.index')->with(['update' => 'Data Terupdate']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Lokasi  $lokasi
+     * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lokasi $lokasi)
+    public function destroy(Kategori $kategori)
     {
-        $lokasi->delete();
+        $kategori->delete();
 
-        return redirect()->route('lokasi.index')->with(['hapus' => 'Data Terhapus']);
+        return redirect()->route('kategori.index')->with(['hapus' => 'Data Terhapus']);
     }
 }

@@ -20,6 +20,11 @@
                             value="{{ old('nama') ?? $barang->nama }}">
                     </div>
                     <div class="form-group">
+                        <label for="inputKode">Kode</label>
+                        <input name="kode" type="text" class="form-control" id="inputKode" aria-describedby="emailHelp"
+                            value="{{ old('kode') ?? $barang->kode_barang }}" maxlength="20" >
+                    </div>
+                    <div class="form-group">
                         <label for="exampleFormControlSelect1">Satuan</label>
                         <select class="my-select form-control" id="exampleFormControlSelect1" name="satuan">
                             <option value="{{ old('satuan') ?? $barang->satuan->id }}">
