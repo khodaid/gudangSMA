@@ -8,20 +8,20 @@
                 {{ $message }}
             </div>
         @endif
-        <form action="{{ route('lokasi.update', $lokasi) }}" method="POST">
+        <form action="{{ route('kategori.update', $kategori) }}" method="POST">
             <div class="row">
                 <div class="col-lg-6">
                     @csrf
                     @method('PUT')
                     <div class="form-group">
-                        <label for="inputNama">Nama Lokasi</label>
+                        <label for="inputNama">Nama Kategori</label>
                         <input name="nama" type="text" class="form-control" id="inputNama" aria-describedby="emailHelp"
-                            value="{{ old('nama') ?? $lokasi->nama }}">
+                            value="{{ old('nama') ?? $kategori->nama }}">
                     </div>
                     <div class="form-group">
                         <label for="inputDskripsi">Deskripsi</label>
                         <textarea class="form-control" id="inputDeskripsi" rows="3"
-                            name="deskripsi">{{ old('deskripsi') ?? $lokasi->deskripsi }}</textarea>
+                            name="deskripsi">{{ old('deskripsi') ?? $kategori->deskripsi }}</textarea>
                     </div>
                 </div>
             </div>

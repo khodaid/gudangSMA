@@ -17,6 +17,10 @@
     </div>
 </div>
 <div class="form-group">
+    <label for="inputTanggal">Pengambil</label>
+    <input class="form-control" id="disabledInput" type="text" placeholder={{$keluar->pengambil->nama}} disabled>
+</div>
+<div class="form-group">
     <label for="inputTanggal">Tanggal</label>
     <input class="form-control" id="disabledInput" type="text" placeholder="{{date('d-m-Y', strtotime($keluar->tgl_keluar))}}" disabled>
 </div>

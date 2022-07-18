@@ -98,8 +98,8 @@ class LokasiController extends Controller
             'deskripsi' => 'required'
         ]);
 
-        $lokasi->nama = $request->input('nama');
-        $lokasi->keterangan = $request->input('deskripsi');
+        $lokasi->nama_lokasi = $request->input('nama');
+        $lokasi->deskripsi = $request->input('deskripsi');
 
         $lokasi->save();
 
