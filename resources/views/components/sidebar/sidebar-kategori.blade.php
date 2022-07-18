@@ -13,6 +13,7 @@
             <a class="collapse-item" href="{{route('lokasi.index')}}">Lokasi</a>
             @endif
             <a class="collapse-item" href="{{route('barang.index')}}">Barang</a>
+            <a class="collapse-item" href="{{route('pengambil.index')}}">Pengambil</a>
             <a class="collapse-item" href="{{route('dana.index')}}">Asal Dana</a>
         </div>
     </div>

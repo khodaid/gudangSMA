@@ -61,7 +61,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputTglKeluar">Pengambilan</label>
+                            <label for="exampleFormControlSelect1">Pengambil</label>
+                            <select class="my-select form-control" id="exampleFormControlSelect1" name="pengambil">
+                                @foreach ($pengambils as $pengambil)
+                                    <option value="{{ $pengambil->id }}">{{ $pengambil->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputTglKeluar">Tanggal Pengambilan</label>
                             <input type="date" class="form-control" id="inputTglKeluar" aria-describedby="emailHelp"
                                 name="tglPengambilan">
                         </div>

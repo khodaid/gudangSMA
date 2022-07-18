@@ -8,6 +8,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KeluarController;
 use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\MasukController;
+use App\Http\Controllers\PengambilController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SatuanController;
@@ -70,7 +71,16 @@ Route::middleware('auth')->group(function () {
         Route::post('/inventaris/export', [InventarisController::class, 'export'])->name('inventaris.export');
         Route::get('/inventaris/{inventaris}/pdf', [InventarisController::class, 'viewPdf'])->name('inventaris.pdf');
 
+        Route::get('/pengambil', [PengambilController::class, 'index'])->name('pengambil.index');
+        Route::get('/pengambil/{pengambil}/show', [SatuanCPengambilControllerontroller::class, 'show'])->name('pengambil.show');
+
         Route::middleware('admin')->group(function () {
+
+            Route::post('/pengambil', [PengambilController::class, 'store'])->name('pengambil.store');
+            Route::get('/pengambil/{pengambil}/edit', [PengambilController::class, 'edit'])->name('pengambil.edit');
+            Route::put('/pengambil/{pengambil}/update', [PengambilController::class, 'update'])->name('pengambil.update');
+            Route::get('/pengambil/{pengambil}/destroy', [PengambilController::class, 'destroy'])->name('pengambil.destroy');
+
             Route::post('/barang', [BarangController::class, 'store'])->name('barang.store');
             Route::get('/barang/{barang}/edit', [BarangController::class, 'edit'])->name('barang.edit');
             Route::put('/barang/{barang}/update', [BarangController::class, 'update'])->name('barang.update');

@@ -25,40 +25,24 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Data Barang</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Data Pengambil</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('barang.store') }}" method="POST">
+                <form action="{{ route('pengambil.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <label for="inputNama">Nama Barang</label>
+                            <label for="inputNama">Nama Pengambil</label>
                             <input name="nama" type="text" class="form-control" id="inputNama"
-                                aria-describedby="emailHelp">
+                                aria-describedby="emailHelp" maxlength="30">
                         </div>
                         <div class="form-group">
-                            <label for="inputKode">Kode Barang</label>
-                            <input name="kode" type="text" class="form-control" id="inputKode"
+                            <label for="inputKode">Jabatan</label>
+                            <input name="jabatan" type="text" class="form-control" id="inputKode"
                                 aria-describedby="emailHelp" maxlength="20">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Satuan</label>
-                            <select class="my-select form-control" id="exampleFormControlSelect1" name="satuan">
-                                @foreach ($satuans as $satuan)
-                                    <option value="{{ $satuan->id }}">{{ $satuan->nama }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Kategori Barang</label>
-                            <select class="my-select form-control" id="exampleFormControlSelect1" name="kategori">
-                                @foreach ($kategoris as $kategori)
-                                    <option value="{{ $kategori->id }}">{{ $kategori->nama }}</option>
-                                @endforeach
-                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -73,7 +57,7 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h3 class="my-1 font-weight-bold text-primary">Barang</h3>
+            <h3 class="my-1 font-weight-bold text-primary">Pengambil</h3>
             <div class="row">
                 <div class="col-6 my-1">
                     <!-- Button trigger modal -->
@@ -84,14 +68,6 @@
                         </button>
                     @endif
                 </div>
-
-                @if (Auth::user()->roles <= 2)
-                    <div class="col-6 d-flex justify-content-end my-1">
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exportModal">
-                            Export Excel
-                        </button>
-                    </div>
-                @endif
             </div>
         </div>
         <div class="card-body">
@@ -101,42 +77,26 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Kode</th>
-                            <th>Jumlah</th>
-                            <th>Satuan</th>
-                            <th>Kategori</th>
+                            <th>Jabatan</th>
                             <th>Aksi</th>
                     </thead>
                     <tbody>
-                        @foreach ($barangs as $barang)
+                        @foreach ($pengambil as $pengambil)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $barang->nama }}</td>
-                                <td>{{ $barang->kode_barang }}</td>
-                                @if ($barang->id_kategori == 1)
-                                    <td>{{ $barang->inventaris->count() }}</td>
-                                @else
-                                    <td>{{ $barang->jumlah }}</td>
-                                @endif
-                                <td>{{ $barang->satuan->nama }}</td>
-                                @if ($barang->id_kategori == 1)
-                                    <td><span class="badge badge-secondary">Inventaris</span></td>
-                                @else
-                                    <td><span class="badge badge-primary">{{ $barang->kategori->nama }}</span></td>
-                                @endif
+                                <td>{{ $pengambil->nama }}</td>
+                                <td>{{ $pengambil->jabatan }}</td>
                                 <td>
                                     @if (Auth::id() == 2)
-                                        <a href="{{ route('barang.edit', $barang->id) }}"
+                                        <a href="{{ route('pengambil.edit', $pengambil->id) }}"
                                             class='fas fa-edit text-warning'></a>
-                                        @if ($barang->id_kategori != 1)
-                                            <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
-                                                data-target="#modalDelete"
-                                                onclick="$('#modalDelete #formDelete').attr('action','{{ route('barang.destroy', $barang->id) }}')"></a>
-                                        @endif
+                                        <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
+                                            data-target="#modalDelete"
+                                            onclick="$('#modalDelete #formDelete').attr('action','{{ route('pengambil.destroy', $pengambil->id) }}')"></a>
                                     @endif
                                     <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
-                                        data-target="#mediumModal" data-attr={{ route('barang.show', $barang->id) }}></a>
-                                    {{-- <a href="{{ route('barang.show', $barang->id) }}" class='fas fa-eye text-success'></a> --}}
+                                        data-target="#mediumModal"
+                                        data-attr={{ route('pengambil.show', $pengambil->id) }}></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -150,7 +110,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Data Barang</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Data Pengambil</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -159,37 +119,6 @@
                     {{-- isi view lihat data --}}
                 </div>
 
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade " id="exportModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Export Jumlah Barang</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('barang.export') }}" method="post" id="formExport">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Kategori</label>
-                            <select class="my-select form-control" id="exampleFormControlSelect1" name="kategori">
-                                <option value="0">Semua</option>
-                                @foreach ($kategoris as $kategori)
-                                    <option value={{ $kategori->id }}>{{ $kategori->nama }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Export</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

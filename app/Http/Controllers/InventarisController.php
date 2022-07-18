@@ -261,18 +261,18 @@ class InventarisController extends Controller
         return redirect()->route('inventaris.index')->with(['update' => 'Data Berhasil Diubah']);
     }
 
-    public function barang()
-    {
-        $baik = DB::table('inventaris')
-            ->select('kode', 'id_barang', 'jumlah', 'id_satuan', 'kondisi')
-            ->where('kondisi', 1)->get();
+    // public function barang()
+    // {
+    //     $baik = DB::table('inventaris')
+    //         ->select('kode', 'id_barang', 'jumlah', 'id_satuan', 'kondisi')
+    //         ->where('kondisi', 1)->get();
 
-        $rusak = DB::table('inventaris')
-            ->select('kode', 'id_barang', 'jumlah', 'id_satuan', 'kondisi')
-            ->where('kondisi', [2, 3])->get();
+    //     $rusak = DB::table('inventaris')
+    //         ->select('kode', 'id_barang', 'jumlah', 'id_satuan', 'kondisi')
+    //         ->where('kondisi', [2, 3])->get();
 
-        dd($baik, $rusak);
-    }
+    //     dd($baik, $rusak);
+    // }
 
     public function export(Request $request)
     {

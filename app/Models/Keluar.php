@@ -43,6 +43,6 @@ class Keluar extends Model
      */
     public function pengambil()
     {
-        return $this->belongsTo(Pengambil::class, 'id_pemngambil', 'id');
+        return $this->belongsTo(Pengambil::class, 'id_pengambil', 'id');
     }
 }

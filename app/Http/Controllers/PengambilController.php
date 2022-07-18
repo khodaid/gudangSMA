@@ -6,6 +6,7 @@ use App\Models\Pengambil;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class PengambilController extends Controller
 {
     /**
@@ -15,11 +16,12 @@ class PengambilController extends Controller
      */
     public function index()
     {
-        $users = User::where('id_super',Auth::id())->get();
-        $pengambil = Pengambil::where('id_user',Auth::id())
-            ->orWhere('id_user',Auth::user()->id_super)
-            ->orWhereIn('id_user',$users->modelKeys())->get();
-        return view('admin.pengambil.index',[
+        $users = User::where('id_super', Auth::id())->get();
+        $pengambil = Pengambil::where('id_user', Auth::id())
+            ->orWhere('id_user', Auth::user()->id_super)
+            ->orWhereIn('id_user', $users->modelKeys())->get();
+
+        return view('admin.pengambil.index', [
             'pengambil' => $pengambil
         ]);
     }
@@ -42,13 +44,15 @@ class PengambilController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'nama' => 'required',
             'jabatan' => 'required'
         ]);
 
+        // dd($request);
+
         $pengambil = new Pengambil();
-        $pengambil->nama_lokasi = $request->input('nama');
+        $pengambil->nama = $request->input('nama');
         $pengambil->jabatan = $request->input('jabatan');
         $pengambil->id_user = Auth::id();
 
@@ -65,7 +69,7 @@ class PengambilController extends Controller
      */
     public function show(Pengambil $pengambil)
     {
-        return view('admin.lokasi.show',[
+        return view('admin.lokasi.show', [
             'pengambil' => $pengambil
         ]);
     }
@@ -78,7 +82,7 @@ class PengambilController extends Controller
      */
     public function edit(Pengambil $pengambil)
     {
-        return view('admin.lokasi.edit',[
+        return view('admin.lokasi.edit', [
             'pengambil' => $pengambil
         ]);
     }
@@ -92,13 +96,14 @@ class PengambilController extends Controller
      */
     public function update(Request $request, Pengambil $pengambil)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'nama' => 'required',
             'jabatan' => 'required'
         ]);
 
         $pengambil->nama = $request->input('nama');
         $pengambil->jabatan = $request->input('jabatan');
+        $pengambil->id_user = Auth::id();
 
         $pengambil->save();
 

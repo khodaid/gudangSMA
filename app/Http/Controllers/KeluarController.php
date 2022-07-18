@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\KeluarExport;
+use App\Models\Pengambil;
 
 class KeluarController extends Controller
 {
@@ -23,16 +24,18 @@ class KeluarController extends Controller
     {
         $satuan = Satuan::where('id_user', Auth::user()->id_super)->get();
         $barang = Barang::where('id_user', Auth::id())
-            ->where('id_kategori','!=',1)->get();
+            ->where('id_kategori', '!=', 1)->get();
         $user = User::where('id_super', Auth::id())->get();
         $keluar = Keluar::where('id_user', Auth::id())
             ->orWhere('id_user', $user->modelKeys())
-            ->with(['barang','satuan'])
+            ->with(['barang', 'satuan'])
             ->paginate(100);
+        $pengambil = Pengambil::where('id_user', Auth::id())->get();
         return view('admin.keluar.index', [
             'satuans' => $satuan,
             'barangs' => $barang,
-            'keluars' => $keluar
+            'keluars' => $keluar,
+            'pengambils' => $pengambil
         ]);
     }
 
@@ -54,12 +57,13 @@ class KeluarController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'barang' => 'required',
             'quantity' => 'required',
             'satuan' => 'required',
             'tglPengambilan' => 'required',
-            'deskripsi' => 'required'
+            'deskripsi' => 'required',
+            'pengambil' => 'required'
         ]);
 
         $keluar = new Keluar();
@@ -70,10 +74,11 @@ class KeluarController extends Controller
         $keluar->id_barang = $request->input('barang');
         $keluar->id_user = Auth::id();
         $keluar->id_satuan = $request->input('satuan');
+        $keluar->id_pengambil = $request->input('pengambil');
 
         $keluar->save();
 
-        return redirect()->route('keluar.index')->with(['store'=>'Data Berhasil Ditambah']);
+        return redirect()->route('keluar.index')->with(['store' => 'Data Berhasil Ditambah']);
     }
 
     /**
@@ -84,7 +89,7 @@ class KeluarController extends Controller
      */
     public function show(Keluar $keluar)
     {
-        return view('admin.keluar.show',[
+        return view('admin.keluar.show', [
             'keluar' => $keluar
         ]);
     }
@@ -98,13 +103,15 @@ class KeluarController extends Controller
     public function edit(Keluar $keluar)
     {
         $barangs = Barang::where('id_user', Auth::id())
-            ->where('kategori',false)->get();
-        $satuans = Satuan::where('id_user',Auth::user()->id_super)->get();
+            ->where('id_kategori','!=',1)->get();
+        $satuans = Satuan::where('id_user', Auth::user()->id_super)->get();
+        $pengambil = Pengambil::where('id_user', Auth::id())->get();
 
-        return view('admin.keluar.edit',[
+        return view('admin.keluar.edit', [
             'keluar' => $keluar,
             'barangs' => $barangs,
-            'satuans' => $satuans
+            'satuans' => $satuans,
+            'pengambils' => $pengambil
         ]);
     }
 
@@ -117,12 +124,13 @@ class KeluarController extends Controller
      */
     public function update(Request $request, Keluar $keluar)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'barang' => 'required',
             'quantity' => 'required',
             'satuan' => 'required',
             'tglPengambilan' => 'required',
-            'deskripsi' => 'required'
+            'deskripsi' => 'required',
+            'pengambil' => 'required'
         ]);
 
         $keluar->tgl_keluar = $request->input('tglPengambilan');
@@ -131,10 +139,11 @@ class KeluarController extends Controller
         $keluar->id_barang = $request->input('barang');
         $keluar->id_user = Auth::id();
         $keluar->id_satuan = $request->input('satuan');
+        $keluar->id_pengambil = $request->input('pengambil');
 
         $keluar->save();
 
-        return redirect()->route('keluar.index')->with(['update'=>'Data Berhasil Diubah']);
+        return redirect()->route('keluar.index')->with(['update' => 'Data Berhasil Diubah']);
     }
 
     /**
@@ -146,7 +155,7 @@ class KeluarController extends Controller
     public function destroy(Keluar $keluar)
     {
         $keluar->delete();
-        return redirect()->route('keluar.index')->with(['hapus'=>'Data Berhasil Dihapus']);
+        return redirect()->route('keluar.index')->with(['hapus' => 'Data Berhasil Dihapus']);
     }
 
     public function export(Request $request)

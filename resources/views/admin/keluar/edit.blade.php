@@ -54,6 +54,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Nama Pengambil</label>
+                        <select class="my-select form-control" id="exampleFormControlSelect1" name="pengambil">
+                            <option value="{{ old('pengambil') ?? $keluar->pengambil->id }}">
+                                {{ old('pengambil') ?? $keluar->pengambil->nama }}
+                            </option>
+                            @foreach ($pengambils as $pengambil)
+                            @if ($keluar->pengambil->id != $pengambil->id)
+                            <option value="{{ $pengambil->id }}">{{ $pengambil->nama }}</option>
+                                        @endif
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="form-group">
@@ -63,8 +76,7 @@
                     </div>
                     <div class="form-group">
                         <label for="inputDskripsi">Deskripsi</label>
-                        <textarea class="form-control" id="inputDeskripsi" rows="3"
-                            name="deskripsi">{{ old('deskripsi') ?? $keluar->deskripsi }}</textarea>
+                        <textarea class="form-control" id="inputDeskripsi" rows="3" name="deskripsi">{{ old('deskripsi') ?? $keluar->deskripsi }}</textarea>
                     </div>
                 </div>
             </div>
