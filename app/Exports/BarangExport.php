@@ -6,7 +6,7 @@ use App\Models\Barang;
 use App\Models\Inventaris;
 use App\Models\User;
 use Maatwebsite\Excel\Concerns\FromArray;
-use Maatwebsite\Excel\Concerns\withHeadings;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 

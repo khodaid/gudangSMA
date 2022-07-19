@@ -4,9 +4,9 @@ namespace App\Exports;
 
 use App\Models\Inventaris;
 use Maatwebsite\Excel\Concerns\FromArray;
-use Maatwebsite\Excel\Concerns\withHeadings;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class InventarisExport implements FromArray, withHeadings
+class InventarisExport implements FromArray, WithHeadings
 {
     protected $inventaris = [];
     protected $dari, $sampai;

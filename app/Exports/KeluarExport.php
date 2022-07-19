@@ -4,9 +4,9 @@ namespace App\Exports;
 
 use App\Models\Keluar;
 use Maatwebsite\Excel\Concerns\FromArray;
-use Maatwebsite\Excel\Concerns\withHeadings;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class KeluarExport implements FromArray, withHeadings
+class KeluarExport implements FromArray, WithHeadings
 {
     protected $keluar = [];
     protected $dari, $sampai;

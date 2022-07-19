@@ -5,10 +5,10 @@ namespace App\Exports;
 use App\Models\Masuk;
 use Illuminate\Support\Facades\Date;
 use Maatwebsite\Excel\Concerns\FromArray;
-use Maatwebsite\Excel\Concerns\withHeadings;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpParser\Node\Expr\Cast\String_;
 
-class MasukExport implements FromArray, withHeadings
+class MasukExport implements FromArray, WithHeadings
 {
     protected $masuk = [];
     protected $dari, $sampai;
