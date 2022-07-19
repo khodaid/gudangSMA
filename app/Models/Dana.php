@@ -15,10 +15,20 @@ class Dana extends Model
     /**
      * The inventaris that belong to the Dana
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function inventaris()
     {
-        return $this->belongsToMany(Inventaris::class, 'inventaris_dana', 'id_dana', 'id_inventaris');
+        return $this->hasMany(Inventaris::class,'id_dana', 'id');
+    }
+
+    /**
+     * Get the user that owns the Dana
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id');
     }
 }

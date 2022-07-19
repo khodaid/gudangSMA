@@ -63,4 +63,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(Masuk::class);
     }
+
+    /**
+     * Get all of the dana for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function dana()
+    {
+        return $this->hasMany(Dana::class, 'id_user', 'id');
+    }
+
+    /**
+     * Get all of the pengambil for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pengambil()
+    {
+        return $this->hasMany(Pengambil::class, 'id_user', 'id');
+    }
 }

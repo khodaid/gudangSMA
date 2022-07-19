@@ -62,4 +62,5 @@ class Inventaris extends Model
     {
         return $this->belongsTo(Lokasi::class,'id_lokasi', 'id');
     }
+
 }

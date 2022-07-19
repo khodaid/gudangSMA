@@ -140,9 +140,11 @@
                                 <td>
                                     <a href="{{ route('user.edit', $user->id) }}" class='fas fa-edit text-warning'></a>
                                     {{-- <a href="{{ route('user.destroy', $user->id) }}" class='fas fa-trash text-danger'></a> --}}
+                                    @if (count($user->pengambil) == 0 && count($user->dana) == 0)
                                     <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
                                         data-target="#modalDelete"
                                         onclick="$('#modalDelete #formDelete').attr('action','{{ route('user.destroy', $user->id) }}')"></a>
+                                    @endif
                                     {{-- <a href="#" class='fas fa-eye text-success'  id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal" data-attr={{ route('user.show', $user->id) }}></a> --}}
                                 </td>
