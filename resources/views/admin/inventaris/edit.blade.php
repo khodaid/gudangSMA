@@ -120,7 +120,7 @@
                         <label for="exampleFormControlSelect1">Lokasi</label>
                         <select class="my-select form-control" id="exampleFormControlSelect1" name="lokasi">
                             <option value="{{ old('lokasi') ?? $inventaris->lokasi->id }}">
-                                {{ old('lokasi') ?? $inventaris->lokasi->nama }}
+                                {{ old('lokasi') ?? $inventaris->lokasi->nama_lokasi }}
                             </option>
                             @foreach ($lokasis as $lokasi)
                                 @if ($inventaris->lokasi->id != $lokasi->id)

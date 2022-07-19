@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container bg-white border py-3 rounded">
-        <h3> Edit Lokasi</h3>
+        <h3> Edit Kategori</h3>
         @if (Session::get('success'))
             <div class="alert alert-success" role="alert">
                 {{ $message }}

@@ -69,7 +69,7 @@ class PengambilController extends Controller
      */
     public function show(Pengambil $pengambil)
     {
-        return view('admin.lokasi.show', [
+        return view('admin.pengambil.show', [
             'pengambil' => $pengambil
         ]);
     }
@@ -82,7 +82,7 @@ class PengambilController extends Controller
      */
     public function edit(Pengambil $pengambil)
     {
-        return view('admin.lokasi.edit', [
+        return view('admin.pengambil.edit', [
             'pengambil' => $pengambil
         ]);
     }

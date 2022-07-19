@@ -34,9 +34,10 @@ class UserController extends Controller
             'pin' => 'required'
         ]);
 
-        $auth = User::where('pin',$request->pin)->first();
-        Auth::login($auth);
-        if (Auth::check()) {
+        $auth = User::where('pin', $request->pin)->first();
+
+        if (isset($auth)) {
+            Auth::login($auth);
             $request->session()->regenerate();
             return redirect()->route('cek-barang.index');
         }

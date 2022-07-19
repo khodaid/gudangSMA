@@ -72,7 +72,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/inventaris/{inventaris}/pdf', [InventarisController::class, 'viewPdf'])->name('inventaris.pdf');
 
         Route::get('/pengambil', [PengambilController::class, 'index'])->name('pengambil.index');
-        Route::get('/pengambil/{pengambil}/show', [SatuanCPengambilControllerontroller::class, 'show'])->name('pengambil.show');
+        Route::get('/pengambil/{pengambil}/show', [PengambilController::class, 'show'])->name('pengambil.show');
 
         Route::middleware('admin')->group(function () {
 

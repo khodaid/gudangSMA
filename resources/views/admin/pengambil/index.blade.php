@@ -42,7 +42,7 @@
                         <div class="form-group">
                             <label for="inputKode">Jabatan</label>
                             <input name="jabatan" type="text" class="form-control" id="inputKode"
-                                aria-describedby="emailHelp" maxlength="20">
+                                aria-describedby="emailHelp" maxlength="50">
                         </div>
                     </div>
                     <div class="modal-footer">

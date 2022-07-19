@@ -195,9 +195,9 @@
                             <th>Kondisi</th>
                             <th>Harga</th>
                             {{-- <th>Jumlah Harga</th> --}}
-                            @if (!isset(Auth::user()->id_super))
+                            {{-- @if (!isset(Auth::user()->id_super))
                                 <th>User Pembuat</th>
-                            @endif
+                            @endif --}}
                             <th>Aksi</th>
                     </thead>
                     <tbody>
@@ -222,9 +222,9 @@
                                 @endif
                                 <td>Rp.{{ number_format($inventaris->harga) }}</td>
                                 {{-- <td>{{ $inventaris->hrg_total }}</td> --}}
-                                @if (!isset(Auth::user()->id_super))
+                                {{-- @if (!isset(Auth::user()->id_super))
                                     <td>{{ $inventaris->user->name }}</td>
-                                @endif
+                                @endif --}}
                                 <td>
                                     @if ($inventaris->id_user == Auth::id())
                                         <a href="{{ route('inventaris.edit', $inventaris->id) }}"

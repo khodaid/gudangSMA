@@ -166,11 +166,14 @@ class InventarisController extends Controller
         $danas = Dana::where('id_user', Auth::id())
             ->orWhere('id_user', Auth::user()->id_super)
             ->orWhereIn('id_user', $users->modelKeys())->get();
+        $lokasi = Lokasi::Where('id_user', Auth::user()->id_super)->get();
+        // dd($lokasi);
         return view('admin.inventaris.edit', [
             'inventaris' => $inventaris,
             'barangs' => $barangs,
             'satuans' => $satuans,
-            'danas' => $danas
+            'danas' => $danas,
+            'lokasis' => $lokasi
         ]);
     }
 
@@ -208,20 +211,6 @@ class InventarisController extends Controller
             $file_name = $request->kode . '_' . $file->getClientOriginalName();
             $path = $file->storeAs('public/files', $file_name);
         }
-
-        // if ($request->id_barang != $inventaris->id_barang) {
-        //     $inventaris = Inventaris::where('id_barang', $inventaris->id_barang)->count();
-
-        //     $barang = Barang::find($request->input('id_barang'));
-        //     $barang->id_kategori = 1;
-        //     $barang->save();
-
-        //     if ($inventaris == 1) {
-        //         $brg = Barang::find($inventaris->id_barang);
-        //         $brg->kategori = 2;
-        //         $brg->save();
-        //     }
-        // }
 
         $inventaris->tgl_pembukuan = $request->input('pembukuan');
         $inventaris->kode = $request->input('kode');

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('pengambils', function (Blueprint $table) {
             $table->id();
             $table->string('nama',30);
-            $table->string('jabatan',20);
+            $table->string('jabatan',50);
             $table->unsignedInteger('id_user')
                 ->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

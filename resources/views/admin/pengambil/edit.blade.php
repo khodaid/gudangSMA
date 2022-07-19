@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label for="inputKode">Jabatan</label>
                         <input name="jabatan" type="text" class="form-control" id="inputKode" aria-describedby="emailHelp"
-                            value="{{ old('jabatan') ?? $pengambil->jabatan }}" maxlength="20" >
+                            value="{{ old('jabatan') ?? $pengambil->jabatan }}" maxlength="50" >
                     </div>
                 </div>
             </div>
