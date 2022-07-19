@@ -20,7 +20,8 @@ class DanaController extends Controller
 
         $dana = Dana::where('id_user',Auth::id())
             ->orWhere('id_user',Auth::user()->id_super)
-            ->orWhereIn('id_user',$akun->modelKeys())->get();
+            ->orWhereIn('id_user',$akun->modelKeys())
+            ->with('inventaris')->get();
 
         return view('admin.dana.index',[
             'danas' => $dana

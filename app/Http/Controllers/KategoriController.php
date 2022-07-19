@@ -18,7 +18,8 @@ class KategoriController extends Controller
         $users = User::where('id_super',Auth::id())->get();
         $kategori = Kategori::where('id_user',Auth::id())
             ->orWhere('id_user',Auth::user()->id_super)
-            ->orWhereIn('id_user',$users->modelKeys())->get();
+            ->orWhereIn('id_user',$users->modelKeys())
+            ->with(['barang'])->get();
         return view('admin.kategori.index',[
             'kategoris' => $kategori
         ]);
@@ -98,7 +99,7 @@ class KategoriController extends Controller
         ]);
 
         $kategori->nama = $request->input('nama');
-        $kategori->keterangan = $request->input('deskripsi');
+        $kategori->deskripsi = $request->input('deskripsi');
 
         $kategori->save();
 

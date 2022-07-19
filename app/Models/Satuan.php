@@ -30,7 +30,7 @@ class Satuan extends Model
      */
     public function barang()
     {
-        return $this->hasMany(Barang::class,'id_barang','id');
+        return $this->hasMany(Barang::class,'id_satuan','id');
     }
 
     /**
@@ -41,5 +41,15 @@ class Satuan extends Model
     public function masuk()
     {
         return $this->hasMany(Masuk::class,'id_satuan','id');
+    }
+
+    /**
+     * Get all of the inventaris for the Satuan
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function inventaris()
+    {
+        return $this->hasMany(Inventaris::class, 'id_satuan', 'id');
     }
 }

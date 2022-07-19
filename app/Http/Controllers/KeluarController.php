@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\KeluarExport;
 use App\Models\Pengambil;
+use Illuminate\Support\Facades\DB;
 
 class KeluarController extends Controller
 {
@@ -22,9 +23,22 @@ class KeluarController extends Controller
      */
     public function index()
     {
+        // $barang = Barang::where('id_user', Auth::id())
+        //     ->where('id_kategori', '!=', 1)->get();
+        $akun = User::where('id_super', Auth::id())->get();
         $satuan = Satuan::where('id_user', Auth::user()->id_super)->get();
-        $barang = Barang::where('id_user', Auth::id())
-            ->where('id_kategori', '!=', 1)->get();
+        $barang = Barang::where('barangs.id_kategori', '>', 1)
+            ->where(function ($query) use ($akun) {
+                $query->where('barangs.id_user', Auth::id())
+                    ->orWhereIn('barangs.id_user', $akun->modelKeys());
+            })
+            ->leftJoin('masuks', 'masuks.id_barang', '=', 'barangs.id')
+            ->leftJoin('keluars', 'keluars.id_barang', '=', 'barangs.id')
+            ->select('barangs.id', 'barangs.nama', 'barangs.id_satuan', DB::raw('ifnull(sum(masuks.jumlah),0) - ifnull(sum(keluars.jumlah),0) as jumlah'))
+            ->groupBy('barangs.id', 'barangs.nama', 'barangs.id_satuan')
+            ->having('jumlah', '>', 0)
+            ->with('satuan')
+            ->get();
         $user = User::where('id_super', Auth::id())->get();
         $keluar = Keluar::where('id_user', Auth::id())
             ->orWhere('id_user', $user->modelKeys())
@@ -102,8 +116,21 @@ class KeluarController extends Controller
      */
     public function edit(Keluar $keluar)
     {
-        $barangs = Barang::where('id_user', Auth::id())
-            ->where('id_kategori','!=',1)->get();
+        // $barangs = Barang::where('id_user', Auth::id())
+        //     ->where('id_kategori', '!=', 1)->get();
+        $akun = User::where('id_super', Auth::id())->get();
+        $barangs = Barang::where('barangs.id_kategori', '>', 1)
+            ->where(function ($query) use ($akun) {
+                $query->where('barangs.id_user', Auth::id())
+                    ->orWhereIn('barangs.id_user', $akun->modelKeys());
+            })
+            ->leftJoin('masuks', 'masuks.id_barang', '=', 'barangs.id')
+            ->leftJoin('keluars', 'keluars.id_barang', '=', 'barangs.id')
+            ->select('barangs.id', 'barangs.nama', 'barangs.id_satuan', DB::raw('ifnull(sum(masuks.jumlah),0) - ifnull(sum(keluars.jumlah),0) as jumlah'))
+            ->groupBy('barangs.id', 'barangs.nama', 'barangs.id_satuan')
+            ->having('jumlah', '>', 0)
+            ->with('satuan')
+            ->get();
         $satuans = Satuan::where('id_user', Auth::user()->id_super)->get();
         $pengambil = Pengambil::where('id_user', Auth::id())->get();
 

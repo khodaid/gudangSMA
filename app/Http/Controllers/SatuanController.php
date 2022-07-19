@@ -16,10 +16,11 @@ class SatuanController extends Controller
      */
     public function index()
     {
-        $satua = Satuan::where('id_user',Auth::id())->get();
+        $satuan = Satuan::where('id_user',Auth::id())
+        ->with(['barang'])->get();
 
         return view('admin.satuan.index',[
-            'satuans' => $satua
+            'satuans' => $satuan
         ]);
     }
 

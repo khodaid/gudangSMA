@@ -93,9 +93,11 @@
                                     @if (!isset(Auth::user()->roles) || $dana->id_user == Auth::id())
                                         <a href="{{ route('dana.edit', $dana->id) }}"
                                             class='fas fa-edit text-warning'></a>
-                                        <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
-                                            data-target="#modalDelete"
-                                            onclick="$('#modalDelete #formDelete').attr('action','{{ route('dana.destroy', $dana->id) }}')"></a>
+                                        @if (count($dana->inventaris) == 0)
+                                            <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
+                                                data-target="#modalDelete"
+                                                onclick="$('#modalDelete #formDelete').attr('action','{{ route('dana.destroy', $dana->id) }}')"></a>
+                                        @endif
                                     @endif
                                     <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal" data-attr={{ route('dana.show', $dana->id) }}></a>

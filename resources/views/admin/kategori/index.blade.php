@@ -61,10 +61,10 @@
                 <div class="col-6 my-1">
                     <!-- Button trigger modal -->
                     {{-- @if (isset(Auth::user()->id_super)) --}}
-                        <button type="button" class="btn btn-primary float-left" data-toggle="modal"
-                            data-target="#exampleModal">
-                            Tambah Data
-                        </button>
+                    <button type="button" class="btn btn-primary float-left" data-toggle="modal"
+                        data-target="#exampleModal">
+                        Tambah Data
+                    </button>
                     {{-- @endif --}}
                 </div>
 
@@ -93,12 +93,15 @@
                                     @if (!isset(Auth::user()->roles) || $kategori->id_user == Auth::id())
                                         <a href="{{ route('kategori.edit', $kategori->id) }}"
                                             class='fas fa-edit text-warning'></a>
-                                        <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
-                                            data-target="#modalDelete"
-                                            onclick="$('#modalDelete #formDelete').attr('action','{{ route('kategori.destroy', $kategori->id) }}')"></a>
+                                        @if (count($kategori->barang) == 0)
+                                            <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
+                                                data-target="#modalDelete"
+                                                onclick="$('#modalDelete #formDelete').attr('action','{{ route('kategori.destroy', $kategori->id) }}')"></a>
+                                        @endif
                                     @endif
                                     <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
-                                        data-target="#mediumModal" data-attr={{ route('kategori.show', $kategori->id) }}></a>
+                                        data-target="#mediumModal"
+                                        data-attr={{ route('kategori.show', $kategori->id) }}></a>
                                 </td>
                             </tr>
                         @endforeach

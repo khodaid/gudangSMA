@@ -79,9 +79,11 @@
                                     @if (!isset(Auth::user()->roles) || $satuan->id_user == Auth::id())
                                         <a href="{{ route('satuan.edit', $satuan->id) }}"
                                             class='fas fa-edit text-warning'></a>
-                                        <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
-                                            data-target="#modalDelete"
-                                            onclick="$('#modalDelete #formDelete').attr('action','{{ route('satuan.destroy', $satuan->id) }}')"></a>
+                                            @if (count($satuan->barang) == 0)
+                                            <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
+                                                data-target="#modalDelete"
+                                                onclick="$('#modalDelete #formDelete').attr('action','{{ route('satuan.destroy', $satuan->id) }}')"></a>
+                                            @endif
                                     @endif
                                     <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal" data-attr={{ route('satuan.show', $satuan->id) }}></a>

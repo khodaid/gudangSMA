@@ -61,10 +61,10 @@
                 <div class="col-6 my-1">
                     <!-- Button trigger modal -->
                     {{-- @if (isset(Auth::user()->id_super)) --}}
-                        <button type="button" class="btn btn-primary float-left" data-toggle="modal"
-                            data-target="#exampleModal">
-                            Tambah Data
-                        </button>
+                    <button type="button" class="btn btn-primary float-left" data-toggle="modal"
+                        data-target="#exampleModal">
+                        Tambah Data
+                    </button>
                     {{-- @endif --}}
                 </div>
 
@@ -93,9 +93,11 @@
                                     @if (!isset(Auth::user()->roles) || $lokasi->id_user == Auth::id())
                                         <a href="{{ route('lokasi.edit', $lokasi->id) }}"
                                             class='fas fa-edit text-warning'></a>
-                                        <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
-                                            data-target="#modalDelete"
-                                            onclick="$('#modalDelete #formDelete').attr('action','{{ route('lokasi.destroy', $lokasi->id) }}')"></a>
+                                        @if (count($lokasi->inventaris) == 0)
+                                            <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
+                                                data-target="#modalDelete"
+                                                onclick="$('#modalDelete #formDelete').attr('action','{{ route('lokasi.destroy', $lokasi->id) }}')"></a>
+                                        @endif
                                     @endif
                                     <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal" data-attr={{ route('lokasi.show', $lokasi->id) }}></a>

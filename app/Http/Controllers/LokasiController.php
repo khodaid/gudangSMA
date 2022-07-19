@@ -19,7 +19,8 @@ class LokasiController extends Controller
         $users = User::where('id_super',Auth::id())->get();
         $lokasi = Lokasi::where('id_user',Auth::id())
             ->orWhere('id_user',Auth::user()->id_super)
-            ->orWhereIn('id_user',$users->modelKeys())->get();
+            ->orWhereIn('id_user',$users->modelKeys())
+            ->with(['inventaris'])->get();
         return view('admin.lokasi.index',[
             'lokasis' => $lokasi
         ]);

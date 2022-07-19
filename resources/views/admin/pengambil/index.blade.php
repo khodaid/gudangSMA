@@ -90,9 +90,11 @@
                                     @if (Auth::id() == 2)
                                         <a href="{{ route('pengambil.edit', $pengambil->id) }}"
                                             class='fas fa-edit text-warning'></a>
-                                        <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
-                                            data-target="#modalDelete"
-                                            onclick="$('#modalDelete #formDelete').attr('action','{{ route('pengambil.destroy', $pengambil->id) }}')"></a>
+                                        @if (count($pengambil->keluar) == 0)
+                                            <a href="#" class='fas fa-trash text-danger' data-toggle="modal"
+                                                data-target="#modalDelete"
+                                                onclick="$('#modalDelete #formDelete').attr('action','{{ route('pengambil.destroy', $pengambil->id) }}')"></a>
+                                        @endif
                                     @endif
                                     <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal"

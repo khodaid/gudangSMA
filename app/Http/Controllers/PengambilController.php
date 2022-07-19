@@ -19,7 +19,8 @@ class PengambilController extends Controller
         $users = User::where('id_super', Auth::id())->get();
         $pengambil = Pengambil::where('id_user', Auth::id())
             ->orWhere('id_user', Auth::user()->id_super)
-            ->orWhereIn('id_user', $users->modelKeys())->get();
+            ->orWhereIn('id_user', $users->modelKeys())
+            ->with(['keluar'])->get();
 
         return view('admin.pengambil.index', [
             'pengambil' => $pengambil
