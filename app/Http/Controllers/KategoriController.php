@@ -48,7 +48,7 @@ class KategoriController extends Controller
         ]);
 
         $kategori = new Kategori();
-        $kategori->nama_lokasi = $request->input('nama');
+        $kategori->nama = $request->input('nama');
         $kategori->deskripsi = $request->input('deskripsi');
         $kategori->id_user = Auth::id();
 
