@@ -111,7 +111,11 @@ class InventarisController extends Controller
                     'id_user' => Auth::id(),
                 );
                 Inventaris::create($inventaris);
+<<<<<<< HEAD
                 $path = $file->storeAs('public/files/nota', $file_name);
+=======
+                $path = $file->storeAs('public/files', $file_name);
+>>>>>>> 58254bfc0e1bbd6e8adddb835398b9396d7feff5
             }
         } else {
             $inventaris = new Inventaris();
@@ -204,8 +208,13 @@ class InventarisController extends Controller
         $file_name = $inventaris->file;
 
         if ($request->hasFile('file')) {
+<<<<<<< HEAD
             if (Storage::exists('public/files/nota/' . $file)) {
                 Storage::delete('public/files/nota/' . $file);
+=======
+            if (Storage::exists('public/files/' . $file)) {
+                Storage::delete('public/files/' . $file);
+>>>>>>> 58254bfc0e1bbd6e8adddb835398b9396d7feff5
             }
             $file = $request->file('file');
             $file_name = $request->kode . '_' . $file->getClientOriginalName();

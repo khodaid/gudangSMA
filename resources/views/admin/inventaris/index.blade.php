@@ -221,6 +221,13 @@
                                     <td><span class="badge badge-danger">Rusak Berat</span></td>
                                 @endif
                                 <td>Rp.{{ number_format($inventaris->harga) }}</td>
+<<<<<<< HEAD
+=======
+                                {{-- <td>{{ $inventaris->hrg_total }}</td> --}}
+                                {{-- @if (!isset(Auth::user()->id_super))
+                                    <td>{{ $inventaris->user->name }}</td>
+                                @endif --}}
+>>>>>>> 58254bfc0e1bbd6e8adddb835398b9396d7feff5
                                 <td>
                                     @if ($inventaris->id_user == Auth::id())
                                         <a href="{{ route('inventaris.edit', $inventaris->id) }}"
@@ -228,10 +235,20 @@
                                         <a href="#" class='fas fa-flag text-danger' id="deleteData" data-toggle="modal"
                                             data-target="#modalDelete"
                                             onclick="$('#modalDelete #formDelete').attr('action','{{ route('inventaris.rusak', $inventaris->id) }}')"></a>
+<<<<<<< HEAD
+=======
+                                        @if ($inventaris->kondisi != 1)
+                                        @endif
+>>>>>>> 58254bfc0e1bbd6e8adddb835398b9396d7feff5
                                     @endif
                                     <a href="#" class='fas fa-eye text-success' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal"
                                         data-attr={{ route('inventaris.show', $inventaris->id) }}></a>
+<<<<<<< HEAD
+=======
+                                    {{-- <a href="#" class='' id="mediumButton" data-toggle="modal"
+                                        data-target="#mediumModal" data-attr={{ route('inventaris.pdf', $inventaris->id) }}><span class="badge badge-success">PDF</span></a> --}}
+>>>>>>> 58254bfc0e1bbd6e8adddb835398b9396d7feff5
                                     <a href="#" class='fas fa-file-pdf' id="mediumButton" data-toggle="modal"
                                         data-target="#mediumModal"
                                         data-attr={{ route('inventaris.pdf', $inventaris->id) }}></a>

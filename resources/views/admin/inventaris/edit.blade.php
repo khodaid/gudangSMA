@@ -50,6 +50,18 @@
                         <label for="inputDskripsi">Deskripsi</label>
                         <textarea class="form-control" id="inputDeskripsi" rows="3" name="deskripsi">{{ old('deskripsi') ?? $inventaris->deskripsi }}</textarea>
                     </div>
+<<<<<<< HEAD
+=======
+                    {{-- <div class="row"> --}}
+                    {{-- <div class="col">
+                            <div class="form-group">
+                                <label for="inputQuantity">Jumlah</label>
+                                <input name="jumlah" type="number" class="form-control" id="inputNama"
+                                    aria-describedby="emailHelp" value="{{ old('quantity') ?? $inventaris->jumlah }}">
+                            </div>
+                        </div> --}}
+                    {{-- <div class="col"> --}}
+>>>>>>> 58254bfc0e1bbd6e8adddb835398b9396d7feff5
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Satuan</label>
                         <select class="my-select form-control" id="exampleFormControlSelect1" name="id_satuan">
@@ -63,6 +75,11 @@
                             @endforeach
                         </select>
                     </div>
+<<<<<<< HEAD
+=======
+                    {{-- </div> --}}
+                    {{-- </div> --}}
+>>>>>>> 58254bfc0e1bbd6e8adddb835398b9396d7feff5
                 </div>
                 <div class="col-lg-6">
                     <div class="row">
@@ -123,7 +140,11 @@
                         <h6 class="text-danger">*masukan file jika ingin merubah nota</h6>
                         <input type="file" class="form-control-file mb-2" id="exampleFormControlFile1" name="file"
                             value="{{ old('file') ?? $inventaris->file }}">
+<<<<<<< HEAD
                         <embed src="{{ asset('/storage/files/nota/' . $inventaris->file) }} " type="application/pdf"
+=======
+                        <embed src="{{ asset('/storage/files/' . $inventaris->file) }} " type="application/pdf"
+>>>>>>> 58254bfc0e1bbd6e8adddb835398b9396d7feff5
                             width="400px" height="500px" />
                     </div>
                 </div>

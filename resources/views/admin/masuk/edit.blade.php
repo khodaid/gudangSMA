@@ -108,7 +108,11 @@
                             <h6 class="text-danger">*masukan file jika ingin merubah nota</h6>
                             <input type="file" class="form-control-file mb-2" id="exampleFormControlFile1" name="file"
                                 value="{{ old('file') ?? $masuk->file }}">
+<<<<<<< HEAD
                             <embed src="{{asset('/storage/files/nota/'.$masuk->file) }} " type="application/pdf" width="400px" height="500px" />
+=======
+                            <embed src="{{asset('/storage/files/'.$masuk->file) }} " type="application/pdf" width="400px" height="500px" />
+>>>>>>> 58254bfc0e1bbd6e8adddb835398b9396d7feff5
                         </div>
                     </div>
                 </div>

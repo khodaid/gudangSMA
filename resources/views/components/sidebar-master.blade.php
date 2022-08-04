@@ -13,7 +13,11 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item {{ request()->is('dashboard') ? 'active' : '' }}">
+<<<<<<< HEAD
         <a class="nav-link" href=" {{ route('dashboard.index') }} ">
+=======
+        <a class="nav-link" href=" {{route('dashboard.index')}} ">
+>>>>>>> 58254bfc0e1bbd6e8adddb835398b9396d7feff5
             <i class="fa fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -51,6 +55,7 @@
     <!-- Nav Item - Pages Collapse Menu -->
     @include('components.sidebar.sidebar-inventaris')
 
+<<<<<<< HEAD
     @if (Auth::user()->roles == 2)
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -64,6 +69,8 @@
         @include('components.sidebar.sidebar-pengaduan')
     @endif
 
+=======
+>>>>>>> 58254bfc0e1bbd6e8adddb835398b9396d7feff5
     <!-- Divider -->
     @if (Auth::user()->roles == 1)
         <hr class="sidebar-divider">
